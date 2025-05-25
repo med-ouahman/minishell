@@ -1,0 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal_handler.h                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 16:01:57 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/20 16:02:43 by mouahman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef SIGNAL_HANDLER_H
+# define SIGNAL_HANDLER_H
+
+# include <signal.h>
+# include <stdio.h>
+
+void	signal_handler(int signum);
+
+#endif
