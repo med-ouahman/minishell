@@ -14,10 +14,13 @@
 
 int	sig;
 
+void	exit(int status);
+
 void	signal_handler(int signum)
 {
 	if (SIGINT == signum)
 	{
+		exit(0);
 		printf("\n$ ");
 	}
 }

@@ -15,7 +15,7 @@
 int	main(void)
 {
 	char			*line;
-	t_parse_tree	*parse_t;
+	t_parse_tree	*parse_t=NULL;
 
 	line = "";
 	while (line)

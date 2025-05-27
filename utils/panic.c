@@ -14,7 +14,6 @@
 
 int	panic(char *s, int code)
 {
-	ft_putendl_fd(s, 2);
-	// exit(code);
+	ft_putstr_fd(s, 2);
 	return (code);
 }

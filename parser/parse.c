@@ -33,7 +33,10 @@ int	add_token(t_parse_tree **tree, char *line, int start, int end)
 	token = malloc(sizeof(*token));
 	if (NULL == token)
 		return (-1);
+	token->p_quote = is_quote(line[start - 1]) ? line[start - 1]: 0;
 	token->token = ft_substr(line, start, end - start);
+	token->start = start;
+	token->end = end;
 	node = malloc(sizeof(*node));
 	if (NULL == node)
 	{
@@ -50,25 +53,11 @@ int	add_token(t_parse_tree **tree, char *line, int start, int end)
 	}
 	return (add_left(*tree, node));
 }
-int	is_space(int c)
-{
-	return (' ' == c);
-}
-
-int	is_sep(int c)
-{
-	return ('|' == c || '>' == c || '<' == c || ' ' == c || '&' == c);
-}
-
-static int is_quote(int c)
-{
-	return ('"' == c || '\'' == c);
-}
 
 t_parse_tree	*parser(char *line)
 {
 	t_parse_tree	*parse_tree;
-	unsigned int	i, j;
+	int	i, j;
 	int	quote = 0;
 	
 	i = 0;
@@ -82,16 +71,15 @@ t_parse_tree	*parser(char *line)
 			while (line[i] != quote && line[i])
 				i++;
 			if (!line[i])
-				return (panic("Error: unclosed quote", 1), NULL);
+				return (panic("Error: unclosed quote\n", 1), NULL);
 			add_token(&parse_tree, line, j, i);
 			if (line[i] == quote)
 				i++;
 		}
-		else if (is_sep(line[i]) && ' ' != line[i])
+		else if (is_sep_char(line[i]) && !is_space(line[i]))
 		{
 			j = i;
-			while (is_sep(line[i]))
-				i++;
+			is_sep(line + i, &i);
 			add_token(&parse_tree, line, j, i);
 		}
 		else
@@ -99,7 +87,7 @@ t_parse_tree	*parser(char *line)
 			while (is_space(line[i]))
 				i++;
 			j = i;
-			while (!is_sep(line[i]) && !is_quote(line[i]) && line[i])
+			while (!is_sep_char(line[i]) && !is_quote(line[i]) && line[i])
 				i++;
 			add_token(&parse_tree, line, j, i);
 		}
