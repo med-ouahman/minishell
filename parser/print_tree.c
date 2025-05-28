@@ -10,13 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../include/parser.h"
 
 void	print_tree(t_parse_tree *tree, int dir)
 {
 	while (tree)
 	{
-		printf("%s\n", tree->token->token);
 		if (dir)
 			tree = tree->left;
 		else

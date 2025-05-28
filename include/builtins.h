@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   panic.c                                            :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 12:16:06 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 12:19:04 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/15 10:07:02 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/15 10:12:59 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/utils.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-int	panic(char *s, int code)
-{
-	ft_putstr_fd(s, 2);
-	return (code);
-}
+int	env(int option);
+int export(char *key, char *value);
+int exit_(void);
+int change_dir(char *path);
+int echo(char *args[], char *options[]);
+int unset(char *key);
+int pwd(void);
+
+#endif

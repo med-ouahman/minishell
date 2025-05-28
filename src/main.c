@@ -10,24 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../include/minishell.h"
+
 
 int	main(void)
 {
 	char			*line;
-	t_parse_tree	*parse_t=NULL;
+	t_parse_tree	*parse_t;
 
 	line = "";
 	while (line)
 	{
-		signal(SIGINT, signal_handler);
 		line = readline("$ ");
-		if (!ft_strcmp("clear", line))
-			system("clear");
-		add_history(line);
 		if (NULL == line)
-			return (1);
+			exit(0);
+		add_history(line);
+		if (!ft_strncmp(line, "clear", 5))
+			system("clear");
 		parse_t = parser(line);
+		expand(parse_t);
 		print_tree(parse_t, 1);
 	}
 }

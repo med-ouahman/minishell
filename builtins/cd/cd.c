@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cd.h"
+#include "../../include/cd.h"
 
 int	change_dir(char *path)
 {

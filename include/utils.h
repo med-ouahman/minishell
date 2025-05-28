@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   panic.c                                            :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 12:16:06 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 12:19:04 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/19 14:05:01 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/27 17:46:32 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/utils.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-int	panic(char *s, int code)
-{
-	ft_putstr_fd(s, 2);
-	return (code);
-}
+# include "../libft/libft.h"
+# include <stdio.h>
+
+int	    index_of(char *str_ptr[], char *key);
+int	    panic(char *s, int code);
+void	print_list(t_list *list);
+size_t  get_lsize(t_list *var_list);
+int     copy_list(char *buff, t_list *var_list, size_t size);
+
+# endif

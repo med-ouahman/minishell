@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   panic.c                                            :+:      :+:    :+:   */
+/*   var_properties.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 12:16:06 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 12:19:04 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/28 11:14:50 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/28 11:15:45 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/utils.h"
+#include "../include/parser.h"
 
-int	panic(char *s, int code)
+int	is_starting(int c)
 {
-	ft_putstr_fd(s, 2);
-	return (code);
+	return (ft_isalpha(c) || '_' == c);
+}
+
+int	is_subsequent(int c)
+{
+	return (is_starting(c) || ft_isdigit(c));
+}
+
+int	invalid_var_char(int c)
+{
+	return (!is_starting(c) && !is_subsequent(c));
 }

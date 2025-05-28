@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/signal_handler.h"
+#include "../include/signal_handler.h"
 
 int	sig;
 
@@ -20,7 +20,12 @@ void	signal_handler(int signum)
 {
 	if (SIGINT == signum)
 	{
-		exit(0);
+		// exit(0);
 		printf("\n$ ");
+	}
+	if (SIGQUIT == sig)
+	{
+
+		//mak
 	}
 }

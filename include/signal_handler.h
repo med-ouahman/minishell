@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   signal_handler.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/15 10:07:02 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/15 10:12:59 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/20 16:01:57 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/20 16:02:43 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#ifndef SIGNAL_HANDLER_H
+# define SIGNAL_HANDLER_H
 
-int	env(void);
-int export(char *key, char *value);
-int exit_(void);
-int change_dir(char *path);
-int echo(char *args[], char *options[]);
-int unset(char *key);
-int pwd(void);
+# include <signal.h>
+# include <stdio.h>
+# include <readline/readline.h>
+
+int	    new_prompt(char **line, char *prompt);
+void	signal_handler(int signum);
 
 #endif

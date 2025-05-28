@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/export.h"
+#include "../../include/export.h"
 
 int	export(char *key, char *value)
 {
@@ -20,6 +20,8 @@ int	export(char *key, char *value)
 	int		index;
 	int		i;
 
+	if (NULL == key)
+		return (env(1));
 	res = ft_strjoin(key, value);
 	index = index_of(__environ, key);
 	if (NULL == res)

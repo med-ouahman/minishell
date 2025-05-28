@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/utils.h"
+#include "../include/utils.h"
 
 int	index_of(char *str_ptr[], char *key)
 {

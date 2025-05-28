@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.h                                   :+:      :+:    :+:   */
+/*   new_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 16:01:57 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/20 16:02:43 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/27 13:28:48 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/27 13:30:02 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_HANDLER_H
-# define SIGNAL_HANDLER_H
+#include "../include/signal_handler.h"
 
-# include <signal.h>
-# include <stdio.h>
-
-void	signal_handler(int signum);
-
-#endif
+int	new_prompt(char **line, char *prompt)
+{
+	*line = readline(prompt);
+	return (0);
+}

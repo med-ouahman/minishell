@@ -10,7 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../include/parser.h"
+
+int	add_prev_token(t_parse_tree *parse_t, t_token *token)
+{
+	if (parse_t->token == token)
+	{
+		token->prev = NULL;
+		return (0);
+	}
+	while (parse_t && parse_t->left && parse_t->left->token != token)
+	{
+		parse_t = parse_t->left;
+	}
+	printf("chi 9lwa\n");
+	token->prev = parse_t->token;
+	return (0);
+}
 
 int	add_left(t_parse_tree *tree, t_parse_tree *node)
 {
@@ -37,6 +53,7 @@ int	add_token(t_parse_tree **tree, char *line, int start, int end)
 	token->token = ft_substr(line, start, end - start);
 	token->start = start;
 	token->end = end;
+	token->prev = NULL;
 	node = malloc(sizeof(*node));
 	if (NULL == node)
 	{
@@ -51,17 +68,20 @@ int	add_token(t_parse_tree **tree, char *line, int start, int end)
 		*tree = node;
 		return (0);
 	}
-	return (add_left(*tree, node));
+	add_left(*tree, node);
+	add_prev_token(*tree, token);
+	return (0);
 }
 
 t_parse_tree	*parser(char *line)
 {
 	t_parse_tree	*parse_tree;
 	int	i, j;
-	int	quote = 0;
+	int	quote;
 	
 	i = 0;
 	parse_tree = NULL;
+	quote = 0;
 	while (line[i])
 	{
 		if (is_quote(line[i]))

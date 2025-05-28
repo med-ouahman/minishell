@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   list_properties.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 14:05:01 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 12:19:40 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/28 11:18:09 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/28 11:18:46 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
+#include "../include/utils.h"
 
-# include "../libft/libft.h"
-# include <stdio.h>
+size_t	get_lsize(t_list *var_list)
+{
+	size_t	lsize;
 
-int	    index_of(char *str_ptr[], char *key);
-int	    panic(char *s, int code);
+	lsize = 0;
+	while (var_list)
+	{
+		lsize += ft_strlen((char *)var_list->content);
+		var_list = var_list->next;
+	}
+	return (lsize);
+}
 
-# endif
+int	copy_list(char *buff, t_list *var_list, size_t lsize)
+{
+	while (var_list)
+	{
+		ft_strlcat(buff, (char *)var_list->content, lsize);
+		var_list = var_list->next;
+	}
+	return (0);
+}

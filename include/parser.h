@@ -13,11 +13,12 @@
 #ifndef PARSE_H
 # define PARSE_H
 
-# include "../includes/utils.h"
+# include "../include/utils.h"
 
 typedef enum e_types
 {
 	NONE,
+	WHITESPACE,
 	PIPE,
 	REDIN,
 	REDOUT,
@@ -40,14 +41,16 @@ typedef enum e_cat
 
 typedef struct s_token
 {
-	char	*line;
-	char	*token;
-	int		type;
-	int		quote;
-	int		start;
-	int		end;
-	int		join_with;
-	int		p_quote;
+	char			*line;
+	char			*token;
+	int				type;
+	int				quote;
+	int				start;
+	int				end;
+	int				join_with;
+	int				p_quote;
+	struct s_token	*prev;
+	struct s_token	*next;
 }	t_token;
 
 typedef struct s_parse_tree
@@ -59,9 +62,14 @@ typedef struct s_parse_tree
 
 t_parse_tree	*parser(char *line);
 void			print_tree(t_parse_tree *tree, int dir);
-int	is_space(int c);
-int	is_quote(int c);
-int	is_sep_char(int c);
-int is_sep(char *line, int *i);
+int				is_space(int c);
+int				is_quote(int c);
+int				is_sep_char(int c);
+int 			is_sep(char *line, int *i);
+
+int 		expand(t_parse_tree *parse_t);
+int			is_starting(int c);
+int			is_subsequent(int c);
+int			invalid_var_char(int c);
 
 #endif

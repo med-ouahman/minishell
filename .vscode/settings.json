@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "parse.h": "c",
+        "builtins.h": "c",
+        "signal_handler.h": "c",
+        "readline.h": "c",
+        "minishell.h": "c",
+        "env.h": "c",
+        "export.h": "c",
+        "parser.h": "c"
+    }
+}

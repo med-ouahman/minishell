@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/parse.h"
+#include "../include/parser.h"
 
 int	is_space(int c)
 {
@@ -35,7 +35,7 @@ int	is_sep_char(int c)
 
 int is_sep(char *line, int *i)
 {
-	char	*seps[] = {"|", ">>", "<<", ">", "<", "&&", "||", "(", ")", NULL};
+	char	*seps[] = {"||", ">>", "<<", ">", "<", "&&", "|", "(", ")", NULL};
 	int		j;
 	int		len;
 

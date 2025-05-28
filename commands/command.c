@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/commands.h"
+#include "../include/commands.h"
 
 int	command(char *command, char *args[], int *stdio, char *envp[])
 {

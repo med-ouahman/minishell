@@ -10,15 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/env.h"
+#include "../../include/env.h"
 
-int	env(void)
+int	env(int option)
 {
 	char	**envp;
 
 	envp = __environ;
 	while (*envp)
 	{
+		if (option)
+			printf("declare -x ");
 		printf("%s\n", *envp);
 		envp++;
 	}
