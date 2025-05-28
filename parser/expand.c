@@ -99,6 +99,10 @@ t_list	*get_var_list(char *str)
 		{
 			if ('$' == str[i])
 				i++;
+			else if ('?' == str[i])
+			{
+				// add last
+			}
 			else
 			{
 				while (str[i] && '$' != str[i])

@@ -23,7 +23,7 @@ int	add_prev_token(t_parse_tree *parse_t, t_token *token)
 	{
 		parse_t = parse_t->left;
 	}
-	printf("chi 9lwa\n");
+	printf("chi 9alwa\n");
 	token->prev = parse_t->token;
 	return (0);
 }
@@ -99,7 +99,9 @@ t_parse_tree	*parser(char *line)
 		else if (is_sep_char(line[i]) && !is_space(line[i]))
 		{
 			j = i;
-			is_sep(line + i, &i);
+			// is_sep(line + i, &i);
+			while (is_sep_char(line[i]))
+				i++;
 			add_token(&parse_tree, line, j, i);
 		}
 		else

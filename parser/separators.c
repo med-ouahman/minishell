@@ -35,7 +35,7 @@ int	is_sep_char(int c)
 
 int is_sep(char *line, int *i)
 {
-	char	*seps[] = {"||", ">>", "<<", ">", "<", "&&", "|", "(", ")", NULL};
+	static char	*seps[] = {"||", ">>", "<<", ">", "<", "&&", "|", "(", ")", NULL};
 	int		j;
 	int		len;
 

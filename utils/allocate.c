@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_tree.c                                       :+:      :+:    :+:   */
+/*   allocate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 16:58:39 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 17:03:54 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/28 16:32:10 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/28 16:34:32 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#include "../include/garbage_collector.h"
 
-void	print_tree(t_parse_tree *tree, int dir)
+void	*my_alloc(size_t size)
 {
-	while (tree)
+	void	*ptr;
+
+	ptr = malloc(size);
+	if (NULL == ptr)
 	{
-		printf("%s\n", tree->token->token);
-		if (dir)
-			tree = tree->left;
-		else
-			tree = tree->right;
+		garbage_collector(NULL, 1);
+		exit(1);
 	}
+	return (ptr);
 }

@@ -12,7 +12,6 @@
 
 #include "../include/minishell.h"
 
-
 int	main(void)
 {
 	char			*line;
@@ -23,11 +22,15 @@ int	main(void)
 	{
 		line = readline("$ ");
 		if (NULL == line)
+		{
+			clear_history();
 			exit(0);
+		}
 		add_history(line);
 		if (!ft_strncmp(line, "clear", 5))
 			system("clear");
 		parse_t = parser(line);
+		free(line);
 		expand(parse_t);
 		print_tree(parse_t, 1);
 	}
