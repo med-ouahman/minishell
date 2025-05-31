@@ -14,24 +14,19 @@
 
 int	main(void)
 {
-	char			*line;
-	t_parse_tree	*parse_t;
-
-	line = "";
+	char	*line;
+	LIST	*token_list;
+	
+	line = readline("$ ");
 	while (line)
 	{
+		add_history(line);
+		token_list = create_token_list(line);
+		print_token_list(token_list);
+		expand(token_list);
+		free(line);
 		line = readline("$ ");
 		if (NULL == line)
-		{
-			clear_history();
-			exit(0);
-		}
-		add_history(line);
-		if (!ft_strncmp(line, "clear", 5))
-			system("clear");
-		parse_t = parser(line);
-		free(line);
-		expand(parse_t);
-		print_tree(parse_t, 1);
+			return (1);
 	}
 }

@@ -119,22 +119,20 @@ t_list	*get_var_list(char *str)
 	return (var_list);
 }
 
-int expand(t_parse_tree *parse_t)
+int expand(LIST *token_list)
 {
 	char	*tmp;
 	t_list	*var_list;
 
-	if (NULL == parse_t)
+	if (NULL == token_list)
 		return (-1);
-	if (*"'" == parse_t->token->p_quote)
+	if (*"'" == token_list->token->p_quote)
 		return (0);
-	var_list = get_var_list(parse_t->token->token);
-	tmp = parse_t->token->token;
-	parse_t->token->token = expand_var_list(var_list);
+	var_list = get_var_list(token_list->token->token);
+	tmp = token_list->token->token;
+	token_list->token->token = expand_var_list(var_list);
 	free(tmp);
 	ft_lstclear(&var_list, free);
-	expand(parse_t->left);
-	expand(parse_t->right);
 	return (0);
 }
 

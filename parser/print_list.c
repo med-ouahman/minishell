@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   print_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 15:53:12 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/20 15:55:29 by mouahman         ###   ########.fr       */
+/*   Created: 2025/05/23 16:58:39 by mouahman          #+#    #+#             */
+/*   Updated: 2025/05/23 17:03:54 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/signal_handler.h"
+#include "../include/parser.h"
 
-int	sig;
-
-void	exit(int status);
-
-void	signal_handler(int signum)
+void	print_token_list(LIST *list)
 {
-	if (SIGINT == signum)
+	while (list)
 	{
-		// exit(0);
-		printf("\n$ ");
-	}
-	if (SIGSTOP == sig)
-	{
-
+		printf("%s\n", list->token->token);	
+		list = list->next;
 	}
 }

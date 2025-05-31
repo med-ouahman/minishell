@@ -11,6 +11,9 @@
         "garbage_collector.h": "c",
         "utils.h": "c",
         "libft.h": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "charconv": "c",
+        "commands.h": "c",
+        "wait.h": "c"
     }
 }

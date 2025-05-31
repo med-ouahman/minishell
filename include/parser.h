@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSE_H
-# define PARSE_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "../include/utils.h"
 
@@ -47,11 +47,14 @@ typedef struct s_token
 	int				quote;
 	int				start;
 	int				end;
-	int				join_with;
 	int				p_quote;
-	struct s_token	*prev;
-	struct s_token	*next;
 }	t_token;
+
+typedef struct s_token_list
+{
+	t_token				*token;
+	struct s_token_list	*next;
+}	t_token_list;
 
 typedef struct s_parse_tree
 {
@@ -60,16 +63,22 @@ typedef struct s_parse_tree
 	struct s_parse_tree	*right;
 }   t_parse_tree;
 
-t_parse_tree	*parser(char *line);
-void			print_tree(t_parse_tree *tree, int dir);
-int				is_space(int c);
-int				is_quote(int c);
-int				is_sep_char(int c);
-int 			is_sep(char *line, int *i);
+# define LIST t_token_list
 
-int 		expand(t_parse_tree *parse_t);
-int			is_starting(int c);
-int			is_subsequent(int c);
-int			invalid_var_char(int c);
+LIST	*create_token_list(char *line);
+int		is_space(int c);
+int		is_quote(int c);
+int		is_sep_char(int c);
+int 	is_sep(char *line, int *i);
+
+int 	expand(LIST *token_list);
+t_list	*get_var_list(char *str);
+char	*expand_var_list(t_list *var_list);
+int		is_starting(int c);
+int		is_subsequent(int c);
+int		invalid_var_char(int c);
+
+int		clear_tree(t_parse_tree *tree);
+void	print_token_list(LIST *list)
 
 #endif

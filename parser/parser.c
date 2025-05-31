@@ -12,75 +12,64 @@
 
 #include "../include/parser.h"
 
-int	add_prev_token(t_parse_tree *parse_t, t_token *token)
+void	add_node(LIST **list, LIST *node)
 {
-	if (parse_t->token == token)
+	LIST	*last;
+
+	if (NULL == *list)
 	{
-		token->prev = NULL;
-		return (0);
+		*list = node;
+		return ;
 	}
-	while (parse_t && parse_t->left && parse_t->left->token != token)
-	{
-		parse_t = parse_t->left;
-	}
-	printf("chi 9alwa\n");
-	token->prev = parse_t->token;
-	return (0);
+	last = *list;
+	while (last->next)
+		last = last->next;
+	last->next = node;
 }
 
-int	add_left(t_parse_tree *tree, t_parse_tree *node)
+t_token_list	*create_node(t_token *token)
 {
-	t_parse_tree	*last;
+	t_token_list	*node;
 
-	last = tree;
-	while (last->left)
-		last = last->left;
-	last->left = node;
-	return (0);
+	node = malloc(sizeof(*node));
+	if (NULL == node)
+		return (NULL);
+	node->token = token;
+	node->next = NULL;
+	return (node);
 }
 
-int	add_token(t_parse_tree **tree, char *line, int start, int end)
+int	add_token(t_token_list **list, char *line, int start, int end)
 {
 	t_token			*token;
-	t_parse_tree	*node;
+	t_token_list	*node;
 
 	if (start == end)
-		return (-1);
+		return (0);
 	token = malloc(sizeof(*token));
 	if (NULL == token)
 		return (-1);
 	token->p_quote = is_quote(line[start - 1]) ? line[start - 1]: 0;
 	token->token = ft_substr(line, start, end - start);
-	token->start = start;
-	token->end = end;
-	token->prev = NULL;
-	node = malloc(sizeof(*node));
+	token->start = start == 0 ? line[start]: line[start - 1];
+	token->end = line[end];
+	token->next = NULL;
+	token->join_with = NULL;
+	node = create_node(token);
 	if (NULL == node)
-	{
-		free(token);
 		return (-1);
-	}
-	node->token = token;
-	node->left = NULL;
-	node->right = NULL;
-	if (NULL == *tree)
-	{
-		*tree = node;
-		return (0);
-	}
-	add_left(*tree, node);
-	add_prev_token(*tree, token);
+	add_node(list, node);
 	return (0);
 }
 
-t_parse_tree	*parser(char *line)
+t_token_list	*create_token_list(char *line)
 {
-	t_parse_tree	*parse_tree;
+	t_token_list	*token_list;
 	int	i, j;
 	int	quote;
 	
 	i = 0;
-	parse_tree = NULL;
+	token_list = NULL;
 	quote = 0;
 	while (line[i])
 	{
@@ -92,17 +81,16 @@ t_parse_tree	*parser(char *line)
 				i++;
 			if (!line[i])
 				return (panic("Error: unclosed quote\n", 1), NULL);
-			add_token(&parse_tree, line, j, i);
+			add_token(&token_list, line, j, i);
 			if (line[i] == quote)
 				i++;
 		}
 		else if (is_sep_char(line[i]) && !is_space(line[i]))
 		{
 			j = i;
-			// is_sep(line + i, &i);
 			while (is_sep_char(line[i]))
 				i++;
-			add_token(&parse_tree, line, j, i);
+			add_token(&token_list, line, j, i);
 		}
 		else
 		{
@@ -111,8 +99,8 @@ t_parse_tree	*parser(char *line)
 			j = i;
 			while (!is_sep_char(line[i]) && !is_quote(line[i]) && line[i])
 				i++;
-			add_token(&parse_tree, line, j, i);
+			add_token(&token_list, line, j, i);
 		}
 	}
-	return (parse_tree);
+	return (token_list);
 }

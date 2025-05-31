@@ -22,5 +22,6 @@ void	*my_alloc(size_t size)
 		garbage_collector(NULL, 1);
 		exit(1);
 	}
+	garbage_collector(ptr, 0);
 	return (ptr);
 }
