@@ -19,9 +19,9 @@ void	*my_alloc(size_t size)
 	ptr = malloc(size);
 	if (NULL == ptr)
 	{
-		garbage_collector(NULL, 1);
+		garbage_collector(NULL, FREE_U);
 		exit(1);
 	}
-	garbage_collector(ptr, 0);
+	garbage_collector(ptr, ALLOC);
 	return (ptr);
 }

@@ -15,23 +15,29 @@
 int	garbage_collector(void *ptr, int option)
 {
 	static int	cursor = 0;
-	int		i;
 	static char	*list[P_MAX];
+	int		i;
 
-	if (ptr)
+	if (ALLOC == option)
 	{
 		list[cursor] = ptr;
 		cursor++;
 	}
-	if (0 == option)
-		return (cursor);
-	i = 0;
-	while (i < cursor)
+	else if (FREE == option)
 	{
-		if (NULL == list[i])
-			continue ;
-		free(list[i]);
-		list[i] = NULL;
+		free(ptr);
+	}
+	else if (FREE_U == option)
+	{
+		i = 0;
+		while (i < cursor)
+		{
+			if (NULL == list[i])
+				continue ;
+			free(list[i]);
+			list[i] = NULL;
+			i++;
+		}
 	}
 	return (cursor);
 }

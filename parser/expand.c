@@ -12,6 +12,18 @@
 
 #include "../include/parser.h"
 
+int	is_splittable(char *token)
+{
+	char	*l;
+
+	l = ft_strrchr(token, '$');
+	if (NULL == l)
+		return (0);
+	if (!*(l + 1) || !is_starting(*(l + 1)))
+		return (0);
+	return (1);
+}
+
 int	add_raw_token(t_list **var_list, char *str, int start, int end)
 {
 	char	*s;
@@ -119,20 +131,29 @@ t_list	*get_var_list(char *str)
 	return (var_list);
 }
 
-int expand(LIST *token_list)
+int expand(LIST *tokens)
 {
 	char	*tmp;
 	t_list	*var_list;
 
-	if (NULL == token_list)
-		return (-1);
-	if (*"'" == token_list->token->p_quote)
-		return (0);
-	var_list = get_var_list(token_list->token->token);
-	tmp = token_list->token->token;
-	token_list->token->token = expand_var_list(var_list);
-	free(tmp);
-	ft_lstclear(&var_list, free);
+	while (tokens)
+	{
+		if (*"'" == tokens->token->p_quote)
+		{
+			tokens = tokens->next;
+			continue ;
+		}
+		if (tokens->token->p_quote)
+			tokens->token->split = 0;
+		else
+			tokens->token->split = is_splittable(tokens->token->token);
+		var_list = get_var_list(tokens->token->token);
+		tmp = tokens->token->token;
+		tokens->token->token = expand_var_list(var_list);
+		free(tmp);
+		ft_lstclear(&var_list, free);
+		tokens = tokens->next;
+	}
 	return (0);
 }
 

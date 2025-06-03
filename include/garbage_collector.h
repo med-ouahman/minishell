@@ -13,8 +13,12 @@
 #ifndef GARBAGE_COLLECTOR_H
 # define GARBAGE_COLLECTOR_H
 
-# define P_MAX 1000
+# define P_MAX 1024
 # include <stdlib.h>
+
+# define ALLOC 1
+# define FREE 2
+# define FREE_U 3
 
 int		garbage_collector(void *ptr, int option);
 void	*my_alloc(size_t size);

@@ -15,6 +15,7 @@
 
 # include "../include/utils.h"
 
+typedef struct s_token	t_token;
 typedef enum e_types
 {
 	NONE,
@@ -41,13 +42,15 @@ typedef enum e_cat
 
 typedef struct s_token
 {
-	char			*line;
-	char			*token;
-	int				type;
-	int				quote;
-	int				start;
-	int				end;
-	int				p_quote;
+	char	*line;
+	char	*token;
+	int		split;
+	t_token	*join_with;
+	int		type;
+	int		quote;
+	int		start;
+	int		end;
+	int		p_quote;
 }	t_token;
 
 typedef struct s_token_list
@@ -64,8 +67,10 @@ typedef struct s_parse_tree
 }   t_parse_tree;
 
 # define LIST t_token_list
+# define TOKEN t_token
+# define TREE t_parse_tree
 
-LIST	*create_token_list(char *line);
+LIST	*tokenize(char *line);
 int		is_space(int c);
 int		is_quote(int c);
 int		is_sep_char(int c);
@@ -79,6 +84,9 @@ int		is_subsequent(int c);
 int		invalid_var_char(int c);
 
 int		clear_tree(t_parse_tree *tree);
-void	print_token_list(LIST *list)
+void	print_token_list(LIST *list);
+int		join_tokens(LIST *token_l);
 
+int		word_split(LIST **tokens, char *charset);
+LIST	*get_prev_node(LIST *token_l, LIST *node);
 #endif

@@ -12,11 +12,6 @@
 
 #include "libft.h"
 
-static	int	ft_isspace(char c)
-{
-	return (' ' == c || (c >= 9 && c <= 13));
-}
-
 int	ft_atoi2(const char *nptr)
 {
 	int	i;

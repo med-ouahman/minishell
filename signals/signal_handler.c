@@ -20,8 +20,8 @@ void	signal_handler(int signum)
 {
 	if (SIGINT == signum)
 	{
-		// exit(0);
-		printf("\n$ ");
+		exit(0);
+		rl_on_new_line();
 	}
 	if (SIGSTOP == sig)
 	{

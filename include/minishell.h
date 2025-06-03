@@ -18,7 +18,6 @@ extern int	sig;
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <sys/wait.h>
 # include "./parser.h"
 # include "./builtins.h"
 # include "./signal_handler.h"

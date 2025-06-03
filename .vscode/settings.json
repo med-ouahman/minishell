@@ -14,6 +14,8 @@
         "cstdlib": "c",
         "charconv": "c",
         "commands.h": "c",
-        "wait.h": "c"
+        "wait.h": "c",
+        "history.h": "c",
+        "alloca.h": "c"
     }
 }

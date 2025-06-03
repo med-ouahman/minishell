@@ -27,7 +27,7 @@ void	add_node(LIST **list, LIST *node)
 	last->next = node;
 }
 
-t_token_list	*create_node(t_token *token)
+static t_token_list	*create_node(t_token *token)
 {
 	t_token_list	*node;
 
@@ -53,7 +53,6 @@ int	add_token(t_token_list **list, char *line, int start, int end)
 	token->token = ft_substr(line, start, end - start);
 	token->start = start == 0 ? line[start]: line[start - 1];
 	token->end = line[end];
-	token->next = NULL;
 	token->join_with = NULL;
 	node = create_node(token);
 	if (NULL == node)
@@ -62,7 +61,7 @@ int	add_token(t_token_list **list, char *line, int start, int end)
 	return (0);
 }
 
-t_token_list	*create_token_list(char *line)
+t_token_list	*tokenize(char *line)
 {
 	t_token_list	*token_list;
 	int	i, j;
