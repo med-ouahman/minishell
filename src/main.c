@@ -13,9 +13,9 @@
 #include "../include/minishell.h"
 
 int execute_builtin_commands(char *line) {
-    char *cmds[] = {"clear"};
+    char *cmds[] = {"clear", NULL};
     
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; cmds[i]; i++) {
         if (strcmp(line, cmds[i]) == 0) {
             system(cmds[i]);
             return 1;
@@ -29,29 +29,23 @@ int	main(void)
 	char	*line;
 	LIST	*tokens;
 	
-	line = readline("$ ");
-	while (line)
+	while (0x10)
 	{
+		line = readline("$ ");
+		if (NULL == line)
+			return (1);
 		signal(SIGINT, signal_handler);
 		if (!*line)
-		{
-			line = readline("$ ");
 			continue ;
-		}
-		if (execute_builtin_commands(line) == 1) {
-			line = readline("$ ");
+		if (execute_builtin_commands(line) == 1)
 			continue;
-		}
 		add_history(line);
 		tokens = tokenize(line);
 		expand(tokens);
 		word_split(&tokens, " \t\n\f\r\v");
 		print_token_list(tokens);
-		join_tokens(tokens);
+		// join_tokens(tokens);
 		free(line);
-		line = readline("$ ");
-		if (NULL == line)
-			return (1);
 	}
 }
 // NFA -> DFA -> mDFA
