@@ -1,105 +1,122 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/15 10:21:24 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/18 20:35:47 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/18 20:36:16 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-void	add_node(LIST **list, LIST *node)
+/*
+AST	*build_ast(AST *, AST *, int);
+
+TOKEN	*peek(LIST *tokens)
 {
-	LIST	*last;
-
-	if (NULL == *list)
-	{
-		*list = node;
-		return ;
-	}
-	last = *list;
-	while (last->next)
-		last = last->next;
-	last->next = node;
-}
-
-static t_token_list	*create_node(t_token *token)
-{
-	t_token_list	*node;
-
-	node = malloc(sizeof(*node));
-	if (NULL == node)
+	if (NULL == tokens)
 		return (NULL);
-	node->token = token;
-	node->next = NULL;
-	return (node);
+	return (tokens->token);
 }
 
-int	add_token(t_token_list **list, char *line, int start, int end)
+void	consume(LIST **tokens)
 {
-	t_token			*token;
-	t_token_list	*node;
-
-	if (start == end)
-		return (0);
-	token = malloc(sizeof(*token));
-	if (NULL == token)
-		return (-1);
-	token->p_quote = is_quote(line[start - 1]) ? line[start - 1]: 0;
-	token->token = ft_substr(line, start, end - start);
-	token->start = start == 0 ? line[start]: line[start - 1];
-	token->end = line[end];
-	token->join_with = NULL;
-	node = create_node(token);
-	if (NULL == node)
-		return (-1);
-	add_node(list, node);
-	return (0);
+	if (*tokens == NuLl)
+		return ;
+	*tokens = (*tokens)->next;
 }
 
-t_token_list	*tokenize(char *line)
+AST	*parse_redirection(LIST **tokens)
 {
-	t_token_list	*token_list;
-	int	i, j;
-	int	quote;
+
+}
+
+AST	*parse_simple_command(LIST **tokens)
+{
+
+}
+
+AST	*parse_command(LIST **tokens)
+{
+
+}
+
+AST	*parse_atom(LIST **tokens)
+{
 	
-	i = 0;
-	token_list = NULL;
-	quote = 0;
-	while (line[i])
-	{
-		if (is_quote(line[i]))
-		{
-			quote = line[i++];
-			j = i;
-			while (line[i] != quote && line[i])
-				i++;
-			if (!line[i])
-				return (panic("Error: unclosed quote\n", 1), NULL);
-			add_token(&token_list, line, j, i);
-			if (line[i] == quote)
-				i++;
-		}
-		else if (is_sep_char(line[i]) && !is_space(line[i]))
-		{
-			j = i;
-			while (is_sep_char(line[i]))
-				i++;
-			add_token(&token_list, line, j, i);
-		}
-		else
-		{
-			while (is_space(line[i]))
-				i++;
-			j = i;
-			while (!is_sep_char(line[i]) && !is_quote(line[i]) && line[i])
-				i++;
-			add_token(&token_list, line, j, i);
-		}
-	}
-	return (token_list);
 }
+
+AST	*parse_pipeline(LIST **tokens)
+{
+	TOKEN	*token;
+	AST		*left;
+	AST		*right;
+
+	left = parse_atom(tokens);
+	token = peek(*tokens);
+	while (token && token->type == PIPE)
+	{
+		right = parse_atom(tokens);
+		consume(tokens);
+		left = build_ast(left, right, PIPE);
+	}
+	return (left);
+}
+
+AST	*parse_and_command(LIST **tokens)
+{
+	TOKEN	*token;
+	AST		*left;
+	AST		*right;
+
+	left = parse_pipeline(tokens);
+	token = peek(*tokens);
+	while (token && token->type == AND)
+	{
+		right = parse_pipeline(tokens);
+		consume(tokens);
+		left = build_ast(left, right, AND);
+	}
+	return (left);
+}
+
+AST	*parse_or_command(LIST **tokens)
+{
+	TOKEN	*token;
+	AST		*left;
+	AST		*right;
+
+	left = parse_and_command(tokens);
+	token = peek(*tokens);
+	while (token && token->type == OR)
+	{
+		right = parse_and_command(tokens);
+		consume(tokens);
+		left = build_ast(left, right, OR);
+	}
+	return (left);
+}
+
+AST	*parse_line(LIST **tokens)
+{
+	return (parse_or_command(tokens));
+}
+
+AST	*parser(LIST **tokens)
+{
+	AST	*ast_tree;
+
+	ast_tree = parse_line(tokens);
+	return (ast_tree);
+}
+// Recursive Descent Parser is a parser of type Top Down Parsers without backtracking:
+
+
+
+
+g
+
+*/

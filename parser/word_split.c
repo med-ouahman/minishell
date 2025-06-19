@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#include "../include/tokenizer.h"
 
 int	has_spaces(char *s)
 {
@@ -37,6 +37,7 @@ static LIST	*create_node(char *s)
 	if (NULL == node->token)
 		return (NULL);
 	node->token->token = s;
+	node->token->split = 0;
 	node->token->end = -1;
 	node->token->start = -1;
 	node->token->join_with = NULL;

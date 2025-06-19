@@ -13,80 +13,59 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "../include/utils.h"
+# include "./utils.h"
+# include "./tokenizer.h"
 
-typedef struct s_token	t_token;
-typedef enum e_types
+typedef enum
 {
-	NONE,
-	WHITESPACE,
-	PIPE,
-	REDIN,
-	REDOUT,
-	REDOUTAPP,
-	HEREDOC,
-	AND,
-	OR,
-	OPENPAR,
-	CLOSEPAR,
-	DOLLAR,
-	CMD,
-	ARG,
-}	t_types;
+	CD,
+	ECHO,
+	EXIT,
+	PWD,
+	ENV,
+	EXPORT,
+	UNSET
+}	t_builtins;
 
-typedef enum e_cat
-{
-	OPERATOR,
-	WORD,
-}	t_cat;
+typedef struct s_ast t_ast;
 
-typedef struct s_token
+# define AST t_ast
+
+typedef struct
 {
-	char	*line;
-	char	*token;
-	int		split;
-	t_token	*join_with;
 	int		type;
-	int		quote;
-	int		start;
-	int		end;
-	int		p_quote;
-}	t_token;
+	char	*target;
+	char	*heredoc;
+}	t_redir;
 
-typedef struct s_token_list
+typedef struct
 {
-	t_token				*token;
-	struct s_token_list	*next;
-}	t_token_list;
+	int	type;
 
-typedef struct s_parse_tree
+	AST *left;
+	AST *right;
+}   t_ast_binary;
+
+typedef struct
 {
-	t_token		        *token;
-	struct s_parse_tree	*left;
-	struct s_parse_tree	*right;
-}   t_parse_tree;
+	int		is_buitlin;
+	t_list	*args;
+	t_list	*redirs;
+}	t_cmd;
 
-# define LIST t_token_list
-# define TOKEN t_token
-# define TREE t_parse_tree
+typedef	union
+{
+	t_ast_binary	*binary_node;
+	t_cmd			*cmd;
+}	t_ast_node_type;
 
-LIST	*tokenize(char *line);
-int		is_space(int c);
-int		is_quote(int c);
-int		is_sep_char(int c);
-int 	is_sep(char *line, int *i);
+typedef struct s_ast
+{
+	int 	node_type;
+	void	*data;
+}	t_ast;
 
-int 	expand(LIST *token_list);
-t_list	*get_var_list(char *str);
-char	*expand_var_list(t_list *var_list);
-int		is_starting(int c);
-int		is_subsequent(int c);
-int		invalid_var_char(int c);
+TOKEN	*peek(LIST *tokens);
+void	consume(LIST **tokens);
 
-int		clear_tree(t_parse_tree *tree);
-void	print_token_list(LIST *list);
-int		join_tokens(LIST *token_l);
-
-int		word_split(LIST **tokens, char *charset);
-LIST	*get_prev_node(LIST *token_l, LIST *node);
 #endif

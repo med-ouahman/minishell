@@ -79,6 +79,7 @@ char	**ft_split2(char *str, char *charset)
 		split[k] = ft_substr(str, j, i - j);
 		k++;
 	}
+	split[k] = NULL;
 	return (split);
 }
 

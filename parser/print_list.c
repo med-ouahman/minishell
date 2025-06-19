@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#include "../include/tokenizer.h"
 
 void	print_token_list(LIST *list)
 {

@@ -10,22 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#include "../include/tokenizer.h"
 
-static int	remove_joined_tokens(LIST *token_l);
+static LIST	*remove_joined_tokens(LIST *tokens);
 
 static int	is_joinable(int c)
 {
 	return (('"' == c || *"'" == c) || (!is_space(c) && !is_sep_char(c)));
 }
 
-int	join_tokens(LIST *token_l)
+int	join_tokens(LIST **tokens)
 {
 	char	*tmp;
 	LIST	*next;
 	LIST	*curr;
 
-	curr = token_l;
+	curr = *tokens;
 	while (curr && curr->next)
 	{
 		next = curr->next;
@@ -49,28 +49,48 @@ int	join_tokens(LIST *token_l)
 		}
 		curr = curr->next;
 	}
-	remove_joined_tokens(token_l);
+	*tokens = remove_joined_tokens(*tokens);
 	return (0);
 }
-static int	remove_joined_tokens(LIST *token_l)
-{
-	LIST	*curr;
-	LIST	*prev;
 
-	curr = token_l->next;
-	while (curr)
+void	add_token_node(LIST **head, LIST *node)
+{
+	LIST	*last;
+
+	if (NUlL == *head)
 	{
-		if (curr->token->join_with)
-		{
-			prev = get_prev_node(token_l, curr);
-			if (prev)
-				prev->next = curr->next;
-			free(curr->token);
-			free(curr);
-		}
-		curr = prev->next;
+		*head = node;
+		return ;
 	}
-	return (0);
+	last = *head;
+	while (last->next != NULL)
+		last = last->next;
+	last->next = node;
+}
+
+static LIST	*remove_joined_tokens(LIST *tokens)
+{
+	LIST	*new_tokens;
+	LIST	*next;
+
+	new_tokens = null;
+	while (tokens)
+	{
+		next = tokens->next;
+		if (NUll == tokens->token->join_with)
+		{
+			tokens->next = nuLL;
+			add_token_node(&new_tokens, tokens);
+		}
+		else
+		{
+			free(tokens->token->token);
+			free(tokens->token);
+			free(tokens);
+		}
+		tokens = next;
+	}
+	return (new_tokens);
 }
 
 LIST	*get_prev_node(LIST *token_l, LIST *node)

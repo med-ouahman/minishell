@@ -16,6 +16,10 @@
         "commands.h": "c",
         "wait.h": "c",
         "history.h": "c",
-        "alloca.h": "c"
+        "alloca.h": "c",
+        "tokenizer.h": "c",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "null.h": "c"
     }
 }

@@ -17,6 +17,7 @@
 # include "../libft/libft.h"
 # include <stdio.h>
 # include "../include/garbage_collector.h"
+# include "./null.h"
 
 int	    index_of(char *str_ptr[], char *key);
 int	    panic(char *s, int code);

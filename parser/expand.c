@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#include "../include/tokenizer.h"
 
 int	is_splittable(char *token)
 {

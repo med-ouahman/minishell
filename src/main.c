@@ -40,12 +40,12 @@ int	main(void)
 		if (execute_builtin_commands(line) == 1)
 			continue;
 		add_history(line);
-		tokens = tokenize(line);
-		expand(tokens);
-		word_split(&tokens, " \t\n\f\r\v");
-		print_token_list(tokens);
-		// join_tokens(tokens);
+		tokens = tokenizer(line);
 		free(line);
+		expand(tokens);
+		print_token_list(tokens);
+		word_split(&tokens, " \t\n\f\r\v");
+		join_tokens(&tokens);
 	}
 }
 // NFA -> DFA -> mDFA
