@@ -20,6 +20,8 @@ int	garbage_collector(void *ptr, int option)
 
 	if (ALLOC == option)
 	{
+		if (!ptr)
+			garbage_collector(NULL, FREE_U);
 		list[cursor] = ptr;
 		cursor++;
 	}

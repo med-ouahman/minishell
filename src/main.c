@@ -27,7 +27,9 @@ int execute_builtin_commands(char *line) {
 int	main(void)
 {
 	char	*line;
-	LIST	*tokens;
+	TOKEN	*tokens;
+	AST		*parse_t;
+	t_list	*exec_list;
 	
 	while (0x10)
 	{
@@ -42,10 +44,9 @@ int	main(void)
 		add_history(line);
 		tokens = tokenizer(line);
 		free(line);
-		expand(tokens);
-		print_token_list(tokens);
-		word_split(&tokens, " \t\n\f\r\v");
-		join_tokens(&tokens);
+		parse_t = parser(tokens);
+		exec_list = execution_list(parse_t);
+		print_exc_list(exec_list);
 	}
 }
 // NFA -> DFA -> mDFA

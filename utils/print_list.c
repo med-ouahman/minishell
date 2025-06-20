@@ -20,3 +20,4 @@ void	print_list(t_list *list)
 		list = list->next;
 	}
 }
+

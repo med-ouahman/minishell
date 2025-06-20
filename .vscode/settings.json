@@ -20,6 +20,8 @@
         "tokenizer.h": "c",
         "istream": "cpp",
         "ostream": "cpp",
-        "null.h": "c"
+        "null.h": "c",
+        "execution.h": "c",
+        "executor.h": "c"
     }
 }

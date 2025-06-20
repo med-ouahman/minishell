@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_tree.c                                       :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/23 16:58:39 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 17:03:54 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/20 15:23:24 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/20 15:23:52 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/tokenizer.h"
-#include "../include/parser.h"
+#ifndef EXECUTION_H
+# define EXECUTION_H
 
-void	print_token_list(TOKEN *list)
-{
-	while (list)
-	{
-		printf("%s\n", list->token);	
-		list = list->next;
-	}
-}
+# include "./utils.h"
+# include "./parser.h"
+
+#endif

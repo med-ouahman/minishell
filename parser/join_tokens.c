@@ -12,38 +12,38 @@
 
 #include "../include/tokenizer.h"
 
-static LIST	*remove_joined_tokens(LIST *tokens);
+static TOKEN	*remove_joined_tokens(TOKEN *tokens);
 
 static int	is_joinable(int c)
 {
 	return (('"' == c || *"'" == c) || (!is_space(c) && !is_sep_char(c)));
 }
 
-int	join_tokens(LIST **tokens)
+int	join_tokens(TOKEN **tokens)
 {
 	char	*tmp;
-	LIST	*next;
-	LIST	*curr;
+	TOKEN	*next;
+	TOKEN	*curr;
 
 	curr = *tokens;
 	while (curr && curr->next)
 	{
 		next = curr->next;
-		if (is_joinable(curr->token->end)
-			&& is_joinable(next->token->start))
+		if (curr->type == WORD && next->type == WORD
+			&& is_joinable(curr->end) && is_joinable(next->start))
 		{
-			if (NULL == curr->token->join_with)
+			if (NULL == curr->join_with)
 			{
-				tmp = curr->token->token;
-				curr->token->token = ft_strjoin(curr->token->token, next->token->token);
-				next->token->join_with = curr->token;
+				tmp = curr->token;
+				curr->token = ft_strjoin(curr->token, next->token);
+				next->join_with = curr;
 				free(tmp);
 			}
 			else
 			{
-				tmp = curr->token->join_with->token;
-				curr->token->join_with->token = ft_strjoin(curr->token->join_with->token, next->token->token);
-				next->token->join_with = curr->token->join_with;
+				tmp = curr->join_with->token;
+				curr->join_with->token = ft_strjoin(curr->join_with->token, next->token);
+				next->join_with = curr->join_with;
 				free(tmp);
 			}
 		}
@@ -53,9 +53,9 @@ int	join_tokens(LIST **tokens)
 	return (0);
 }
 
-void	add_token_node(LIST **head, LIST *node)
+void	add_token_node(TOKEN **head, TOKEN *node)
 {
-	LIST	*last;
+	TOKEN	*last;
 
 	if (NUlL == *head)
 	{
@@ -68,23 +68,22 @@ void	add_token_node(LIST **head, LIST *node)
 	last->next = node;
 }
 
-static LIST	*remove_joined_tokens(LIST *tokens)
+static TOKEN	*remove_joined_tokens(TOKEN *tokens)
 {
-	LIST	*new_tokens;
-	LIST	*next;
+	TOKEN	*new_tokens;
+	TOKEN	*next;
 
 	new_tokens = null;
 	while (tokens)
 	{
 		next = tokens->next;
-		if (NUll == tokens->token->join_with)
+		if (NUll == tokens->join_with)
 		{
 			tokens->next = nuLL;
 			add_token_node(&new_tokens, tokens);
 		}
 		else
 		{
-			free(tokens->token->token);
 			free(tokens->token);
 			free(tokens);
 		}
@@ -93,7 +92,7 @@ static LIST	*remove_joined_tokens(LIST *tokens)
 	return (new_tokens);
 }
 
-LIST	*get_prev_node(LIST *token_l, LIST *node)
+TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node)
 {
 	while (token_l && token_l->next && token_l->next != node)
 		token_l = token_l->next;

@@ -35,11 +35,8 @@ typedef enum e_types
 	ARG,
 }	t_types;
 
-
-typedef struct	s_tl	t_tokenl;
 typedef struct	s_token	t_token;
 
-# define LIST	t_tokenl
 # define TOKEN t_token
 
 typedef struct s_token
@@ -53,14 +50,8 @@ typedef struct s_token
 	int		start;
 	int		end;
 	int		p_quote;
+	TOKEN	*next;
 }	TOKEN;
-
-typedef struct s_tl
-{
-	t_token		*token;
-	struct s_tl	*next;
-}	LIST;
-
 
 typedef struct	s_info
 {
@@ -70,23 +61,23 @@ typedef struct	s_info
 	int	end;
 }	t_info;
 
-LIST	*tokenizer(char *line);
+TOKEN	*tokenizer(char *line);
 int		is_space(int c);
 int		is_quote(int c);
 int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
-int 	expand(LIST *token_list);
+int 	expand(TOKEN *token_list);
 t_list	*get_var_list(char *str);
 char	*expand_var_list(t_list *var_list);
 int		is_starting(int c);
 int		is_subsequent(int c);
 int		invalid_var_char(int c);
 
-void	print_token_list(LIST *list);
-int		join_tokens(LIST **tokens);
+void	print_token_list(TOKEN *list);
+int		join_tokens(TOKEN **tokens);
 
-int		word_split(LIST **tokens, char *charset);
-LIST	*get_prev_node(LIST *token_l, LIST *node);
+int		word_split(TOKEN **tokens, char *charset);
+TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node);
 
 #endif

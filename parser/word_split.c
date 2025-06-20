@@ -26,9 +26,9 @@ int	has_spaces(char *s)
 	return (0);
 }
 
-static LIST	*create_node(char *s)
+static TOKEN	*create_node(char *s)
 {
-	LIST	*node;
+	TOKEN	*node;
 
 	node = malloc(sizeof(*node));
 	if (NULL == node)
@@ -36,21 +36,21 @@ static LIST	*create_node(char *s)
 	node->token = malloc(sizeof(*node->token));
 	if (NULL == node->token)
 		return (NULL);
-	node->token->token = s;
-	node->token->split = 0;
-	node->token->end = -1;
-	node->token->start = -1;
-	node->token->join_with = NULL;
-	node->token->p_quote = -1;
-	node->token->line = NULL;
+	node->token = s;
+	node->split = 0;
+	node->end = -1;
+	node->start = -1;
+	node->join_with = NULL;
+	node->p_quote = -1;
+	node->line = NULL;
 	return (node);
 }
 
-int	add_splitted_tokens(LIST **tokens, LIST *node, char **split)
+int	add_splitted_tokens(TOKEN **tokens, TOKEN *node, char **split)
 {
-	LIST	*prev;
-	LIST	*next;
-	LIST	*new_node;
+	TOKEN	*prev;
+	TOKEN	*next;
+	TOKEN	*new_node;
 
 	next = node->next;
 	prev = get_prev_node(*tokens, node);
@@ -67,22 +67,22 @@ int	add_splitted_tokens(LIST **tokens, LIST *node, char **split)
 	return (0);
 }
 
-int	word_split(LIST **tokens, char *charset)
+int	word_split(TOKEN **tokens, char *charset)
 {
-	LIST	*curr;
+	TOKEN	*curr;
 	char	**split;
 
 	curr = *tokens;
 	while (curr)
 	{
-		if (curr->token->split)
+		if (curr->split)
 		{
-			if (0 == has_spaces(curr->token->token))
+			if (0 == has_spaces(curr->token))
 			{
 				curr = curr->next;
 				continue ;
 			}
-			split = ft_split2(curr->token->token, charset);
+			split = ft_split2(curr->token, charset);
 			if (NULL == split)
 				return (-1);
 			add_splitted_tokens(tokens, curr, split);

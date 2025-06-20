@@ -131,25 +131,25 @@ t_list	*get_var_list(char *str)
 	return (var_list);
 }
 
-int expand(LIST *tokens)
+int expand(TOKEN *tokens)
 {
 	char	*tmp;
 	t_list	*var_list;
 
 	while (tokens)
 	{
-		if (*"'" == tokens->token->p_quote)
+		if (*"'" == tokens->p_quote)
 		{
 			tokens = tokens->next;
 			continue ;
 		}
-		if (tokens->token->p_quote)
-			tokens->token->split = 0;
+		if (tokens->p_quote)
+			tokens->split = 0;
 		else
-			tokens->token->split = is_splittable(tokens->token->token);
-		var_list = get_var_list(tokens->token->token);
-		tmp = tokens->token->token;
-		tokens->token->token = expand_var_list(var_list);
+			tokens->split = is_splittable(tokens->token);
+		var_list = get_var_list(tokens->token);
+		tmp = tokens->token;
+		tokens->token = expand_var_list(var_list);
 		free(tmp);
 		ft_lstclear(&var_list, free);
 		tokens = tokens->next;

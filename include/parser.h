@@ -65,7 +65,11 @@ typedef struct s_ast
 	void	*data;
 }	t_ast;
 
-TOKEN	*peek(LIST *tokens);
-void	consume(LIST **tokens);
+AST 	*parser(TOKEN *tokens);
+TOKEN	*peek(TOKEN *tokens);
+void	consume(TOKEN **tokens);
+void print_tree(AST *ast);
 
+t_list	*execution_list(AST *ast);
+void	print_exc_list(t_list *exec_list);
 #endif

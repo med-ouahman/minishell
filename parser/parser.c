@@ -15,20 +15,6 @@
 /*
 AST	*build_ast(AST *, AST *, int);
 
-TOKEN	*peek(LIST *tokens)
-{
-	if (NULL == tokens)
-		return (NULL);
-	return (tokens->token);
-}
-
-void	consume(LIST **tokens)
-{
-	if (*tokens == NuLl)
-		return ;
-	*tokens = (*tokens)->next;
-}
-
 AST	*parse_redirection(LIST **tokens)
 {
 
