@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   wait_children.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:38:20 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:46:24 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/22 14:16:38 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/22 14:18:27 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../include/executor.h"
 
-int	unset(t_cmd *cmd)
+int	wait_children(pid_t *pids, int num_children)
 {
-	return (cmd->is_buitlin);
+	int	status;
+	int	i;
 
+	i = 0;
+	while (i < num_children)
+	{
+		waitpid(pids[i], &status, 0);
+		i++;
+	}
+	return (exit_code(status));
 }

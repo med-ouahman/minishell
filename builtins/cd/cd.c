@@ -12,30 +12,7 @@
 
 #include "../../include/cd.h"
 
-int	change_dir(char *path)
+int	cd(t_cmd *cmd)
 {
-	int		c;
-	int		index;
-	char	*cwd;
-
-	c = chdir(path);
-	if (0 != c)
-		return (-1);
-	cwd = getcwd(NULL, 0);
-	if (NULL == cwd)
-		return (-1);
-	index = index_of(__environ, "PWD=");
-	if (-1 == index)
-	{
-		free(cwd);
-		return (-1);
-	}
-	__environ[index] = ft_strjoin("PWD=", cwd);
-	if (NULL == __environ[index])
-	{
-		free(cwd);
-		return (-1);
-	}
-	free(cwd);
-	return (c);
+	return (cmd->is_buitlin);
 }

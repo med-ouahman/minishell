@@ -18,6 +18,7 @@
 
 typedef enum
 {
+	NOT,
 	CD,
 	ECHO,
 	EXIT,
@@ -71,5 +72,6 @@ void	consume(TOKEN **tokens);
 void print_tree(AST *ast);
 
 t_list	*execution_list(AST *ast);
+void    print_redir(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
 #endif

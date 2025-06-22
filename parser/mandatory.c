@@ -56,7 +56,7 @@ char    *parse_content(char *input)
 {
     t_list  *l;
 
-    l = get_var_list(input);
+    l = get_var_list(input, -1);
     return (expand_var_list(l));
 }
 
@@ -81,8 +81,6 @@ char    *parse_heredoc(t_redir *redir)
         write(fd, "\n", 1);
     }
     close(fd);
-    unlink(file);
-    file=NULL;
     return (file);
 }
 
@@ -126,15 +124,43 @@ t_list  *get_redirs(TOKEN **tokens)
     return (redirs);
 }
 
+int is_builtin(char *cmd)
+{
+    if (!ft_strcmp(cmd, "cd"))
+		return (CD);
+	else if (!ft_strcmp(cmd, "pwd"))
+		return (PWD);
+	else if (!ft_strcmp(cmd, "exit"))
+		return (EXIT);
+	else if (!ft_strcmp(cmd, "echo"))
+		return (ECHO);
+	else if (!ft_strcmp(cmd, "export"))
+		return (EXPORT);
+	else if (!ft_strcmp(cmd, "unset"))
+		return (UNSET);
+	else if (!ft_strcmp(cmd, "env"))
+        return (ENV);
+    return (NOT);
+}
+
 t_cmd   *build_command(TOKEN **tokens)
 {
     t_cmd   *cmd;
+    TOKEN   *token;
 
     cmd = malloc(sizeof(*cmd));
     if (!cmd)
         return (NULL);
     cmd->args = get_args(tokens);
     cmd->redirs = get_redirs(tokens);
+    token = peek(*tokens);
+    while (token && token->type == WORD)
+    {
+        ft_lstadd_back(&cmd->args, get_args(tokens));
+        token = peek(*tokens);
+    }
+    if (cmd->args)
+        cmd->is_buitlin = is_builtin(cmd->args->content);
     return (cmd);
 }
 
@@ -142,7 +168,7 @@ AST *parse_command(TOKEN **tokens)
 {
     AST     *command;
     t_cmd   *cmd;
-
+    
     if (*tokens == NULL)
         return (NULL);
     command = malloc(sizeof(*command));
@@ -178,8 +204,10 @@ AST *build_pipeline(AST *left, AST *right)
 AST *parse_pipeline(TOKEN **tokens)
 {
     TOKEN   *token;
+    char    **split;
     AST *left = NUll;
     AST *right = nuLL;
+
     left = parse_command(tokens);
     token = peek(*tokens);
     while (token && token->type == PIPE)
@@ -191,9 +219,6 @@ AST *parse_pipeline(TOKEN **tokens)
     }
     return (left);
 }
-
-
-
 
 AST *parser(TOKEN *tokens)
 {
@@ -222,22 +247,3 @@ t_list  *execution_list(AST *ast)
     return (exec_list);
 }
 
-void print_exc_list(t_list *exec_list)
-{
-    t_list  *current = exec_list;
-    while (current)
-    {
-        t_cmd *cmd = (t_cmd *)current->content;
-        printf("Command: ");
-        if (cmd->args && cmd->args->content)
-            printf("%s ", (char *)cmd->args->content);
-        t_list *arg = cmd->args ? cmd->args->next : NULL;
-        while (arg)
-        {
-            printf("%s ", (char *)arg->content);
-            arg = arg->next;
-        }
-        printf("\n");
-        current = current->next;
-    }
-}

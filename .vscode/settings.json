@@ -22,6 +22,7 @@
         "ostream": "cpp",
         "null.h": "c",
         "execution.h": "c",
-        "executor.h": "c"
+        "executor.h": "c",
+        "cd.h": "c"
     }
 }

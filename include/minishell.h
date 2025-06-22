@@ -23,5 +23,6 @@ extern int	sig;
 # include "./signal_handler.h"
 # include "./commands.h"
 # include "./tokenizer.h"
+# include "./executor.h"
 
 #endif

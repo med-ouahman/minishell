@@ -10,15 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/pwd.h"
+#include "../../include/builtins.h"
 
-int	pwd(void)
+int	pwd(t_cmd *cmd)
 {
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (NULL == cwd)
-		return (-1);
-	printf("%s\n", cwd);
-	return (0);
+		return (cmd->is_buitlin);
 }

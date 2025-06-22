@@ -21,7 +21,7 @@ int	garbage_collector(void *ptr, int option)
 	if (ALLOC == option)
 	{
 		if (!ptr)
-			garbage_collector(NULL, FREE_U);
+			exit(EXIT_FAILURE);
 		list[cursor] = ptr;
 		cursor++;
 	}

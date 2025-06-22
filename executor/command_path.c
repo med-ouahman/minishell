@@ -30,28 +30,42 @@ static char	*get_cmdpath(int i, char **pvs, char *cmd)
 	return (cmdpath);
 }
 
-char    *check_access(char *path, char *cmd)
+int	check_access(char **path, char **pvs, char *cmd)
 {
-	char	**pvs;
 	char    *cmdpath;
 	int		i;
 
-	pvs = ft_split(path + 5, ':');
-	if (!pvs)
-		return (NULL);
 	i = -1;
 	while (i == -1 || pvs[i])
 	{
 		cmdpath = get_cmdpath(i, pvs, cmd);
 		if (!cmdpath)
-			return (NULL);
+			return (-2);
 		if (!access(cmdpath, F_OK))
 		{
 			if (!access(cmdpath, X_OK))
-				return (cmdpath);
+			{
+				*path = cmdpath;
+				return (0);
+			}
 		}
 		free(cmdpath);
 		i++;
 	}
-	return (NulL);
+	return (-1);
+}
+
+char	*command_path(char **pvs, char *cmd)
+{
+	char	*path;
+	int		c;
+
+	path = NULL;
+	c = check_access(&path, pvs, cmd);
+	if (-1 == c)
+	{
+		printf("minishell: %s command not found\n", cmd);
+		return (NuLL);
+	}
+	return (path);
 }

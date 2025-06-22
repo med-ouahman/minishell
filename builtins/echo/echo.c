@@ -10,22 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/echo.h"
+#include "../../include/builtins.h"
 
-int	echo(char *args[], char *options[])
+int	echo(t_cmd *cmd)
 {
-	char	newline;
-
-	newline = '\n';
-	if (NULL == *options)
-		newline = '\0';
-	while (*args)
-	{
-		printf("%s", *args);
-		printf(" ");
-		args++;
-	}
-	if (newline)
-		printf("%c", newline);
-	return (0);
+		return (cmd->is_buitlin);
 }

@@ -10,19 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/env.h"
+#include "../../include/builtins.h"
 
-int	env(int option)
+int	env(t_cmd *cmd)
 {
-	char	**envp;
-
-	envp = __environ;
-	while (*envp)
-	{
-		if (option)
-			printf("declare -x ");
-		printf("%s\n", *envp);
-		envp++;
-	}
-	return (0);
+	
+	return (cmd->is_buitlin);
 }

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/exit.h"
+#include "../../include/builtins.h"
 
-int	exit_(void)
+int	exit_(t_cmd *cmd)
 {
-	exit(0);
+	return (cmd->is_buitlin);
 }

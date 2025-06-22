@@ -13,12 +13,14 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-int	env(int option);
-int export(char *key, char *value);
-int exit_(void);
-int change_dir(char *path);
-int echo(char *args[], char *options[]);
-int unset(char *key);
-int pwd(void);
+# include "./executor.h"
+
+int cd(t_cmd *cmd);
+int export(t_cmd *cmd);
+int pwd(t_cmd *cmd);
+int env(t_cmd *cmd);
+int unset(t_cmd *cmd);
+int echo(t_cmd *cmd);
+int exit_(t_cmd *cmd);
 
 #endif

@@ -90,12 +90,33 @@ char	*expand_var_list(t_list *var_list)
 	return (result);
 }
 
-t_list	*get_var_list(char *str)
+void	add_exit_code(t_list **var_list, int code)
+{
+	t_list	*last;
+	t_list	*node;
+	char	*s;
+
+	s = ft_itoa(code);
+	garbage_collector(s, ALLOC);
+	node = ft_lstnew(s);
+	garbage_collector(node, ALLOC);
+	if (*var_list == NULL)
+	{
+		*var_list = node;
+		return ;
+	}
+	last = *var_list;
+	while (last->next)
+		last = last->next;
+	last->next = node;
+}
+
+t_list	*get_var_list(char *str, int code)
 {
 	t_list	*var_list;
 	int		i;
 	int		j;
-
+	
 	var_list = NULL;
 	i = 0;
 	while (str[i])
@@ -113,14 +134,15 @@ t_list	*get_var_list(char *str)
 				i++;
 			else if ('?' == str[i])
 			{
-				// add last
+				add_exit_code(&var_list, code);
+				i++;
 			}
 			else
 			{
 				while (str[i] && '$' != str[i])
 					i++;
+				add_raw_token(&var_list, str, j, i);
 			}
-			add_raw_token(&var_list, str, j, i);
 			continue ;
 		}
 		j = i++;
@@ -131,11 +153,11 @@ t_list	*get_var_list(char *str)
 	return (var_list);
 }
 
-int expand(TOKEN *tokens)
+int expand(TOKEN *tokens, int code)
 {
 	char	*tmp;
 	t_list	*var_list;
-
+	return (0);
 	while (tokens)
 	{
 		if (*"'" == tokens->p_quote)
@@ -147,7 +169,7 @@ int expand(TOKEN *tokens)
 			tokens->split = 0;
 		else
 			tokens->split = is_splittable(tokens->token);
-		var_list = get_var_list(tokens->token);
+		var_list = get_var_list(tokens->token, code);
 		tmp = tokens->token;
 		tokens->token = expand_var_list(var_list);
 		free(tmp);

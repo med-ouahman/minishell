@@ -61,14 +61,14 @@ typedef struct	s_info
 	int	end;
 }	t_info;
 
-TOKEN	*tokenizer(char *line);
+TOKEN	*tokenizer(char *line, int code);
 int		is_space(int c);
 int		is_quote(int c);
 int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
-int 	expand(TOKEN *token_list);
-t_list	*get_var_list(char *str);
+int 	expand(TOKEN *token_list, int code);
+t_list	*get_var_list(char *str, int code);
 char	*expand_var_list(t_list *var_list);
 int		is_starting(int c);
 int		is_subsequent(int c);

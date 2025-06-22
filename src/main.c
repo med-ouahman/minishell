@@ -12,25 +12,15 @@
 
 #include "../include/minishell.h"
 
-int execute_builtin_commands(char *line) {
-    char *cmds[] = {"clear", NULL};
-    
-    for (int i = 0; cmds[i]; i++) {
-        if (strcmp(line, cmds[i]) == 0) {
-            system(cmds[i]);
-            return 1;
-        }
-    }
-    return 0;
-}
-
 int	main(void)
 {
 	char	*line;
 	TOKEN	*tokens;
 	AST		*parse_t;
+	int		code;
 	t_list	*exec_list;
 	
+	code = 0;
 	while (0x10)
 	{
 		line = readline("$ ");
@@ -39,15 +29,16 @@ int	main(void)
 		signal(SIGINT, signal_handler);
 		if (!*line)
 			continue ;
-		if (execute_builtin_commands(line) == 1)
-			continue;
 		add_history(line);
-		tokens = tokenizer(line);
+		tokens = tokenizer(line, code);
+		print_token_list(tokens);
 		free(line);
+		continue;
 		parse_t = parser(tokens);
 		exec_list = execution_list(parse_t);
-		print_exc_list(exec_list);
+		code = executor(exec_list);
 	}
+	return (0);
 }
 // NFA -> DFA -> mDFA
 

@@ -10,36 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/export.h"
+#include "../../include/builtins.h"
 
-int	export(char *key, char *value)
+int	export(t_cmd *cmd)
 {
-	char	**new_env;
-	char	*res;
-	size_t	size;
-	int		index;
-	int		i;
-
-	if (NULL == key)
-		return (env(1));
-	res = ft_strjoin(key, value);
-	index = index_of(__environ, key);
-	if (NULL == res)
-		return (-1);
-	size = env_size() + 1;
-	new_env = malloc((size + 1) * sizeof(char *));
-	if (NULL == new_env)
-		return (-1);
-	i = 0;
-	while (__environ[i])
-	{
-		new_env[i] = __environ[i];
-		i++;
-	}
-	new_env[i] = res;
-	if (NULL == new_env[i])
-		return (-1);
-	new_env[size] = NULL;
-	__environ = new_env;
-	return (0);
+	
+	return (cmd->is_buitlin);
 }

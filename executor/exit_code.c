@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   exit_code.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:38:20 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:46:24 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/22 14:50:28 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/22 14:51:24 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../include/executor.h"
 
-int	unset(t_cmd *cmd)
+int	exit_code(int status)
 {
-	return (cmd->is_buitlin);
-
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	if (WIFSIGNALED(status) || WIFSTOPPED(status))
+		return (WTERMSIG(status + 128));
+	return (0);
 }

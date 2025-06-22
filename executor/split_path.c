@@ -1,19 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   split_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:38:20 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:46:24 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/20 21:21:18 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/20 21:26:00 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../include/executor.h"
 
-int	unset(t_cmd *cmd)
+char	*extract_path(char **envp)
 {
-	return (cmd->is_buitlin);
 
+	while (*envp)
+	{
+		if (!ft_strncmp(*envp, "PATH=", 5))
+			return (*envp);
+		envp++;
+	}
+	return (NULL);
+}
+
+char	**split_path(char **envp)
+{
+	char	*path;
+	char	**pvs;
+
+	path = extract_path(envp);
+	pvs = ft_split(path + 5, ':');
+	if (!pvs)
+		return (NULL);
+	return (pvs);
 }

@@ -12,45 +12,42 @@
 
 #include "../include/executor.h"
 
-int	set_stdio(t_cmd *cmd, int stdio[])
-{
-	t_redir	*redir;
-	
-	redir = (t_cmd *)redir;
-	stdio[STDIN_FILENO] = STDIN_FILENO;
-	stdio[STDOUT_FILENO] = STDOUT_FILENO;
-	if (redir->type == REDIN || redir->type == HEREDOC)
-	{
-		stdio[0] = open(redir->target, O_RDONLY);
-		if (0 > stdio[0])
-			return (-1);
-	}
-	else if (redir->type == REDOUT)
-	{
-		stdio[1] = open(redir->target, O_CREAT | O_WRONLY | O_TRUNC);
-		if (0 > stdio[1])
-			return (-1);
-	}
-	else if (redir->type == REDOUTAPP)
-	{
-		stdio[1] = open(redir->target, O_CREAT | O_WRONLY | O_APPEND);
-		if (0 > stdio[1])
-			return (-1);
-	}
-	return (0);
-}
+
 
 int executor(t_list *exec_list)
 {
+	char	**pvs;
 	t_list	*curr;
 	t_cmd	*cmd;
+	int		**pipes;
 	int		stdio[2];
-
+	pid_t	*pids;
+	int		i;
+	int		lsize;
+	
+	pvs = split_path(__environ);
 	curr = exec_list;
+	lsize = ft_lstsize(exec_list);
+	pipes = create_pipes(lsize - 1);
+	pids = malloc(lsize * sizeof(pid_t));
+	garbage_collector(pids, ALLOC);
+	i = 0;
 	while (curr)
 	{
 		cmd = (t_cmd *)curr->content;
 		set_stdio(cmd, stdio);
+		if (STDIN_FILENO == stdio[0] && curr > exec_list)
+		{
+			stdio[0] = pipes[i - 1][0];
+		}
+		if (STDOUT_FILENO == stdio[1] && curr->next)
+		{
+			stdio[1] = pipes[i][1];
+		}
+		pids[i] = simple_command(cmd, stdio, pvs);
 		curr = curr->next;
+		i++;
 	}
+	close_pipes(pipes);
+	return (wait_children(pids, lsize));
 }

@@ -119,7 +119,7 @@ int	add_regular(TOKEN **tokens, char *line, t_info info, int *ii)
 	return (i);
 }
 
-TOKEN	*tokenizer(char *line)
+TOKEN	*tokenizer(char *line, int code)
 {
 	TOKEN	*tokens;
 	int	i;
@@ -144,7 +144,7 @@ TOKEN	*tokenizer(char *line)
 			add_regular(&tokens, line, info, &i);
 		}
 	}
-	expand(tokens);
+	expand(tokens, code);
 	word_split(&tokens, " \t\n\f\r\v");
 	join_tokens(&tokens);
 	return (tokens);
