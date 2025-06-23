@@ -14,6 +14,13 @@
 
 int	export(t_cmd *cmd)
 {
-	
-	return (cmd->is_buitlin);
+	// Check if the command is a built-in command
+	if (cmd->is_buitlin)
+		return 0xd;
+	else
+	{
+		return (1);
+	}
+	return (0);
 }
+

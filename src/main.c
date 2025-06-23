@@ -30,11 +30,12 @@ int	main(void)
 		if (!*line)
 			continue ;
 		add_history(line);
-		tokens = tokenizer(line, code);
-		print_token_list(tokens);
+		tokens = tokenizer(line);
+		// print_token_list(tokens);
 		free(line);
-		continue;
 		parse_t = parser(tokens);
+		// print_tree(parse_t);
+		continue;
 		exec_list = execution_list(parse_t);
 		code = executor(exec_list);
 	}

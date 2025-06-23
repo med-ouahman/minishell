@@ -23,6 +23,7 @@
         "null.h": "c",
         "execution.h": "c",
         "executor.h": "c",
-        "cd.h": "c"
+        "cd.h": "c",
+        "errno.h": "c"
     }
 }

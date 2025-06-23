@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/14 10:17:14 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:28:07 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef enum
 	EXPORT,
 	UNSET
 }	t_builtins;
+
+typedef enum
+{
+	PARSE_ERROR = 12,
+
+}	t_error;
 
 typedef struct s_ast t_ast;
 
@@ -70,8 +76,13 @@ AST 	*parser(TOKEN *tokens);
 TOKEN	*peek(TOKEN *tokens);
 void	consume(TOKEN **tokens);
 void print_tree(AST *ast);
+AST *parse_command(TOKEN **tokens);
 
 t_list	*execution_list(AST *ast);
 void    print_redir(t_redir *redir);
+char	*parse_heredoc(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
+t_list	*get_redirs(TOKEN **tokens);
+int		is_builtin(char *cmd);
+
 #endif

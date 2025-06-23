@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <errno.h>
 
 int	    index_of(char *str_ptr[], char *key);
 int	    panic(char *s, int code);

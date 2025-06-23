@@ -61,13 +61,13 @@ typedef struct	s_info
 	int	end;
 }	t_info;
 
-TOKEN	*tokenizer(char *line, int code);
+TOKEN	*tokenizer(char *line);
 int		is_space(int c);
 int		is_quote(int c);
 int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
-int 	expand(TOKEN *token_list, int code);
+int 	expand(TOKEN *token, int code);
 t_list	*get_var_list(char *str, int code);
 char	*expand_var_list(t_list *var_list);
 int		is_starting(int c);
@@ -77,7 +77,7 @@ int		invalid_var_char(int c);
 void	print_token_list(TOKEN *list);
 int		join_tokens(TOKEN **tokens);
 
-int		word_split(TOKEN **tokens, char *charset);
+char	**word_split(TOKEN *tokens, char *charset);
 TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node);
 
 #endif

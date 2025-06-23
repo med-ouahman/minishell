@@ -47,24 +47,32 @@ void print_cmd(t_cmd *cmd)
 
 void print_tree(AST *ast)
 {
+   t_ast_binary *bin;
+    t_cmd *cmd;
    
-    printf("Node Type: %s\n", ast->node_type == PIPE ? "PIPE" : 
-                                ast->node_type == CMD ? "CMD" : "UNKNOWN");
-    if (!ast->data)
+    if (!ast ||!ast->data)
+    {
+        printf("NULL\n");
         return ;
+    }
+     printf("Node Type: %s\n", ast->node_type == PIPE ? "PIPE" : 
+                                ast->node_type == CMD ? "CMD" : "UNKNOWN");
     switch (ast->node_type)
     {
         case PIPE:
+            bin = (t_ast_binary *)ast->data;
             printf("PIPE:\n");
             printf("Left:\n");
-            print_tree(((t_ast_binary *)ast->data)->left);
+            print_tree(bin->left);
             printf("Right:\n");
-            print_tree(((t_ast_binary *)ast->data)->right);
+            print_tree(bin->right);
             break;
         case CMD:
-        
-            print_cmd((t_cmd *)ast->data);
-        
+            cmd = (t_cmd *)ast->data;
+            if (cmd)
+                print_cmd((t_cmd *)ast->data);
+            else
+                printf("NULL is comd\n");
             break;
         default:
             printf("UNKNOWN NODE TYPE\n");

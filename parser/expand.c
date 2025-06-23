@@ -12,6 +12,22 @@
 
 #include "../include/tokenizer.h"
 
+int	has_spaces(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!*s)
+		return (1);
+	while (s[i])
+	{
+		if (ft_isspace(s[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	is_splittable(char *token)
 {
 	char	*l;
@@ -153,29 +169,27 @@ t_list	*get_var_list(char *str, int code)
 	return (var_list);
 }
 
-int expand(TOKEN *tokens, int code)
+int expand(TOKEN *token, int code)
 {
 	char	*tmp;
 	t_list	*var_list;
-	return (0);
-	while (tokens)
+	
+	if (*"'" == token->p_quote || token->type != WORD)
 	{
-		if (*"'" == tokens->p_quote)
-		{
-			tokens = tokens->next;
-			continue ;
-		}
-		if (tokens->p_quote)
-			tokens->split = 0;
-		else
-			tokens->split = is_splittable(tokens->token);
-		var_list = get_var_list(tokens->token, code);
-		tmp = tokens->token;
-		tokens->token = expand_var_list(var_list);
-		free(tmp);
-		ft_lstclear(&var_list, free);
-		tokens = tokens->next;
+		token->split = 0;
+		return (0);
 	}
+	if (token->p_quote)
+		token->split = 0;
+	else
+		token->split = is_splittable(token->token);
+	var_list = get_var_list(token->token, code);
+	tmp = token->token;
+	token->token = expand_var_list(var_list);
+	if (token->split)
+		token->split = has_spaces(token->token);
+	free(tmp);
+	ft_lstclear(&var_list, free);
 	return (0);
 }
 
