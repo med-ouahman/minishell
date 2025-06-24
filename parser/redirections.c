@@ -18,11 +18,11 @@ t_redir  *create_redir_node(TOKEN *token)
     char    **split;
 
     split = NULL;
-    if (NULL == token->next || token->next->type != WORD)
+    if (NULL == token->next || token->next->type != WORD || token->type == -1)
     {
-        errno = PARSE_ERROR;
+        printf("error\n");
         return (NULL);
-        // erreur de syntax, Unexpected token near newline or >> or << or > or <;
+        // erreur de syntax, Unexpected token near newline or >> or << or > or <;f (!curr)
     }
     redir = malloc(sizeof(*redir));
     garbage_collector(redir, ALLOC);
@@ -30,7 +30,7 @@ t_redir  *create_redir_node(TOKEN *token)
     if (token->type == HEREDOC)
     {
         redir->target = token->next->token;
-        redir->heredoc = parse_heredoc(redir);
+        redir->target = parse_heredoc(redir);
         return (redir);
     }
     token = token->next;
@@ -67,11 +67,16 @@ t_list  *get_redirs(TOKEN **tokens)
     redirs = NULL;
     curr = peek(*tokens);
     if (!curr)
-        return (NuLL);
-    printf("%s\n", curr->next->token);
+        return (NULL);
+    if (!is_redirection(curr->type))
+    {
+        errno = PIPE_ERROR;
+        return (NULL);
+    }
     while (curr && is_redirection(curr->type))
     {
         redir = create_redir_node(curr);
+        consume(tokens);
         if (!redir)
             return (NULL);
         redir_node = ft_lstnew(redir);

@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   parse_atom.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:07:58 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:08:39 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/24 12:09:48 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/24 12:10:32 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../include/parser.h"
 
-int	exit_(t_cmd *cmd)
+AST *parse_atom(TOKEN **tokens)
 {
-	printf("exit\n");
-	if (cmd->args->next)
+	TOKEN	*token;
+	AST		*atom;
+
+	token = peek(*tokens);
+	if (token->type != OPENPAR)
+		return (parse_command(tokens));
+	consume(tokens);
+	atom = parse_or_command(tokens);
+	token = peek(*tokens);
+	if (!token || token->type != CLOSEPAR)
 	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
+		printf("Error\n");
+		return (NULL);
 	}
-	return (cmd->is_buitlin);
+	return (atom);
 }

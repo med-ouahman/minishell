@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/tokenizer.h"
-/**/
+
 void	add_node(TOKEN **list, TOKEN *node)
 {
 	TOKEN	*last;
@@ -41,6 +41,14 @@ int	token_type(char *s, int type)
 		return (REDOUTAPP);
 	if (!ft_strcmp(s, "<<"))
 		return (HEREDOC);
+	if (!ft_strcmp(s, "||"))
+		return (OR);
+	if (!ft_strcmp(s, "&&"))
+		return (AND);
+	if (!ft_strcmp(s, "("))
+		return (OPENPAR);
+	if (!ft_strcmp(s, ")"))
+		return (CLOSEPAR);
 	return (-1);
 }
 
@@ -48,6 +56,8 @@ int	add_token(TOKEN **list, char *line, t_info info)
 {
 	TOKEN	*token;
 
+	if (info.end == info.start)
+		return (0);
 	token = malloc(sizeof(*token));
 	if (NULL == token)
 		return (-1);
@@ -85,18 +95,14 @@ int		add_quoted_token(TOKEN **tokens, char *line, t_info info, int *ii)
 
 int	add_operator(TOKEN **tokens, char *line, t_info info, int *ii)
 {
-	int	i;
-
-	i = *ii;
-	info.start = i;
-	while (is_sep_char(line[i]))
-		i++;
-	info.end = i;
+	
+	info.start = *ii;
+	is_sep(line + (*ii), ii);
+	info.end = *ii;
 	info.type = OPERATOR;
 	info.quote = 0;
 	add_token(tokens, line, info);
-	*ii = i;
-	return (i);
+	return (*ii);
 }
 
 int	add_regular(TOKEN **tokens, char *line, t_info info, int *ii)

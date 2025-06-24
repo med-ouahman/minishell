@@ -22,8 +22,6 @@ void print_t(t_cmd *cmd)
     {
         t_redir *rd = (t_redir *)redirs->content;
         printf("Redirection type: %d, Target: %s", rd->type, rd->target);
-        if (rd->heredoc)
-            printf(", Heredoc: %s", rd->heredoc);
         redirs = redirs->next;
     }
     printf("\n");
@@ -56,12 +54,29 @@ void print_tree(AST *ast)
         return ;
     }
      printf("Node Type: %s\n", ast->node_type == PIPE ? "PIPE" : 
-                                ast->node_type == CMD ? "CMD" : "UNKNOWN");
+                                ast->node_type == CMD ? "CMD" : ast->node_type == OR ? "OR" :
+                                ast->node_type == AND ? "AND" : "UNKNOWN");
     switch (ast->node_type)
     {
         case PIPE:
             bin = (t_ast_binary *)ast->data;
             printf("PIPE:\n");
+            printf("Left:\n");
+            print_tree(bin->left);
+            printf("Right:\n");
+            print_tree(bin->right);
+            break;
+        case OR:
+            bin = (t_ast_binary *)ast->data;
+            printf("OR:\n");
+            printf("Left:\n");
+            print_tree(bin->left);
+            printf("Right:\n");
+            print_tree(bin->right);
+            break;
+        case AND:
+            bin = (t_ast_binary *)ast->data;
+            printf("AND:\n");
             printf("Left:\n");
             print_tree(bin->left);
             printf("Right:\n");
@@ -75,6 +90,7 @@ void print_tree(AST *ast)
                 printf("NULL is comd\n");
             break;
         default:
-            printf("UNKNOWN NODE TYPE\n");
+            printf("Unknown node type: %d\n",  ast->node_type);
+            break;
     }
 }

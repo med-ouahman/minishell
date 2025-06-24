@@ -30,7 +30,8 @@ typedef enum
 
 typedef enum
 {
-	PARSE_ERROR = 12,
+	PIPE_ERROR = 12,
+	REDIR_ERROR
 
 }	t_error;
 
@@ -42,7 +43,6 @@ typedef struct
 {
 	int		type;
 	char	*target;
-	char	*heredoc;
 }	t_redir;
 
 typedef struct
@@ -60,29 +60,30 @@ typedef struct
 	t_list	*redirs;
 }	t_cmd;
 
-typedef	union
-{
-	t_ast_binary	*binary_node;
-	t_cmd			*cmd;
-}	t_ast_node_type;
-
 typedef struct s_ast
 {
 	int 	node_type;
 	void	*data;
 }	t_ast;
 
-AST 	*parser(TOKEN *tokens);
 TOKEN	*peek(TOKEN *tokens);
 void	consume(TOKEN **tokens);
-void print_tree(AST *ast);
-AST *parse_command(TOKEN **tokens);
-
+void 	print_tree(AST *ast);
 t_list	*execution_list(AST *ast);
 void    print_redir(t_redir *redir);
 char	*parse_heredoc(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
 t_list	*get_redirs(TOKEN **tokens);
 int		is_builtin(char *cmd);
+
+
+/* Parsers */
+
+AST 	*parser(TOKEN *tokens);
+AST 	*parse_command(TOKEN **tokens);
+AST		*parse_or_command(TOKEN **tokens);
+AST		*parse_and_command(TOKEN **tokens);
+AST		*parse_pipeline(TOKEN **tokens);
+AST		*parse_atom(TOKEN **tokens);
 
 #endif

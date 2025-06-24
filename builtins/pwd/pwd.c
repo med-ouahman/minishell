@@ -14,5 +14,12 @@
 
 int	pwd(t_cmd *cmd)
 {
-		return (cmd->is_buitlin);
+	char	*cwd;
+
+	(void)cmd;
+	cwd = getcwd(NULL, 0);
+	garbage_collector(cwd, ALLOC);
+	printf("%s\n", cwd);
+	garbage_collector(cwd, FREE);
+	return (0);
 }

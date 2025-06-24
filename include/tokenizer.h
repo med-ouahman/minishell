@@ -17,10 +17,8 @@
 
 typedef enum e_types
 {
-	NONE,
-	WORD,
+	WORD = 1,
 	OPERATOR,
-	WHITESPACE,
 	PIPE,
 	REDIN,
 	REDOUT,
@@ -30,9 +28,8 @@ typedef enum e_types
 	OR,
 	OPENPAR,
 	CLOSEPAR,
-	DOLLAR,
+	ATOM,
 	CMD,
-	ARG,
 }	t_types;
 
 typedef struct	s_token	t_token;

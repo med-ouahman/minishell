@@ -28,7 +28,8 @@ int	is_sep_char(int c)
 		|| '>' == c
 		|| '<' == c
 		|| ')' == c
-		|| '(' == c);
+		|| '(' == c
+		|| '&' == c);
 }
 
 int is_sep(char *line, int *i)

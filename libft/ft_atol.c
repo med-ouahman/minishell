@@ -1,24 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:07:58 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:08:39 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/24 15:47:37 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/24 15:49:49 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "libft.h"
 
-int	exit_(t_cmd *cmd)
+long	ft_atol(char *s)
 {
-	printf("exit\n");
-	if (cmd->args->next)
+	long	result;
+	long	sign;
+	size_t	i;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (ft_isspace(s[i]) && s[i])
+		i++;
+	if (s[i] == '-' || s[i] == '+')
 	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
+		if (s[i] == '-')
+			sign = -1;
+		i++;
 	}
-	return (cmd->is_buitlin);
+	while (ft_isdigit(s[i]) && s[i])
+	{
+		if (result > INT_MAX || (result * sign) < INT_MIN)
+			return (2147483648);
+		result = result * 10 + s[i] - 48;
+		i++;
+	}
+	return (result * sign);
 }

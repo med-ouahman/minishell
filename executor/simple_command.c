@@ -49,7 +49,8 @@ int	simple_command(t_cmd *cmd, int *stdio, char **pvs)
 	char	**args;
 	char	*path;
 
-	// print_redir((t_redir *)cmd->redirs->content);
+	if (cmd->is_buitlin)
+		return (execute_builtin(cmd, stdio));
 	args = build_args(cmd->args);
 	if (!args)
 		return (-1);

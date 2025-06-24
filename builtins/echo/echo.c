@@ -14,5 +14,29 @@
 
 int	echo(t_cmd *cmd)
 {
-		return (cmd->is_buitlin);
+	t_list	*args;
+	int		option;
+
+	args = cmd->args->next;
+	if (!args)
+	{
+		printf("\n");
+		return (0);
+	}
+	option = 0;
+	if (!ft_strcmp(args->content, "-n"))
+	{
+		option = 1;
+		args = args->next;
+	}
+	while (args)
+	{
+		printf("%s", (char *)args->content);
+		if (args->next)
+			printf(" ");
+		args = args->next;
+	}
+	if (!option)
+		printf("\n");
+	return (0);
 }

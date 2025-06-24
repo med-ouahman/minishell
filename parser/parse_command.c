@@ -59,8 +59,6 @@ t_cmd   *build_command(TOKEN **tokens)
 	cmd->redirs = get_redirs(tokens);
 	if (cmd->args)
 		cmd->is_buitlin = is_builtin(cmd->args->content);
-	else
-		return (NULL);
 	return (cmd);
 }
 
@@ -69,7 +67,7 @@ AST *parse_command(TOKEN **tokens)
 	AST     *command;
 	t_cmd   *cmd;
 
-	if (*tokens == NULL || (*tokens)->type != WORD)
+	if (*tokens == NULL)
 		return (NULL);
 	command = malloc(sizeof(*command));
 	garbage_collector(command, ALLOC);

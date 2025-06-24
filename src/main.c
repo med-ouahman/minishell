@@ -35,7 +35,7 @@ int	main(void)
 		free(line);
 		parse_t = parser(tokens);
 		// print_tree(parse_t);
-		continue;
+		// continue;
 		exec_list = execution_list(parse_t);
 		code = executor(exec_list);
 	}
