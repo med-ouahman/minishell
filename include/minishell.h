@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:20:37 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/15 10:06:49 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 10:32:42 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 extern int	sig;
+char **get_line(char **line);
 
 # include <stdio.h>
 # include <readline/readline.h>

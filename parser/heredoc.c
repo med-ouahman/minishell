@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/23 09:27:17 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:22:26 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ char    *create_heredoc_file(int length)
     return (filename);
 }
 
-char    *parse_content(char *input)
+char    *parse_content(char *content)
 {
     t_list  *l;
 
-    l = get_var_list(input, -1);
+    l = get_var_list(content, -1);
     return (expand_var_list(l));
 }
 
@@ -53,7 +53,7 @@ char    *parse_heredoc(t_redir *redir)
     {
         line = readline("> ");
         if (!ft_strcmp(line, redir->target))
-            break ;
+        break ;
         content = parse_content(line);
         free(line);
         write(fd, content, ft_strlen(content));
@@ -61,6 +61,7 @@ char    *parse_heredoc(t_redir *redir)
         write(fd, "\n", 1);
     }
     close(fd);
+    unlink(file);
     return (file);
 }
 

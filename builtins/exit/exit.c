@@ -14,11 +14,5 @@
 
 int	exit_(t_cmd *cmd)
 {
-	printf("exit\n");
-	if (cmd->args->next)
-	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
 	return (cmd->is_buitlin);
 }

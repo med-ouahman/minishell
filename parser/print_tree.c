@@ -17,11 +17,11 @@
 void print_t(t_cmd *cmd)
 {
     t_list *redirs = cmd->redirs;
-    printf("Redirections:\n");
+    printf("Redirections:");
     while (redirs)
     {
         t_redir *rd = (t_redir *)redirs->content;
-        printf("Redirection type: %d, Target: %s", rd->type, rd->target);
+        printf("\nRedirection type: %s, Target: %s\n", get_token_type(rd->type), rd->target);
         redirs = redirs->next;
     }
     printf("\n");
@@ -30,6 +30,8 @@ void print_cmd(t_cmd *cmd)
 {
     t_list *args = cmd->args;
     
+    if (!args)
+        return ;
     printf("command name: %s\n", (char *)args->content);
     args = args->next;
     printf("Arguments: [");
@@ -55,7 +57,7 @@ void print_tree(AST *ast)
     }
      printf("Node Type: %s\n", ast->node_type == PIPE ? "PIPE" : 
                                 ast->node_type == CMD ? "CMD" : ast->node_type == OR ? "OR" :
-                                ast->node_type == AND ? "AND" : "UNKNOWN");
+                                ast->node_type == AND ? "AND" : ast->node_type == ATOM ? "ATOM" : "UNKNOWN");
     switch (ast->node_type)
     {
         case PIPE:
@@ -87,7 +89,11 @@ void print_tree(AST *ast)
             if (cmd)
                 print_cmd((t_cmd *)ast->data);
             else
-                printf("NULL is comd\n");
+                printf("NULL is cmd\n");
+            break;
+        case ATOM:
+            printf("ATOM:\n");
+            print_tree((AST *)ast->data);
             break;
         default:
             printf("Unknown node type: %d\n",  ast->node_type);

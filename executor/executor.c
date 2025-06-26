@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:37 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/20 15:36:55 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:38:04 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
-
-
 
 int executor(t_list *exec_list)
 {

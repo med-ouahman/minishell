@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:52:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/18 11:53:18 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:50:55 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef enum e_types
 	CLOSEPAR,
 	ATOM,
 	CMD,
+	WILDCARD,
 }	t_types;
 
 typedef struct	s_token	t_token;

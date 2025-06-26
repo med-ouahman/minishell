@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-long	ft_atol(char *s)
+long long	ft_atol(char *s)
 {
 	long	result;
 	long	sign;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_or_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:10:40 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/24 12:11:35 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:35:14 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,25 @@ AST *parse_or_command(TOKEN **tokens)
 	AST	  *left;
 	AST	  *right;
 
+	if (!peek(*tokens) || error(0, READ))
+		return (NULL);
 	left = parse_and_command(tokens);
+	if (!left)
+		return (NULL);
 	token = peek(*tokens);
 	while (token && token->type == OR)
 	{
 		consume(tokens);
 		right = parse_and_command(tokens);
+		if (error(0, READ))
+			return (NULL);
+		if (!right)
+		{
+			token = peek(*tokens);
+			syntax_error(OR, token);
+			error(1, WRITE);
+			return (NULL);
+		}
 		left = build_or_command(left, right);
 		token = peek(*tokens);
 	}

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_tree.c                                       :+:      :+:    :+:   */
+/*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:58:39 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/23 17:03:54 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:59:12 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 char *get_token_type(int type)
 {
-	if (type == WORD)
-		return ("WORD");
+	if (type == WORD || type == CMD)
+		return ("CMD");
 	if (type == PIPE)
 		return ("PIPE");
 	if (type == REDIN)
@@ -35,6 +35,8 @@ char *get_token_type(int type)
 		return ("OPENPAR");
 	if (type == CLOSEPAR)
 		return ("CLOSEPAR");
+	if (type == ATOM)
+		return ("ATOM");
 	return ("UNKNOWN");
 }
 void	print_token_list(TOKEN *list)

@@ -6,7 +6,7 @@
 
 <simple_command>::= <word>+
 
-<redirection>   ::= ( ">" | ">>" | "<" | "<<" | "2>" | "2>>" ) <word>
+<redirection>   ::= ( ">" | ">>" | "<" | "<<" ) <word>
 
 <word>          ::= unquoted_word
                  | '"' <double_quoted_text>? '"'

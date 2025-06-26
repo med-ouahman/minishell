@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/15 10:21:24 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 20:23:56 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/tokenizer.h"
+
+int	add_regular(TOKEN **tokens, char *line, t_info info, int *ii);
 
 void	add_node(TOKEN **list, TOKEN *node)
 {
@@ -49,6 +51,8 @@ int	token_type(char *s, int type)
 		return (OPENPAR);
 	if (!ft_strcmp(s, ")"))
 		return (CLOSEPAR);
+	if (!ft_strcmp(s, "*"))
+		return (WILDCARD);
 	return (-1);
 }
 
@@ -83,7 +87,7 @@ int		add_quoted_token(TOKEN **tokens, char *line, t_info info, int *ii)
 	while (line[i] != info.quote && line[i])
 		i++;
 	if (!line[i])
-		return (panic("Error: unclosed quote\n", 1), -1);
+		return (panic("minishell: parse error: unclosed quote\n", -1));
 	info.end = i;
 	info.type = WORD;
 	add_token(tokens, line, info);
@@ -97,7 +101,16 @@ int	add_operator(TOKEN **tokens, char *line, t_info info, int *ii)
 {
 	
 	info.start = *ii;
-	is_sep(line + (*ii), ii);
+	if (0 == is_sep(line + (*ii), ii))
+	{
+		info.type = WORD;
+		info.start = (*ii)++;
+		while (!is_sep_char(line[*ii]) && !is_space(line[*ii]) && !is_quote(line[*ii]) && line[*ii])
+			(*ii)++;
+		info.end = *ii;
+		add_token(tokens, line, info);
+		return (0);
+	}
 	info.end = *ii;
 	info.type = OPERATOR;
 	info.quote = 0;
@@ -140,13 +153,9 @@ TOKEN	*tokenizer(char *line)
 				return (NULL);
 		}
 		else if (is_sep_char(line[i]))
-		{
 			add_operator(&tokens, line, info, &i);
-		}
 		else
-		{
 			add_regular(&tokens, line, info, &i);
-		}
 	}
 	join_tokens(&tokens);
 	return (tokens);

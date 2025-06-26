@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:53:12 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/20 15:55:29 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 10:35:02 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int	sig;
 
-void	exit(int status);
-
 void	signal_handler(int signum)
 {
 	if (SIGINT == signum)
 	{
-		exit(0);
+		rl_replace_line("", 1);
 		rl_on_new_line();
+		rl_redisplay();
+		// exit(0);
 	}
 	if (SIGSTOP == sig)
 	{

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector.h                                :+:      :+:    :+:   */
+/*   last_exit_code.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 16:18:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 12:25:18 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/26 11:31:51 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/26 11:35:30 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GARBAGE_COLLECTOR_H
-# define GARBAGE_COLLECTOR_H
+#include "../include/parser.h"
 
-# include "./utils.h"
+int	last_exit_code(int new_value, int mode)
+{
+	static int	old_value;
 
-# define ALLOC 1
-# define FREE 2
-# define FREE_U 3
-
-void	garbage_collector(void *ptr, int option);
-void	*my_alloc(size_t size);
-
-#endif
+	if (WRITE == mode)
+	{
+		old_value = new_value;
+		return (old_value);
+	}
+	return (old_value);
+}

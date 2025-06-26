@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/23 09:28:07 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:34:48 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "./utils.h"
 # include "./tokenizer.h"
+
+# define READ 0
+# define WRITE 1
 
 typedef enum
 {
@@ -32,7 +35,6 @@ typedef enum
 {
 	PIPE_ERROR = 12,
 	REDIR_ERROR
-
 }	t_error;
 
 typedef struct s_ast t_ast;
@@ -75,6 +77,9 @@ char	*parse_heredoc(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
 t_list	*get_redirs(TOKEN **tokens);
 int		is_builtin(char *cmd);
+int		last_exit_code(int new_value, int mode);
+int		syntax_error(int claimer, TOKEN *token);
+int is_redirection(int t);
 
 
 /* Parsers */
@@ -85,5 +90,6 @@ AST		*parse_or_command(TOKEN **tokens);
 AST		*parse_and_command(TOKEN **tokens);
 AST		*parse_pipeline(TOKEN **tokens);
 AST		*parse_atom(TOKEN **tokens);
+int		error(int c, int mode);
 
 #endif

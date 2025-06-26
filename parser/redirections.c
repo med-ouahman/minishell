@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/23 09:29:22 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 19:58:15 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ t_redir  *create_redir_node(TOKEN *token)
     char    **split;
 
     split = NULL;
-    if (NULL == token->next || token->next->type != WORD || token->type == -1)
+    if (NULL == token->next || token->next->type != WORD)
     {
-        printf("error\n");
+        error(1, WRITE);
+        syntax_error(token->type, token->next);
         return (NULL);
-        // erreur de syntax, Unexpected token near newline or >> or << or > or <;f (!curr)
     }
     redir = malloc(sizeof(*redir));
     garbage_collector(redir, ALLOC);
@@ -41,7 +41,7 @@ t_redir  *create_redir_node(TOKEN *token)
         garbage_collector(split, ALLOC);
         if (!*split || *(split + 1))
         {
-            printf("nunu\n");
+            printf("minishell: ambiguous redirect: \n");
             // ambiguous redirect;
         }
         redir->target = *split;
@@ -56,7 +56,6 @@ int is_redirection(int t)
     return (t == REDIN || t == REDOUT || t == HEREDOC || t == REDOUTAPP);
 }
 
-
 t_list  *get_redirs(TOKEN **tokens)
 {
     t_redir *redir;
@@ -66,13 +65,8 @@ t_list  *get_redirs(TOKEN **tokens)
 
     redirs = NULL;
     curr = peek(*tokens);
-    if (!curr)
+    if (!curr || !is_redirection(curr->type) || error(0, READ))
         return (NULL);
-    if (!is_redirection(curr->type))
-    {
-        errno = PIPE_ERROR;
-        return (NULL);
-    }
     while (curr && is_redirection(curr->type))
     {
         redir = create_redir_node(curr);

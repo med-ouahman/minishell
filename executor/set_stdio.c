@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   set_stdio.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:48:34 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/20 20:49:15 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:26:49 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
-
-
 
 int	set_stdio(t_cmd *cmd, int *stdio)
 {

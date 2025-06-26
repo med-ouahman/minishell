@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_and_command.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:11:47 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/24 12:12:33 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:35:28 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,24 @@ AST *parse_and_command(TOKEN **tokens)
 	AST	  *left;
 	AST	  *right;
 
+	if (!peek(*tokens) || error(0, READ))
+		return (NULL);
 	left = parse_pipeline(tokens);
+	if (!left)
+		return (NULL);
 	token = peek(*tokens);
 	while (token && token->type == AND)
 	{
 		consume(tokens);
 		right = parse_pipeline(tokens);
+		if (error(0, READ))
+			return (NULL);
+		if (!right)
+		{
+			token = peek(*tokens);
+			syntax_error(AND, token);
+			return (NULL);
+		}
 		left = build_and_command(left, right);
 		token = peek(*tokens);
 	}
