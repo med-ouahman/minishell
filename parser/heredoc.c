@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 11:22:26 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/26 21:07:16 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,14 @@ char    *parse_heredoc(t_redir *redir)
     char    *content;
     int     fd;
 
+    return (".heredoc");
     file = create_heredoc_file(10);
     fd = open(file, O_CREAT | O_WRONLY, 0644);
     while (1)
     {
         line = readline("> ");
         if (!ft_strcmp(line, redir->target))
-        break ;
+            break ;
         content = parse_content(line);
         free(line);
         write(fd, content, ft_strlen(content));
