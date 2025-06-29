@@ -6,46 +6,41 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:37 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 11:38:04 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:11:10 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
 
-int executor(t_list *exec_list)
+int executor(AST *parse_t)
 {
+	int	stdio[2];
 	char	**pvs;
-	t_list	*curr;
-	t_cmd	*cmd;
-	int		**pipes;
-	int		stdio[2];
-	pid_t	*pids;
-	int		i;
-	int		lsize;
-	
-	pvs = split_path(__environ);
-	curr = exec_list;
-	lsize = ft_lstsize(exec_list);
-	pipes = create_pipes(lsize - 1);
-	pids = malloc(lsize * sizeof(pid_t));
-	garbage_collector(pids, ALLOC);
-	i = 0;
-	while (curr)
+	t_list	*pipeline;
+	t_ast_binary	*bin;
+
+	pvs = split_path();
+	if (parse_t->node_type == CMD)
 	{
-		cmd = (t_cmd *)curr->content;
-		set_stdio(cmd, stdio);
-		if (STDIN_FILENO == stdio[0] && curr > exec_list)
-		{
-			stdio[0] = pipes[i - 1][0];
-		}
-		if (STDOUT_FILENO == stdio[1] && curr->next)
-		{
-			stdio[1] = pipes[i][1];
-		}
-		pids[i] = simple_command(cmd, stdio, pvs);
-		curr = curr->next;
-		i++;
+		waitpid(simple_command((t_cmd *)parse_t->data, stdio, pvs), NULL, 0);
+		return (0);
 	}
-	close_pipes(pipes);
-	return (wait_children(pids, lsize));
+	if (parse_t->node_type == PIPE)
+	{
+		pipeline = create_pipeline(parse_t);
+		execute_pipeline(pipeline, pvs);
+	}
+	if (parse_t->node_type == OR)
+	{
+		bin = (t_ast_binary *)parse_t;
+		if (executor(bin->left))
+			return (executor(bin->right));
+	}
+	if (parse_t->node_type == AND)
+	{
+		bin = (t_ast_binary *)parse_t;
+		if (!executor(bin->left))
+			return (executor(bin->right));
+	}
+	return (0);
 }

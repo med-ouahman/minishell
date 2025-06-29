@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:08:45 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 12:47:37 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:26:19 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static AST *build_pipeline(AST *left, AST *right)
 	AST	 			*pipe_node;
 	t_ast_binary	*pip;
 
-	pipe_node = malloc(sizeof(*pipe_node));
+	pipe_node = malloc(sizeof *pipe_node);
 	if (!pipe_node)
 		return (NULL);
 	pipe_node->node_type = PIPE;

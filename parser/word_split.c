@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:54:43 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/02 15:55:17 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:27:44 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static TOKEN	*create_node(char *s)
 {
 	TOKEN	*node;
 
-	node = malloc(sizeof(*node));
+	node = malloc(sizeof *node);
 	if (NULL == node)
 		return (NULL);
-	node->token = malloc(sizeof(*node->token));
+	node->token = malloc(sizeof *node->token);
 	if (NULL == node->token)
 		return (NULL);
 	node->token = s;

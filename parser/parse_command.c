@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 20:59:32 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:27:20 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmd   *build_command(TOKEN **tokens)
 	t_cmd   *cmd;
 	TOKEN	*token;
 
-	cmd = malloc(sizeof(*cmd));
+	cmd = malloc(sizeof *cmd);
 	if (!cmd)
 		return (NULL);
 	cmd->args = get_args(tokens);
@@ -85,7 +85,7 @@ AST *parse_command(TOKEN **tokens)
 		syntax_error(CMD, token);
 		return (NULL);
 	}
-	command = malloc(sizeof(*command));
+	command = malloc(sizeof *command);
 	garbage_collector(command, ALLOC);
 	if (!command)
 	   return (NUlL);

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:11:47 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 12:35:28 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:26:08 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static AST *build_and_command(AST *left, AST *right)
 	AST				*and_node;
 	t_ast_binary	*and;
 
-	and = malloc(sizeof(*and));
+	and = malloc(sizeof *and);
 	garbage_collector(and, ALLOC);
 	and->left = left;
 	and->right = right;
-	and_node = malloc(sizeof(*and_node));
+	and_node = malloc(sizeof *and_node);
 	garbage_collector(and_node, ALLOC);
 	and_node->data = and;
 	and_node->node_type = AND;

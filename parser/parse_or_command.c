@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:10:40 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 12:35:14 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:18:38 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static AST *build_or_command(AST *left, AST *right)
 	AST				*or_node;
 	t_ast_binary	*or;
 
-	or = malloc(sizeof(*or));
+	or = malloc(sizeof *or);
 	garbage_collector(or, ALLOC);
 	or->left = left;
 	or->right = right;
-	or_node = malloc(sizeof(*or_node));
+	or_node = malloc(sizeof *or_node);
 	garbage_collector(or_node, ALLOC);
 	or_node->data = or;
 	or_node->node_type = OR;

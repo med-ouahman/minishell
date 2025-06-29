@@ -3,26 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 09:59:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/22 10:04:04 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:54:42 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
 
-static t_stdio	preserve_stdio(int *stdio)
+static int	preserve_stdio(int *old_stdio, int *stdio)
 {
-	t_stdio	old_stdio;
-
-	old_stdio.in = STDIN_FILENO;
-	old_stdio.out = STDOUT_FILENO;
+	old_stdio[0] = STDIN_FILENO;
+	old_stdio[1] = STDOUT_FILENO;
 	if (STDIN_FILENO != stdio[0])
-		old_stdio.in = dup(STDIN_FILENO);
+		old_stdio[0] = dup(STDIN_FILENO);
 	if (STDOUT_FILENO != stdio[1])
-		old_stdio.out = dup(STDOUT_FILENO);
-	return (old_stdio);
+		old_stdio[1] = dup(STDOUT_FILENO);
+	return (0);
 }
 
 int	dup_stdio(int *stdio)
@@ -40,26 +38,26 @@ int	dup_stdio(int *stdio)
 	return (0);
 }
 
-int	restore_stdio(t_stdio old)
+int	restore_stdio(int *old)
 {
-	if (old.in != STDIN_FILENO)
+	if (old[0] != STDIN_FILENO)
 	{
-		dup2(old.in, STDIN_FILENO);
-		close(old.in);
+		dup2(old[0], STDIN_FILENO);
+		close(old[0]);
 	}
-	if (old.out != STDOUT_FILENO)
+	if (old[1] != STDOUT_FILENO)
 	{
-		dup2(old.out, STDOUT_FILENO);
-		close(old.out);
+		dup2(old[1], STDOUT_FILENO);
+		close(old[1]);
 	}
 	return (0);
 }
 
 int	execute_builtin(t_cmd *cmd, int *stdio)
 {
-	t_stdio	old;
+	int	old[2];
 
-	old = preserve_stdio(stdio);
+	preserve_stdio(old, stdio);
 	dup_stdio(stdio);
 	if (CD == cmd->is_buitlin)
 		cd(cmd);
@@ -75,5 +73,6 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 		unset(cmd);
 	else if (ENV == cmd->is_buitlin)
 		env(cmd);
+	restore_stdio(old);
 	return (0);
 }

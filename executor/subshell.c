@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.h                                            :+:      :+:    :+:   */
+/*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 18:46:41 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:47:18 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/27 01:20:10 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/27 01:27:42 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UNSET_H
-# define UNSET_H
+#include "../include/executor.h"
 
-# include <unistd.h>
-# include "./utils.h"
-
-#endif
+int	subshell(AST *atom)
+{
+    if (SUBSHELL != atom->node_type)
+        return (0);
+    return (1);
+}

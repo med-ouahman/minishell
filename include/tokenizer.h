@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:52:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 11:50:55 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:29:27 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef enum e_types
 	OR,
 	OPENPAR,
 	CLOSEPAR,
+	SUBSHELL,
 	ATOM,
 	CMD,
 	WILDCARD,
@@ -42,12 +43,12 @@ typedef struct s_token
 	char	*line;
 	char	*token;
 	int		split;
-	TOKEN	*join_with;
 	int		type;
 	int		quote;
 	int		start;
 	int		end;
 	int		p_quote;
+	TOKEN	*join_with;
 	TOKEN	*next;
 }	TOKEN;
 

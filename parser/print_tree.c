@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:28:47 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/19 19:28:49 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/28 10:05:01 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 void print_t(t_cmd *cmd)
 {
     t_list *redirs = cmd->redirs;
-    printf("Redirections:");
+    printf("Redirections: [");
     while (redirs)
     {
         t_redir *rd = (t_redir *)redirs->content;
-        printf("\nRedirection type: %s, Target: %s\n", get_token_type(rd->type), rd->target);
+        printf("{ type: %s, target: %s }%s", get_token_type(rd->type), rd->target, redirs->next ? ",\n":"");
         redirs = redirs->next;
     }
-    printf("\n");
+    printf("]\n");
 }
 void print_cmd(t_cmd *cmd)
 {
@@ -62,7 +62,6 @@ void print_tree(AST *ast)
     {
         case PIPE:
             bin = (t_ast_binary *)ast->data;
-            printf("PIPE:\n");
             printf("Left:\n");
             print_tree(bin->left);
             printf("Right:\n");
@@ -70,7 +69,6 @@ void print_tree(AST *ast)
             break;
         case OR:
             bin = (t_ast_binary *)ast->data;
-            printf("OR:\n");
             printf("Left:\n");
             print_tree(bin->left);
             printf("Right:\n");
@@ -78,7 +76,6 @@ void print_tree(AST *ast)
             break;
         case AND:
             bin = (t_ast_binary *)ast->data;
-            printf("AND:\n");
             printf("Left:\n");
             print_tree(bin->left);
             printf("Right:\n");
@@ -92,7 +89,6 @@ void print_tree(AST *ast)
                 printf("NULL is cmd\n");
             break;
         case ATOM:
-            printf("ATOM:\n");
             print_tree((AST *)ast->data);
             break;
         default:

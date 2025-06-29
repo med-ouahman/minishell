@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 20:23:56 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 10:56:56 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@ int	token_type(char *s, int type)
 int	add_token(TOKEN **list, char *line, t_info info)
 {
 	TOKEN	*token;
-
-	if (info.end == info.start)
+	
+	if (info.start == info.end)
 		return (0);
-	token = malloc(sizeof(*token));
+	token = malloc(sizeof *token);
 	if (NULL == token)
 		return (-1);
 	token->type = info.type;

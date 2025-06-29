@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:40:55 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 21:04:58 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:00:37 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	syntax_error(int claimer, TOKEN *token)
 		s = "newline";
 	else
 		s = token->token;
-	printf("claimer: %s\nminishell: syntax error near unexpected token: `%s'\n",
+	printf("error: claimer: %s\nminishell: syntax error near unexpected token `%s'\n",
 		get_token_type(claimer), s);
 	return (0);
 }

@@ -3,34 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   execution_list.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:32:31 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/23 09:32:58 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 11:12:10 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-t_list  *execution_list(AST *ast)
+t_list  *create_pipeline(AST *ast)
 {
-    t_list  *exec_list;
+    t_list  *pipeline;
     t_list  *node;
+    t_ast_binary    *bin;
 
-    exec_list = NULL;
+    pipeline = NULL;
     if (!ast)
-        return (exec_list);
+        return (pipeline);
     if (ast->node_type == PIPE)
     {
-        t_ast_binary *pipe_data = (t_ast_binary *)ast->data;
-        ft_lstadd_back(&exec_list, execution_list(pipe_data->left));
-        ft_lstadd_back(&exec_list, execution_list(pipe_data->right));
+        bin = (t_ast_binary *)ast->data;
+        ft_lstadd_back(&pipeline, create_pipeline(bin->left));
+        ft_lstadd_back(&pipeline, create_pipeline(bin->right));
     }
     else if (ast->node_type == CMD)
     {
         node = ft_lstnew(ast->data);
-        ft_lstadd_back(&exec_list, node);
+        ft_lstadd_back(&pipeline, node);
     }
-    return (exec_list);
+    return (pipeline);
 }
 

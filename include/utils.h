@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:05:01 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 11:50:32 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/27 21:09:48 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <signal.h>
+# include <sys/wait.h>
 
 typedef enum
 {

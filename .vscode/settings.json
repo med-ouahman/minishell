@@ -25,6 +25,7 @@
         "executor.h": "c",
         "cd.h": "c",
         "errno.h": "c",
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "signal.h": "c"
     }
 }

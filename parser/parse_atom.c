@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:09:48 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 20:52:05 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/27 01:17:53 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static AST	*build_atom(AST *atom)
 {
 	AST	*atom_node;
 
-	atom_node = malloc(sizeof(*atom_node));
+	atom_node = malloc(sizeof *atom_node);
 	garbage_collector(atom_node, ALLOC);
 	atom_node->node_type = ATOM;
 	atom_node->data = atom;
