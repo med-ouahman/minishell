@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:52:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/28 10:29:27 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:15:38 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ int		is_quote(int c);
 int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
-int 	expand(TOKEN *token, int code);
-t_list	*get_var_list(char *str, int code);
+int 	expand(TOKEN *token);
+t_list	*get_var_list(char *str);
 char	*expand_var_list(t_list *var_list);
 int		is_starting(int c);
 int		is_subsequent(int c);
@@ -78,5 +78,5 @@ int		join_tokens(TOKEN **tokens);
 
 char	**word_split(TOKEN *tokens, char *charset);
 TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node);
-
+int	access_exit_code(int new_val, int mode);
 #endif

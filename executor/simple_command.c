@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 11:01:10 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:29:04 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ int	simple_command(t_cmd *cmd, int *stdio, char **pvs)
 	char	**args;
 	char	*path;
 
-	if (cmd->is_buitlin)
-		return (execute_builtin(cmd, stdio));
 	args = build_args(cmd->args);
 	if (!args)
 		return (-1);

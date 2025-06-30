@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:05:01 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 21:09:48 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:14:42 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <errno.h>
 # include <signal.h>
 # include <sys/wait.h>
+
+# define READ 0
+# define WRITE 1
 
 typedef enum
 {

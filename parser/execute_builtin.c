@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 09:59:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 13:54:42 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:51:51 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	preserve_stdio(old, stdio);
 	dup_stdio(stdio);
 	if (CD == cmd->is_buitlin)
-		cd(cmd);
-	else if (PWD == cmd->is_buitlin)
-		pwd(cmd);
-	else if (EXIT == cmd->is_buitlin)
-		exit_(cmd);
-	else if (ECHO == cmd->is_buitlin)
-		echo(cmd);
-	else if (EXPORT == cmd->is_buitlin)
-		export(cmd);
-	else if (UNSET == cmd->is_buitlin)
-		unset(cmd);
-	else if (ENV == cmd->is_buitlin)
-		env(cmd);
+		return (cd(cmd));
+	if (PWD == cmd->is_buitlin)
+		return (pwd(cmd));
+	if (EXIT == cmd->is_buitlin)
+		return (exit_(cmd));
+	if (ECHO == cmd->is_buitlin)
+		return (echo(cmd));
+	if (EXPORT == cmd->is_buitlin)
+		return (export(cmd));
+	if (UNSET == cmd->is_buitlin)
+		return (unset(cmd));
+	if (ENV == cmd->is_buitlin)
+		return (env(cmd));
 	restore_stdio(old);
 	return (0);
 }

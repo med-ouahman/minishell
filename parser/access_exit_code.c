@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commands.h                                         :+:      :+:    :+:   */
+/*   access_exit_code.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 11:14:21 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/22 11:14:58 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/29 13:10:34 by mouahman          #+#    #+#             */
+/*   Updated: 2025/06/29 14:54:24 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMANDS_H
-# define COMMANDS_H
+#include "../include/parser.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# 
+int	access_exit_code(int new_val, int mode)
+{
+	static int	exit_code;
 
-int	command(char *command, char *args[], int *stdio, char *envp[]);
-
-#endif
+	if (mode == READ)
+		return (exit_code);
+	if (mode == WRITE)
+		exit_code = new_val;
+	return (exit_code);
+}

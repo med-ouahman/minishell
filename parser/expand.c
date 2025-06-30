@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:50:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/27 13:51:06 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:15:24 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	add_exit_code(t_list **var_list, int code)
 	last->next = node;
 }
 
-t_list	*get_var_list(char *str, int code)
+t_list	*get_var_list(char *str)
 {
 	t_list	*var_list;
 	int		i;
@@ -149,7 +149,7 @@ t_list	*get_var_list(char *str, int code)
 				i++;
 			else if ('?' == str[i])
 			{
-				add_exit_code(&var_list, code);
+				add_exit_code(&var_list, access_exit_code(0, READ));
 				i++;
 			}
 			else
@@ -168,7 +168,7 @@ t_list	*get_var_list(char *str, int code)
 	return (var_list);
 }
 
-int expand(TOKEN *token, int code)
+int expand(TOKEN *token)
 {
 	char	*tmp;
 	t_list	*var_list;
@@ -182,7 +182,7 @@ int expand(TOKEN *token, int code)
 		token->split = 0;
 	else
 		token->split = is_splittable(token->token);
-	var_list = get_var_list(token->token, code);
+	var_list = get_var_list(token->token);
 	tmp = token->token;
 	token->token = expand_var_list(var_list);
 	if (token->split)

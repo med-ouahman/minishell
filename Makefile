@@ -48,7 +48,6 @@ BUILTINS_SRC += $(wildcard $(UNSET)/*.c)
 # Compile all source files into object files
 
 SRCS_OBJS = $(SRCS_SRC:.c=.o)
-
 BUILTINS_OBJS = $(BUILTINS_SRC:.c=.o)
 EXECUTOR_OBJS = $(EXECUTOR_SRC:.c=.o)
 SIGNALS_OBJS = $(SIGNALS_SRC:.c=.o)

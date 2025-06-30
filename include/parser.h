@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 10:13:09 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:14:34 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 # include "./utils.h"
 # include "./tokenizer.h"
 
-# define READ 0
-# define WRITE 1
+
 
 typedef enum
 {
@@ -80,6 +79,7 @@ int		is_builtin(char *cmd);
 int		last_exit_code(int new_value, int mode);
 int		syntax_error(int claimer, TOKEN *token);
 int is_redirection(int t);
+
 
 
 /* Parsers */

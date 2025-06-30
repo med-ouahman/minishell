@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 10:56:56 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:58:52 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	add_token(TOKEN **list, char *line, t_info info)
 {
 	TOKEN	*token;
 	
-	if (info.start == info.end)
-		return (0);
+	// if (info.start == info.end)
+	// 	return (0);
 	token = malloc(sizeof *token);
 	if (NULL == token)
 		return (-1);
@@ -151,6 +151,12 @@ TOKEN	*tokenizer(char *line)
 		{
 			if (-1 == add_quoted_token(&tokens, line, info, &i))
 				return (NULL);
+		}
+		else if (ft_isspace(line[i]))
+		{
+			i++;
+			while (ft_isspace(line[i]))
+				i++;
 		}
 		else if (is_sep_char(line[i]))
 			add_operator(&tokens, line, info, &i);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_list.c                                   :+:      :+:    :+:   */
+/*   create_pipeline.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:32:31 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 11:12:10 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/30 13:34:06 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_list  *create_pipeline(AST *ast)
     }
     else if (ast->node_type == CMD)
     {
-        node = ft_lstnew(ast->data);
+        node = ft_lstnew(ast);
         ft_lstadd_back(&pipeline, node);
     }
     return (pipeline);

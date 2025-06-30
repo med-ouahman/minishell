@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 21:19:58 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:48:54 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char    *parse_content(char *content)
 {
 	t_list  *l;
 
-	l = get_var_list(content, -1);
+	l = get_var_list(content);
 	content = expand_var_list(l);
 	return (content);
 }
@@ -77,9 +77,9 @@ char    *parse_heredoc(t_redir *redir)
 			write(fd, "\n", 1);
 		}
 		close(fd);
+		exit(0);
 	}
 	waitpid(pid, NULL, 0);
-	free(file);
 	return (file);
 }
 

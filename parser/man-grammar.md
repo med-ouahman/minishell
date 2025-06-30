@@ -12,4 +12,8 @@
                  | '"' <double_quoted_text>? '"'
                  | "'" <single_quoted_text>? "'"
                  | "$" <variable_name>
-                 | <escaped_character>
+                
+
+
+command simple cat ....
+

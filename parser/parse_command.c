@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/28 10:27:20 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 13:16:06 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_list  *get_args(TOKEN **tokens)
 	split = NULL;
 	while (curr && curr->type == WORD)
 	{
-		expand(curr, 0);
+		expand(curr);
 		if (curr->split)
 		{
 			split = word_split(curr, " \t\n\v\r\f");

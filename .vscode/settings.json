@@ -26,6 +26,11 @@
         "cd.h": "c",
         "errno.h": "c",
         "stdio.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "features.h": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "span": "c"
     }
 }

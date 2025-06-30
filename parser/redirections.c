@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 19:58:15 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 20:44:28 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_redir  *create_redir_node(TOKEN *token)
         return (redir);
     }
     token = token->next;
-    expand(token, 0);
+    expand(token);
     if (token->split)
     {
         split = word_split(token, " \n\t\f\v\r");

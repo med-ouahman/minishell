@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 14:03:11 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/06/29 14:33:37 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*get_cmdpath(int i, char **pvs, char *cmd)
 	if (i == -1)
 		return (ft_strdup(cmd));
 	size = ft_strlen(pvs[i]) + ft_strlen(cmd) + 2;
-	cmdpath = malloc(size * sizeof(char));
+	cmdpath = malloc(size * sizeof *cmdpath);
 	if (!cmdpath)
 		return (NULL);
 	cmdpath[0] = '\0';
@@ -32,27 +32,28 @@ static char	*get_cmdpath(int i, char **pvs, char *cmd)
 
 int	check_access(char **path, char **pvs, char *cmd)
 {
-	char    *cmdpath;
 	int		i;
 
 	i = -1;
 	while (i == -1 || pvs[i])
 	{
-		cmdpath = get_cmdpath(i, pvs, cmd);
-		if (!cmdpath)
-			return (-2);
-		if (!access(cmdpath, F_OK))
+		*path = get_cmdpath(i, pvs, cmd);
+		if (!*path)
+			return (access_exit_code(1, WRITE));
+		if (!access(*path, F_OK))
 		{
-			if (!access(cmdpath, X_OK))
+			if (!access(*path, X_OK))
 			{
-				*path = cmdpath;
+				*path = *path;
 				return (0);
 			}
+			return (errno);
 		}
-		free(cmdpath);
+		free(*path);
+		*path = NULL;
 		i++;
 	}
-	return (-1);
+	return (errno);
 }
 
 char	*command_path(char **pvs, char *cmd)
@@ -62,10 +63,17 @@ char	*command_path(char **pvs, char *cmd)
 
 	path = NULL;
 	c = check_access(&path, pvs, cmd);
-	if (-1 == c)
+	if (ENOENT == c)
 	{
-		printf("minishell: %s command not found\n", cmd);
+		access_exit_code(127, WRITE);
+		printf("minishell: %s: command not found\n", cmd);
 		return (NuLL);
+	}
+	else if (EACCES == c)
+	{
+		access_exit_code(126, WRITE);
+		printf("minishell: %s: Permission denied\n", path);
+		return (NULL);
 	}
 	return (path);
 }
