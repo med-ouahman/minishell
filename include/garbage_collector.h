@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:18:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 12:25:18 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:08:30 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,13 @@
 
 # include "./utils.h"
 
-# define ALLOC 1
-# define FREE 2
-# define FREE_U 3
+typedef enum
+{
+    COLLECT,
+    CHECK,
+    FREE,
+    DESTROY
+}   t_gbc_options;
 
 void	garbage_collector(void *ptr, int option);
 void	*my_alloc(size_t size);

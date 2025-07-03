@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:29:04 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:10:09 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**build_args(t_list *arg_list)
 	if (!arg_list)
 		return (NULL);
 	args = malloc((ft_lstsize(arg_list) + 1) * sizeof(char *));
-	garbage_collector(args, ALLOC);
+	garbage_collector(args, COLLECT);
 	i = 0;
 	while (arg_list)
 	{
@@ -32,27 +32,18 @@ char	**build_args(t_list *arg_list)
 	return (args);
 }
 
-int	close_stdio(int stdio[])
-{
-	if (stdio[0] != STDIN_FILENO) {
-		close(stdio[0]);
-	}
-	if (stdio[1] != STDOUT_FILENO) {
-		close(stdio[1]);
-	}
-	return (0);
-}
 
-int	simple_command(t_cmd *cmd, int *stdio, char **pvs)
+
+int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
-	int		pid;
 	char	**args;
 	char	*path;
+	pid_t	pid;
 
 	args = build_args(cmd->args);
 	if (!args)
 		return (-1);
-	path = command_path(pvs, (char *)cmd->args->content);
+	path = command_path(exec_cb->paths, (char *)cmd->args->content);
 	if (!path)
 		return (-1);
 	pid = fork();
@@ -60,19 +51,13 @@ int	simple_command(t_cmd *cmd, int *stdio, char **pvs)
 		return (-1);
 	if (0 == pid)
 	{
-		if (STDIN_FILENO != stdio[0])
-		{
-			dup2(stdio[0], STDIN_FILENO);
-			close(stdio[0]);
-		}
-		if (STDOUT_FILENO != stdio[1])
-		{
-			dup2(stdio[1], STDOUT_FILENO);
-			close(stdio[1]);
-		}
+		signal(SIGINT, SIG_DFL);
+		dup_stdio(exec_cb->stdio);
 		execve(path, args, __environ);
-		exit(1);
+		exit(EXIT_FAILURE);
 	}
-	close_stdio(stdio);
-	return (pid);
+	exec_cb->pids[exec_cb->curr_pid] = pid;
+	exec_cb->curr_pid++;
+	close_stdio(exec_cb->stdio);
+	return (0);
 }

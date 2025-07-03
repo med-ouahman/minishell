@@ -6,26 +6,35 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:09:48 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 01:17:53 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:00:32 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static AST	*build_atom(AST *atom)
-{
-	AST	*atom_node;
+void *print_atom(AST *atom);
+void print_redirs(t_list *redirs);
 
+static AST	*build_atom(AST *atom, t_list *redirs)
+{
+	t_subshell	*subshell_node;
+	AST			*atom_node;
+
+	subshell_node = malloc(sizeof *subshell_node);
+	garbage_collector(subshell_node, COLLECT);
+	subshell_node->ast_node = atom;
+	subshell_node->redirs = redirs;
 	atom_node = malloc(sizeof *atom_node);
-	garbage_collector(atom_node, ALLOC);
+	garbage_collector(atom_node, COLLECT);
+	atom_node->data = subshell_node;
 	atom_node->node_type = ATOM;
-	atom_node->data = atom;
 	return (atom_node);
 }
 AST *parse_atom(TOKEN **tokens)
 {
 	TOKEN	*token;
 	AST		*atom;
+	t_list	*redirs;
 
 	token = peek(*tokens);
 	if (!token || error(0, READ))
@@ -57,5 +66,6 @@ AST *parse_atom(TOKEN **tokens)
 		return (NULL);
 	}
 	consume(tokens);
-	return (build_atom(atom));
+	redirs = get_redirs(tokens);
+	return (build_atom(atom, redirs));
 }

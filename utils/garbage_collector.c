@@ -6,30 +6,55 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:57:33 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 12:25:08 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:42:03 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/garbage_collector.h"
 
-void	garbage_collector(void *ptr, int option)
+void	remove_ptr_from_list(t_list **__list, void *__ptr)
+{
+	t_list	*__curr;
+	t_list	*__next;
+
+	__next = *__list;
+	while (__next && __next->content != __ptr)
+	{
+		__next = __next->next;
+	}
+	__next = __next->next;
+	__curr = *__list;
+	while (__curr && __curr->next && __curr->content != __ptr)
+	{
+		__curr = __curr->next;
+	}
+	__curr->next = __next;
+}
+
+void	garbage_collector(void *__ptr, int __option)
 {
 	static t_list	*list;
 	t_list			*node;
 
-	if (ALLOC == option)
+	if (COLLECT == __option)
 	{
-		if (!ptr)
+		if (!__ptr)
 			exit(EXIT_FAILURE);
-		node = ft_lstnew(ptr);
+		node = ft_lstnew(__ptr);
 		if (!node)
 			exit(EXIT_FAILURE);
 		ft_lstadd_back(&list, node);
 	}
-	else if (FREE == option)
+	else if (CHECK == __option)
 	{
-		free(ptr);
+		if (!__ptr)
+			exit(EXIT_FAILURE);
 	}
-	else if (FREE_U == option)
+	else if (FREE == __option)
+	{
+		remove_ptr_from_list(&list, __ptr);
+		free(__ptr);
+	}
+	else if (DESTROY == __option)
 		ft_lstclear(&list, free);
 }

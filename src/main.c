@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 21:10:54 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:52:30 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ int	main(void)
 	char	*line;
 	TOKEN	*tokens;
 	AST		*parse_t;
-	
+
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (true)
 	{
-		access_exit_code(0, WRITE);
 		line = readline("$ ");
 		if (NULL == line)
 		{
@@ -35,9 +34,12 @@ int	main(void)
 		tokens = tokenizer(line);
 		free(line);
 		parse_t = parser(tokens);
+		print_tree(parse_t);
 		if (!parse_t)
 			continue ;
+		access_exit_code(0, WRITE);
 		setup_execution(parse_t);
+		// garbage_coellector(NULL, DESTROY);
 	}
 	return (0);
 }

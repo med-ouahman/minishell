@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:08:45 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/28 10:26:19 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/02 13:37:42 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static AST *build_pipeline(AST *left, AST *right)
 		return (NULL);
 	pip->left = left;
 	pip->right = right;
-	pip->type = pipe_node->node_type = PIPE;
 	pipe_node->data = pip;
 	return (pipe_node);
 }

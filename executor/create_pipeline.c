@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:32:31 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/30 13:34:06 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:41:30 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list  *create_pipeline(AST *ast)
         ft_lstadd_back(&pipeline, create_pipeline(bin->left));
         ft_lstadd_back(&pipeline, create_pipeline(bin->right));
     }
-    else if (ast->node_type == CMD)
+    else if (ast->node_type == CMD || ast->node_type == ATOM)
     {
         node = ft_lstnew(ast);
         ft_lstadd_back(&pipeline, node);

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:50:08 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 10:58:43 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:12:23 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	close_pipes(t_pipefd *pipes, int size)
 {
 	int	var;
-
+	
 	var = 0;
 	while (var < size)
 	{
@@ -31,7 +31,7 @@ t_pipefd	*create_pipes(int count)
 	int			i;
 
 	pipes = malloc(count * sizeof *pipes);
-	garbage_collector(pipes, ALLOC);
+	garbage_collector(pipes, COLLECT);
 	i = 0;
 	while (i < count)
 	{

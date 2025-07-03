@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:16:06 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:16:24 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_list  *get_args(TOKEN **tokens)
 		if (curr->split)
 		{
 			split = word_split(curr, " \t\n\v\r\f");
-			garbage_collector(split, ALLOC);
+			garbage_collector(split, COLLECT);
 		}
 		if (split)
-			while (*split)
+			while (*split && **split)
 			{
 				arg_node = ft_lstnew(*split);
 				ft_lstadd_back(&args, arg_node);
@@ -86,7 +86,7 @@ AST *parse_command(TOKEN **tokens)
 		return (NULL);
 	}
 	command = malloc(sizeof *command);
-	garbage_collector(command, ALLOC);
+	garbage_collector(command, COLLECT);
 	if (!command)
 	   return (NUlL);
 	command->node_type = CMD;

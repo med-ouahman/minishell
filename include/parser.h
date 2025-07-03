@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:14:34 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:17:34 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ typedef enum
 	UNSET
 }	t_builtins;
 
-typedef enum
-{
-	PIPE_ERROR = 12,
-	REDIR_ERROR
-}	t_error;
-
 typedef struct s_ast t_ast;
 
 # define AST t_ast
@@ -48,11 +42,15 @@ typedef struct
 
 typedef struct
 {
-	int	type;
-
 	AST *left;
 	AST *right;
 }   t_ast_binary;
+
+typedef struct
+{
+	AST		*ast_node;
+	t_list	*redirs;
+}	t_subshell;
 
 typedef struct
 {
@@ -78,7 +76,7 @@ t_list	*get_redirs(TOKEN **tokens);
 int		is_builtin(char *cmd);
 int		last_exit_code(int new_value, int mode);
 int		syntax_error(int claimer, TOKEN *token);
-int is_redirection(int t);
+int		is_redirection(int t);
 
 
 

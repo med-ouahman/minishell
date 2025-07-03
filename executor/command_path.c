@@ -6,47 +6,49 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 14:33:37 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:47:45 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
 
-static char	*get_cmdpath(int i, char **pvs, char *cmd)
+static char	*get_cmdpath(int i, char **paths, char *cmd)
 {
 	char	*cmdpath;
 	size_t	size;
 
 	if (i == -1)
 		return (ft_strdup(cmd));
-	size = ft_strlen(pvs[i]) + ft_strlen(cmd) + 2;
+	size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
 	cmdpath = malloc(size * sizeof *cmdpath);
 	if (!cmdpath)
 		return (NULL);
 	cmdpath[0] = '\0';
-	ft_strlcat(cmdpath, pvs[i], size);
+	ft_strlcat(cmdpath, paths[i], size);
 	ft_strlcat(cmdpath, "/", size);
 	ft_strlcat(cmdpath, cmd, size);
 	return (cmdpath);
 }
 
-int	check_access(char **path, char **pvs, char *cmd)
+int	check_access(char **path, char **paths, char *cmd)
 {
 	int		i;
 
 	i = -1;
-	while (i == -1 || pvs[i])
+	if (!paths)
 	{
-		*path = get_cmdpath(i, pvs, cmd);
+		*path = ft_strdup(cmd);
+		return (0);
+	}
+	while (i == -1 || paths[i])
+	{
+		*path = get_cmdpath(i, paths, cmd);
 		if (!*path)
-			return (access_exit_code(1, WRITE));
+			return (-1);
 		if (!access(*path, F_OK))
 		{
 			if (!access(*path, X_OK))
-			{
-				*path = *path;
 				return (0);
-			}
 			return (errno);
 		}
 		free(*path);
@@ -56,13 +58,15 @@ int	check_access(char **path, char **pvs, char *cmd)
 	return (errno);
 }
 
-char	*command_path(char **pvs, char *cmd)
+char	*command_path(char **paths, char *cmd)
 {
 	char	*path;
 	int		c;
 
 	path = NULL;
-	c = check_access(&path, pvs, cmd);
+	c = check_access(&path, paths, cmd);
+	if (0 > c)
+		access_exit_code(1, WRITE);
 	if (ENOENT == c)
 	{
 		access_exit_code(127, WRITE);

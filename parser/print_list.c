@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:58:39 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/26 20:59:12 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:50:53 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char *get_token_type(int type)
 		return ("CLOSEPAR");
 	if (type == ATOM)
 		return ("ATOM");
+	if (type == SUBSHELL)
+		return ("SUBSHELL");
 	return ("UNKNOWN");
 }
 void	print_token_list(TOKEN *list)

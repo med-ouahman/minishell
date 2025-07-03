@@ -6,13 +6,66 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:28:47 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 14:43:52 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 11:09:38 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/utils.h"
 #include "../include/parser.h"
+
+void    print_redir(t_redir *redir)
+{
+
+ printf("Redirection: %s -> target: %s ",
+                   redir->type == REDIN ? "REDIN" :
+                   redir->type == REDOUT ? "REDOUT" :
+                   redir->type == HEREDOC ? "HEREDOC" :
+                   redir->type == REDOUTAPP ? "REDOUTAPP" : "UNKNOWN",
+                   redir->target);
+}
+
+void print_redirs(t_list *redirs)
+{
+    t_list *current = redirs;
+    while (current)
+    {
+        t_redir *redir = (t_redir *)current->content;
+        print_redir(redir);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+void print_exc_list(t_list *exec_list)
+{
+    t_list  *current = exec_list;
+    while (current)
+    {
+        t_cmd *cmd = (t_cmd *)current->content;
+        printf("Command: ");
+        t_list *arg = cmd->args;
+        while (arg)
+        {
+            printf("'%s' ", (char *)arg->content);
+            arg = arg->next;
+        }
+        arg = cmd->redirs;
+        while (arg)
+        {
+            t_redir *redir = (t_redir *)arg->content;
+            printf("Redirection: %s -> %s ",
+                   redir->type == REDIN ? "REDIN" :
+                   redir->type == REDOUT ? "REDOUT" :
+                   redir->type == HEREDOC ? "HEREDOC" :
+                   redir->type == REDOUTAPP ? "REDOUTAPP" : "UNKNOWN",
+                   redir->target);
+           arg = arg->next;
+        }
+        printf("\n");
+        current = current->next;
+    }
+}
 
 void print_t(t_cmd *cmd)
 {
@@ -44,6 +97,16 @@ void print_cmd(t_cmd *cmd)
     print_t(cmd);
 }
 
+void print_atom(AST *atom)
+{
+    t_subshell *subshell;
+
+    subshell = (t_subshell *)atom->data;
+
+    if (subshell->ast_node->node_type == ATOM)
+        return print_tree(subshell->ast_node);
+    printf("type is %s\n", get_token_type(subshell->ast_node->node_type));
+}
 
 void print_tree(AST *ast)
 {
@@ -55,9 +118,7 @@ void print_tree(AST *ast)
         printf("NULL\n");
         return ;
     }
-     printf("Node Type: %s\n", ast->node_type == PIPE ? "PIPE" : 
-                                ast->node_type == CMD ? "CMD" : ast->node_type == OR ? "OR" :
-                                ast->node_type == AND ? "AND" : ast->node_type == ATOM ? "ATOM" : "UNKNOWN");
+     printf("Node Type: %s\n", get_token_type(ast->node_type));
     switch (ast->node_type)
     {
         case PIPE:
@@ -89,7 +150,7 @@ void print_tree(AST *ast)
                 printf("NULL is cmd\n");
             break;
         case ATOM:
-            print_tree((AST *)ast->data);
+            print_atom(ast);
             break;
         default:
             printf("Unknown node type: %d\n",  ast->node_type);

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 20:44:28 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/02 11:13:44 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_redir  *create_redir_node(TOKEN *token)
         return (NULL);
     }
     redir = malloc(sizeof(*redir));
-    garbage_collector(redir, ALLOC);
+    garbage_collector(redir, COLLECT);
     redir->type = token->type;
     if (token->type == HEREDOC)
     {
@@ -38,7 +38,7 @@ t_redir  *create_redir_node(TOKEN *token)
     if (token->split)
     {
         split = word_split(token, " \n\t\f\v\r");
-        garbage_collector(split, ALLOC);
+        garbage_collector(split, COLLECT);
         if (!*split || *(split + 1))
         {
             printf("minishell: ambiguous redirect: \n");

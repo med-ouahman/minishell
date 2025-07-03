@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_children.c                                    :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/22 14:16:38 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/01 21:41:23 by mouahman         ###   ########.fr       */
+/*   Created: 2025/06/30 14:56:01 by mouahman          #+#    #+#             */
+/*   Updated: 2025/07/01 09:52:38 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
 
-int	wait_children(pid_t *pids, int num_children)
+void	print_file_error(char *file, char *__err_msg)
 {
-	int	status;
-	int	i;
-
-	i = 0;
-	while (i < num_children)
-	{
-		waitpid(pids[i], &status, 0);
-		i++;
-	}
-	status = exit_code(status);
-	return (status);
+	printf("minishell: %s: %s\n", file, __err_msg);
 }

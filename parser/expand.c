@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:50:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:15:24 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 10:09:26 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ void	add_exit_code(t_list **var_list, int code)
 	char	*s;
 
 	s = ft_itoa(code);
-	garbage_collector(s, ALLOC);
+	garbage_collector(s, COLLECT);
 	node = ft_lstnew(s);
-	garbage_collector(node, ALLOC);
+	garbage_collector(node, COLLECT);
 	if (*var_list == NULL)
 	{
 		*var_list = node;

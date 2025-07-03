@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 21:21:18 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/28 09:27:46 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:43:47 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 char	**split_path(void)
 {
 	char	*path;
-	char	**pvs;
+	char	**paths;
 
 	path = getenv("PATH");
-	pvs = ft_split(path + 5, ':');
-	if (!pvs)
+	if (!path)
 		return (NULL);
-	return (pvs);
+	paths = ft_split(path, ':');
+	garbage_collector(paths, COLLECT);
+	return (paths);
 }
