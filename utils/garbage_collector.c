@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:57:33 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 17:42:03 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:01:15 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	remove_ptr_from_list(t_list **__list, void *__ptr)
 	{
 		__next = __next->next;
 	}
+	if (!__next)
+		return ;
 	__next = __next->next;
 	__curr = *__list;
 	while (__curr && __curr->next && __curr->content != __ptr)

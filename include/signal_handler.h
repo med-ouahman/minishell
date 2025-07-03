@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:01:57 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 11:29:22 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:01:55 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include "../include/parser.h"
+#include <unistd.h>
 
-int	    new_prompt(char **line, char *prompt);
+void    rl_new_prompt(void);
 void	signal_handler(int signum);
+void	rl_after_fork(void);
 
 #endif

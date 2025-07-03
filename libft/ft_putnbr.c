@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 08:55:11 by mouahman          #+#    #+#             */
-/*   Updated: 2025/02/01 21:23:50 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/03/14 06:42:25 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ static int	handle_dot(int n, char *s, int len, t_flags flags)
 
 	count = 0;
 	if (n >= 0 && flags.c && flags.w <= 0)
-		count += ft_putchar(flags.c, 0, 0);
+		count += ft_putchar(flags.fd, flags.c, 0, 0);
 	if (flags.p <= len && flags.p > 0)
-		return (write(1, s, len) + count);
+		return (write(flags.fd, s, len) + count);
 	i = 0;
 	while (i < flags.p - len)
 	{
-		count += ft_putchar('0', 0, 0);
+		count += ft_putchar(flags.fd, '0', 0, 0);
 		i++;
 	}
 	if (flags.p == 0 && s[0] == '0')
 		return (count);
-	count += write(1, s, len);
+	count += write(flags.fd, s, len);
 	return (count);
 }
 
@@ -45,7 +45,7 @@ static int	handle_space(int n, t_flags flags, int len)
 	if (flags.p == 0 && n == 0)
 		len--;
 	if (n >= 0 && flags.c && flags.w > 0)
-		count += ft_putchar(flags.c, 0, 0);
+		count += ft_putchar(flags.fd, flags.c, 0, 0);
 	width = flags.w;
 	if (flags.w <= 0 || flags.p >= 0)
 		c = ' ';
@@ -57,9 +57,9 @@ static int	handle_space(int n, t_flags flags, int len)
 	if (len >= flags.p)
 		flags.p = len;
 	while (width - (flags.p++) > 0)
-		count += ft_putchar(c, 0, 0);
+		count += ft_putchar(flags.fd, c, 0, 0);
 	if (n < 0 && c == ' ' && flags.w >= 0 && flags.p >= 0)
-		count += ft_putchar('-', 0, 0);
+		count += ft_putchar(flags.fd, '-', 0, 0);
 	return (count);
 }
 
@@ -81,7 +81,7 @@ int	ft_putnbr(int n, t_flags flags)
 	if (n < 0
 		&& ((flags.w != 0 && flags.p < 0) || (flags.w < 0 && flags.p >= 0)))
 	{
-		count += ft_putchar('-', 0, 0);
+		count += ft_putchar(flags.fd, '-', 0, 0);
 		flags.c = '\0';
 	}
 	if (flags.w < 0)

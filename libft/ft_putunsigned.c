@@ -6,29 +6,29 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 09:55:37 by mouahman          #+#    #+#             */
-/*   Updated: 2025/02/01 21:24:32 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/03/14 06:45:42 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	handle_dot(char *s, int precision, int len)
+static int	handle_dot(int fd, char *s, int precision, int len)
 {
 	int	count;
 	int	i;
 
 	if (precision <= len)
-		return (write(1, s, len));
+		return (write(fd, s, len));
 	count = 0;
 	i = 0;
 	while (i < precision - len)
 	{
-		count += ft_putchar('0', 0, 0);
+		count += ft_putchar(fd, '0', 0, 0);
 		i++;
 	}
 	if (precision == 0 && s[0] == '0')
 		return (count);
-	count += write(1, s, len);
+	count += write(fd, s, len);
 	return (count);
 }
 
@@ -51,7 +51,7 @@ static int	handle_space(t_flags flags, int len)
 	count = 0;
 	while (flags.w - flags.p)
 	{
-		count += ft_putchar(c, 0, 0);
+		count += ft_putchar(flags.fd, c, 0, 0);
 		flags.p++;
 	}
 	return (count);
@@ -72,10 +72,10 @@ int	ft_putunsigned(unsigned int n, t_flags flags)
 	count = 0;
 	len = ft_strlen(s);
 	if (flags.w < 0)
-		count += handle_dot(s, flags.p, len);
+		count += handle_dot(flags.fd, s, flags.p, len);
 	count += handle_space(flags, len);
 	if (flags.w >= 0)
-		count += handle_dot(s, flags.p, len);
+		count += handle_dot(flags.fd, s, flags.p, len);
 	free(s);
 	return (count);
 }

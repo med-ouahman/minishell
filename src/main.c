@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 11:52:30 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:30:11 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	main(void)
 		tokens = tokenizer(line);
 		free(line);
 		parse_t = parser(tokens);
-		print_tree(parse_t);
 		if (!parse_t)
 			continue ;
 		access_exit_code(0, WRITE);

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 11:10:09 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:50:21 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	path = command_path(exec_cb->paths, (char *)cmd->args->content);
 	if (!path)
 		return (-1);
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (0 > pid)
 		return (-1);

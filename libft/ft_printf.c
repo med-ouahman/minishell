@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 20:24:49 by mouahman          #+#    #+#             */
-/*   Updated: 2025/03/08 13:49:12 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/03/14 06:40:06 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	find_format(char *format)
 	return (format[i]);
 }
 
-static int	print(char *format, va_list ap)
+static int	print(int fd, char *format, va_list ap)
 {
 	int		printed;
 	char	c;
@@ -45,9 +45,10 @@ static int	print(char *format, va_list ap)
 
 	printed = 0;
 	flags = handle_flags(format);
+	flags.fd = fd;
 	c = find_format(format);
 	if (c == 'c')
-		printed += ft_putchar(va_arg(ap, int), flags.w, flags.fw);
+		printed += ft_putchar(fd, va_arg(ap, int), flags.w, flags.fw);
 	else if (c == 'd' || c == 'i')
 		printed += ft_putnbr(va_arg(ap, int), flags);
 	else if (c == 'X')
@@ -57,13 +58,13 @@ static int	print(char *format, va_list ap)
 	else if (c == 'u')
 		printed += ft_putunsigned(va_arg(ap, unsigned int), flags);
 	else if (c == 's')
-		printed += ft_putstr(va_arg(ap, char *), flags.w, flags.p, flags.fw);
+		printed += ft_putstr(va_arg(ap, char *), flags);
 	else if (c == 'p')
-		printed += ft_putaddress(va_arg(ap, void *), flags.w, flags.fw);
+		printed += ft_putaddress(va_arg(ap, void *), flags);
 	return (printed);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf_fd(int fd, const char *format, ...)
 {
 	int		printed;
 	int		i;
@@ -78,16 +79,16 @@ int	ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%' && format[i + 1] == '%')
 		{
-			printed += ft_putchar('%', 0, 0);
+			printed += ft_putchar(fd, '%', 0, 0);
 			i += 2;
 		}
 		else if (format[i] == '%')
 		{
-			printed += print((char *)&format[i + 1], ap);
+			printed += print(fd, (char *)&format[i + 1], ap);
 			i += skkipp((char *)&format[i + 1]);
 		}
 		else
-			printed += ft_putchar(format[i++], 0, 0);
+			printed += ft_putchar(fd, format[i++], 0, 0);
 	}
 	return (va_end(ap), printed);
 }

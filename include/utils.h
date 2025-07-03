@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 14:05:01 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:14:42 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:55:45 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	    panic(char *s, int code);
 void	print_list(t_list *list);
 size_t  get_lsize(t_list *var_list);
 int     copy_list(char *buff, t_list *var_list, size_t size);
-char *get_token_type(int type);
+char    *get_token_type(int type);
 
 # endif

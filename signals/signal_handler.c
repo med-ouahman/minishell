@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:53:12 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 11:26:17 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:44:29 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void	signal_handler(int signum)
 {
-
 	if (SIGINT == signum)
 	{
 		access_exit_code(127, WRITE);
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		rl_new_prompt();
+		return ;
 	}
 }

@@ -6,11 +6,16 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 10:12:02 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 11:15:58 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:49:33 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
+
+t_list	*redirs(t_cmd *cmd)
+{
+	return (cmd->redirs);
+}
 
 static int	num_pipes(t_exec_control_block *exec_cb)
 {
@@ -66,7 +71,7 @@ int	execute_pipeline(t_exec_control_block *exec_cb)
 		reset_stdio(exec_cb->stdio);
 		pipe_end = (AST *)exec_cb->pipeline->content;
 		if (pipe_end->node_type == CMD)
-			prepare_redirs((t_cmd *)pipe_end->data, exec_cb->stdio);
+			prepare_redirs(redirs((t_cmd *)pipe_end->data), exec_cb->stdio);
 		if (access_exit_code(0, READ))
 			return (-1);
 		set_stdio(exec_cb, i);

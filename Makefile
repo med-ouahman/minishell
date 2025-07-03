@@ -11,6 +11,7 @@ SIGNALS = signals
 PARSER = parser
 LIBFT_DIR = libft
 UTILS = utils
+WILDCARD = wildcard
 
 INCLUDE = include
 
@@ -24,6 +25,7 @@ EXECUTOR_SRC = $(wildcard $(EXECUTOR)/*.c)
 SIGNALS_SRC = $(wildcard $(SIGNALS)/*.c)
 PARSER_SRC = $(wildcard $(PARSER)/*.c)
 UTILS_SRC = $(wildcard $(UTILS)/*.c)
+WILDCARD_SRC = $(wildcard $(WILDCARD)/*.c)
 
 # Fech all source files from the builtins directory
 
@@ -53,9 +55,10 @@ EXECUTOR_OBJS = $(EXECUTOR_SRC:.c=.o)
 SIGNALS_OBJS = $(SIGNALS_SRC:.c=.o)
 PARSER_OBJS = $(PARSER_SRC:.c=.o)
 UTILS_OBJS = $(UTILS_SRC:.c=.o)
+WILDCARD_OBJS = $(WILDCARD_SRC:.c=.o)
 
 
-OBJS = $(SRCS_OBJS) $(BUILTINS_OBJS) $(EXECUTOR_OBJS) $(SIGNALS_OBJS) $(PARSER_OBJS) $(UTILS_OBJS)
+OBJS = $(SRCS_OBJS) $(BUILTINS_OBJS) $(EXECUTOR_OBJS) $(SIGNALS_OBJS) $(PARSER_OBJS) $(UTILS_OBJS) $(WILDCARD_OBJS)
 
 RM = rm -f
 

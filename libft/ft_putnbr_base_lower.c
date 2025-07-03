@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 05:25:07 by mouahman          #+#    #+#             */
-/*   Updated: 2025/02/01 21:24:19 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/03/14 06:49:40 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,22 @@ static int	handle_dot(char *s, int len, t_flags flags)
 
 	count = 0;
 	if (flags.c && flags.w <= 0)
-		count += write(1, "0x", 2);
+		count += write(flags.fd, "0x", 2);
 	if (flags.p <= len)
 		return (write(1, s, len) + count);
 	i = 0;
 	while (i < flags.p - len)
 	{
-		count += ft_putchar('0', 0, 0);
+		count += ft_putchar(flags.fd, '0', 0, 0);
 		i++;
 	}
 	if (flags.p == 0 && s[0] == '0')
 		return (count);
-	count += write(1, s, len);
+	count += write(flags.fd, s, len);
 	return (count);
 }
 
-static int	handle_space(t_flags flags, int precision, int len, int p)
+static int	handle_space(t_flags flags, int len, int p)
 {
 	int		count;
 	int		width;
@@ -44,7 +44,7 @@ static int	handle_space(t_flags flags, int precision, int len, int p)
 	width = flags.w;
 	count = 0;
 	if (flags.c && width > 0)
-		count += write(1, "0x", 2);
+		count += write(flags.fd, "0x", 2);
 	if (width <= 0 || (width >= 0 && flags.p >= 0))
 		c = ' ';
 	if (width == 0)
@@ -52,10 +52,10 @@ static int	handle_space(t_flags flags, int precision, int len, int p)
 	if (width < 0)
 		width *= -1;
 	width -= p;
-	if (len >= precision)
-		precision = len;
-	while (width - (precision++) > 0)
-		count += ft_putchar(c, 0, 0);
+	if (len >= flags.p)
+		flags.p = len;
+	while (width - (flags.p++) > 0)
+		count += ft_putchar(flags.fd, c, 0, 0);
 	return (count);
 }
 
@@ -81,7 +81,7 @@ int	ft_putnbr_low(unsigned int n, t_flags flags)
 	count = 0;
 	if (flags.w < 0)
 		count += handle_dot(s, len, flags);
-	count += handle_space(flags, flags.p, len, p);
+	count += handle_space(flags, len, p);
 	if (flags.w >= 0)
 		count += handle_dot(s, len, flags);
 	free(s);

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:37 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 16:47:18 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:07:22 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int	execute_single_command(AST *parse_t, t_exec_control_block *exec_cb)
 
 	cmd = (t_cmd *)parse_t->data;
 	if (cmd->is_buitlin)
-	{
 		return (execute_builtin(cmd, exec_cb->stdio));
-	}
 	exec_cb->pid_size = 1;
 	exec_cb->curr_pid = 0;
 	exec_cb->pids = malloc(sizeof (pid_t) * exec_cb->pid_size);
@@ -64,6 +62,7 @@ int	execute_single_command(AST *parse_t, t_exec_control_block *exec_cb)
 		return (-1);
 	}
 	wait_children(exec_cb->pids, exec_cb->pid_size);
+	signal(SIGINT, signal_handler);
 	return (0);
 }
 
@@ -78,7 +77,7 @@ int executor(AST *parse_t, t_exec_control_block *exec_cb)
 	}
 	else if (parse_t->node_type == CMD)
 	{
-		if (0 > prepare_redirs((t_cmd *)parse_t->data, exec_cb->stdio))
+		if (0 > prepare_redirs(redirs((t_cmd *)parse_t->data), exec_cb->stdio))
 			return (-1);
 		return (execute_single_command(parse_t, exec_cb));
 	}
@@ -93,8 +92,9 @@ int executor(AST *parse_t, t_exec_control_block *exec_cb)
 		garbage_collector(exec_cb->pids, CHECK);
 		exec_cb->pid_size = 1;
 		subshell(parse_t, exec_cb);
+		wait_children(exec_cb->pids, exec_cb->pid_size);
 		garbage_collector(exec_cb->pids, FREE);
-		return (wait_children(exec_cb->pids, exec_cb->pid_size));
+		return (0);
 	}
 	return (0);
 }

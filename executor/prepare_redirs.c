@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:48:34 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/01 12:23:18 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:46:30 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,16 @@ static int	open_file(char *__filename, int _flags, int __mode__)
 	return (fd);
 }
 
-int	prepare_redirs(t_cmd *cmd, int *stdio)
+int	prepare_redirs(t_list *redirs, int *stdio)
 {
 	t_redir	*redir;
-	t_list	*redirs;
 	int		fd;
 
-	if (cmd->redirs == NULL)
+	if (!redirs)
 		return (0);
-	redirs = cmd->redirs;
 	while (redirs)
 	{
-		redir = (t_redir *)cmd->redirs->content;
+		redir = (t_redir *)redirs->content;
 		fd = open_file(redir->target, redirection_flags(redir->type), _open_mode(redir->type));
 		if (fd < 0)
 		{

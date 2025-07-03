@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 11:13:10 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:45:15 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char    *create_heredoc_file(int length)
 	int i;
 	int random_char;
 
-	// to delete, just to avoid trash files
 	return ft_strdup("heredoc");
 	filename = malloc(sizeof(char) * length + 1);
 	garbage_collector(filename, COLLECT);
@@ -59,9 +58,9 @@ char    *parse_heredoc(t_redir *redir)
 	int     fd;
 	pid_t    pid;
 
-	printf("%s\n", redir->target);
 	file = create_heredoc_file(10);
 	pid = fork();
+	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
 		restore_signals();
@@ -69,6 +68,11 @@ char    *parse_heredoc(t_redir *redir)
 		while (1)
 		{
 			line = readline("> ");
+			if (!line)
+			{
+				ft_printf_fd(2, "delim error\n");
+				break ;
+			}
 			if (!ft_strcmp(line, redir->target))
 				break ;
 			content = parse_content(line);
@@ -81,6 +85,7 @@ char    *parse_heredoc(t_redir *redir)
 		exit(0);
 	}
 	waitpid(pid, NULL, 0);
+	signal_handler(2);
 	return (file);
 }
 

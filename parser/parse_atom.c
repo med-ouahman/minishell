@@ -6,14 +6,11 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:09:48 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 11:00:32 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:22:55 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
-
-void *print_atom(AST *atom);
-void print_redirs(t_list *redirs);
 
 static AST	*build_atom(AST *atom, t_list *redirs)
 {

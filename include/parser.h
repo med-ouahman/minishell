@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 14:17:34 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:05:04 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 # include "./utils.h"
 # include "./tokenizer.h"
-
-
+# include "./signal_handler.h"
 
 typedef enum
 {

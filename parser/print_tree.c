@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 19:28:47 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 11:09:38 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:25:18 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void print_redirs(t_list *redirs)
     {
         t_redir *redir = (t_redir *)current->content;
         print_redir(redir);
+        break;
         current = current->next;
     }
     printf("\n");

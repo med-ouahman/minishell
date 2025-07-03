@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wilcard.c                                          :+:      :+:    :+:   */
+/*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:37:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/03 11:43:31 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:25:07 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/wilcard.h"
+#include "../include/wildcard.h"
 
 static int	boucl(char *from, int *i, char *srch, int *j)
 {
@@ -76,6 +76,7 @@ static int	add_to_list(t_list **lst, char *from, char *srch)
 
 t_list	*wilcard(int ac, char **srch)
 {
+	(void)ac;
 	DIR				*dir;
 	struct dirent	*_readdir;
 	t_list			*list;
