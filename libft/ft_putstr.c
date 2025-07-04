@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 09:01:13 by mouahman          #+#    #+#             */
-/*   Updated: 2025/02/01 21:24:50 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:52:01 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	handle_dot(int precision, char *s)
+static int	handle_dot(int fd, int precision, char *s)
 {
 	int	len;
 	int	count;
@@ -25,48 +25,48 @@ static int	handle_dot(int precision, char *s)
 	count = 0;
 	while (i < precision)
 	{
-		count += ft_putchar(s[i], 0, 0);
+		count += ft_putchar(fd, s[i], 0, 0);
 		i++;
 	}
 	return (count);
 }
 
-static int	handle_space(int width, int fwidth, int precision, int len)
+static int	handle_space(t_flags flags, int len)
 {
 	int	count;
 	int	i;
 
-	if (width < 0)
-		width *= -1;
-	if (width == 0)
-		width = fwidth;
-	if (precision >= len || precision < 0)
-		precision = len;
+	if (flags.w < 0)
+		flags.w *= -1;
+	if (flags.w == 0)
+		flags.w = flags.fw;
+	if (flags.p >= len || flags.p < 0)
+		flags.p = len;
 	i = 0;
 	count = 0;
-	while (i < width - precision)
+	while (i < flags.w - flags.p)
 	{
-		count += ft_putchar(' ', 0, 0);
+		count += ft_putchar(flags.fd, ' ', 0, 0);
 		i++;
 	}
 	return (count);
 }
 
-int	ft_putstr(char *s, int width, int precision, int fwidth)
+int	ft_putstr(char *s, t_flags flags)
 {
 	int	count;
 	int	len;
 
-	if (!s && precision < 6 && precision >= 0)
-		return (ft_putstr("", width, precision, fwidth));
+	if (!s && flags.p < 6 && flags.p >= 0)
+		return (ft_putstr("", flags));
 	if (!s)
-		return (ft_putstr("(null)", width, precision, fwidth));
+		return (ft_putstr("(null)", flags));
 	count = 0;
 	len = ft_strlen(s);
-	if (width < 0)
-		count += handle_dot(precision, s);
-	count += handle_space(width, fwidth, precision, len);
-	if (width >= 0)
-		count += handle_dot(precision, s);
+	if (flags.w < 0)
+		count += handle_dot(flags.fd, flags.p, s);
+	count += handle_space(flags, len);
+	if (flags.w >= 0)
+		count += handle_dot(flags.fd, flags.p, s);
 	return (count);
 }

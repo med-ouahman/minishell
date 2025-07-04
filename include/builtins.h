@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 10:07:02 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 13:37:16 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:53:49 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
+# include "../libft/libft.h"
 # include "./utils.h"
 # include "./parser.h"
 
