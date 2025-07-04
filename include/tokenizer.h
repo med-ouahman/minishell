@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:52:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:15:38 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:08:12 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 # define TOKENIZER_H
 
 # include "../include/utils.h"
+
+# define IFS " \t\n"
+
+/*
+
+In bash the value of IFS (Internal Field Separators) is unset
+which means that it defaults to <space>, <tab> and <newline> characters.
+
+*/
 
 typedef enum e_types
 {
@@ -75,8 +84,8 @@ int		invalid_var_char(int c);
 
 void	print_token_list(TOKEN *list);
 int		join_tokens(TOKEN **tokens);
-
-char	**word_split(TOKEN *tokens, char *charset);
+int		quote_removal(TOKEN *tokens);
+char	**word_split(TOKEN *tokens);
 TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node);
 int	access_exit_code(int new_val, int mode);
 #endif

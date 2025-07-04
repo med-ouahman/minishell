@@ -6,11 +6,27 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 15:45:15 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 18:01:43 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
+
+static void	heredoc_exit(pid_t pid)
+{
+	int	status;
+
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+	{
+		if (SIGINT == WTERMSIG(status))
+		{
+			rl_after_fork();
+			error(1, WRITE);
+			access_exit_code(130, WRITE);
+		}
+	}
+}
 
 static void  restore_signals(void)
 {
@@ -64,7 +80,7 @@ char    *parse_heredoc(t_redir *redir)
 	if (pid == 0)
 	{
 		restore_signals();
-		fd = open(file, O_CREAT | O_WRONLY, 0644);
+		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		while (1)
 		{
 			line = readline("> ");
@@ -84,8 +100,7 @@ char    *parse_heredoc(t_redir *redir)
 		close(fd);
 		exit(0);
 	}
-	waitpid(pid, NULL, 0);
-	signal_handler(2);
+	heredoc_exit(pid);
 	return (file);
 }
 

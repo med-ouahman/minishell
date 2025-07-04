@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:54:43 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 11:13:55 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:38:38 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ int	add_splitted_tokens(TOKEN **tokens, TOKEN *node, char **split)
 	return (0);
 }
 
-char	**word_split(TOKEN *token, char *charset)
+char	**word_split(TOKEN *token)
 {
 	char	**split;
 
 	split = NULL;
-	split = ft_split2(token->token, charset);
+	split = ft_split2(token->token, IFS);
 	garbage_collector(split, COLLECT);
 	return (split);
 }

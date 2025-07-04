@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 10:16:24 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:39:14 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list  *get_args(TOKEN **tokens)
 		expand(curr);
 		if (curr->split)
 		{
-			split = word_split(curr, " \t\n\v\r\f");
+			split = word_split(curr);
 			garbage_collector(split, COLLECT);
 		}
 		if (split)
@@ -58,6 +58,8 @@ t_cmd   *build_command(TOKEN **tokens)
 		return (NULL);
 	cmd->args = get_args(tokens);
 	cmd->redirs = get_redirs(tokens);
+	if (error(0, READ))
+		return (NULL);
 	token = peek(*tokens);
 	while (token && token->type == WORD)
 	{

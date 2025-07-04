@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/29 13:58:52 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:10:36 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	add_token(TOKEN **list, char *line, t_info info)
 {
 	TOKEN	*token;
 	
-	// if (info.start == info.end)
-	// 	return (0);
 	token = malloc(sizeof *token);
 	if (NULL == token)
 		return (-1);
@@ -82,17 +80,17 @@ int		add_quoted_token(TOKEN **tokens, char *line, t_info info, int *ii)
 	int	i;
 
 	i = *ii;
-	info.quote = line[i++];
-	info.start = i;
+	info.quote = line[i];
+	info.start = i++;
 	while (line[i] != info.quote && line[i])
 		i++;
 	if (!line[i])
 		return (panic("minishell: parse error: unclosed quote\n", -1));
+	if (line[i] == info.quote)
+		i++;
 	info.end = i;
 	info.type = WORD;
 	add_token(tokens, line, info);
-	if (line[i] == info.quote)
-		i++;
 	*ii = i;
 	return (i);
 }

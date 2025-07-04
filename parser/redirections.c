@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 11:13:44 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 14:53:25 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_redir  *create_redir_node(TOKEN *token)
         syntax_error(token->type, token->next);
         return (NULL);
     }
-    redir = malloc(sizeof(*redir));
+    redir = malloc(sizeof *redir);
     garbage_collector(redir, COLLECT);
     redir->type = token->type;
     if (token->type == HEREDOC)
@@ -37,12 +37,13 @@ t_redir  *create_redir_node(TOKEN *token)
     expand(token);
     if (token->split)
     {
-        split = word_split(token, " \n\t\f\v\r");
+        split = word_split(token);
         garbage_collector(split, COLLECT);
         if (!*split || *(split + 1))
         {
-            printf("minishell: ambiguous redirect: \n");
-            // ambiguous redirect;
+            error(1, WRITE);
+            printf("minishell: ambiguous redirect\n");
+            return (NULL);
         }
         redir->target = *split;
     }
@@ -70,6 +71,8 @@ t_list  *get_redirs(TOKEN **tokens)
     while (curr && is_redirection(curr->type))
     {
         redir = create_redir_node(curr);
+        if (error(0, READ))
+            return (NULL);
         consume(tokens);
         if (!redir)
             return (NULL);

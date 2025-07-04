@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:50:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 10:09:26 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 15:11:39 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	has_spaces(char *s)
 	int	i;
 
 	i = 0;
-
+	if (!*s)
+		return (1);
 	while (s[i])
 	{
 		if (ft_isspace(s[i]))
@@ -173,6 +174,8 @@ int expand(TOKEN *token)
 	char	*tmp;
 	t_list	*var_list;
 	
+	if (!token)
+		return (0);
 	if (*"'" == token->p_quote || token->type != WORD)
 	{
 		token->split = 0;

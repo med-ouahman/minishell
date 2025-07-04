@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 15:50:21 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/03 16:19:05 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ char	**build_args(t_list *arg_list)
 	args[i] = null;
 	return (args);
 }
-
-
 
 int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
