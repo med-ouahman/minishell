@@ -6,37 +6,40 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 14:39:14 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:49:25 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-t_list  *get_args(TOKEN **tokens)
+void	add_splitted_argument(t_list **args, TOKEN *token)
+{
+	char	**split;
+	t_list	*arg_node;
+
+	split = word_split(token);
+	while (*split && **split)
+	{
+		arg_node = ft_lstnew(*split);
+		ft_lstadd_back(args, arg_node);
+		split++;
+	}
+}
+
+t_list  *build_command_args(TOKEN **tokens)
 {
 	TOKEN    *curr;
-	char    **split;
 	t_list  *args;
 	t_list  *arg_node;
 
 	args = NULL;
 	curr = peek(*tokens);
-	split = NULL;
 	while (curr && curr->type == WORD)
 	{
 		expand(curr);
+		quote_removal(curr);
 		if (curr->split)
-		{
-			split = word_split(curr);
-			garbage_collector(split, COLLECT);
-		}
-		if (split)
-			while (*split && **split)
-			{
-				arg_node = ft_lstnew(*split);
-				ft_lstadd_back(&args, arg_node);
-				split++;
-			}
+			add_splitted_argument(&args, curr);
 		else
 		{
 			arg_node = ft_lstnew(curr->token);
@@ -53,17 +56,15 @@ t_cmd   *build_command(TOKEN **tokens)
 	t_cmd   *cmd;
 	TOKEN	*token;
 
-	cmd = malloc(sizeof *cmd);
-	if (!cmd)
-		return (NULL);
-	cmd->args = get_args(tokens);
+	cmd = my_alloc(sizeof *cmd);
+	cmd->args = build_command_args(tokens);
 	cmd->redirs = get_redirs(tokens);
 	if (error(0, READ))
 		return (NULL);
 	token = peek(*tokens);
 	while (token && token->type == WORD)
 	{
-		ft_lstadd_back(&cmd->args, get_args(tokens));
+		ft_lstadd_back(&cmd->args, build_command_args(tokens));
 		ft_lstadd_back(&cmd->redirs, get_redirs(tokens));
 		token = peek(*tokens);
 	}
@@ -78,9 +79,9 @@ AST *parse_command(TOKEN **tokens)
 	AST     *command;
 	t_cmd   *cmd;
 
-	token = peek(*tokens);
 	if (error(0, READ))
 		return (NULL);
+	token = peek(*tokens);
 	if (!tokens || (token->type != WORD && !is_redirection(token->type)))
 	{
 		error(1, WRITE);

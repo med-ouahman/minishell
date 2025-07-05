@@ -6,13 +6,15 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:37:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/03 14:25:07 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:18:03 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/wildcard.h"
+#include "../include/parser.h"
 
-static int	boucl(char *from, int *i, char *srch, int *j)
+static int	is_match(char *from, char *srch);
+
+static int	loop(char *from, int *i, char *srch, int *j)
 {
 	if (from[*i] == srch[*j] && from[*i] != '*')
 	{
@@ -43,7 +45,7 @@ static int	is_match(char *from, char *srch)
 	j = 0;
 	while (from[i] && srch[j])
 	{
-		if (boucl(from, &i, srch, &j) != 2)
+		if (loop(from, &i, srch, &j) != 2)
 			break ;
 	}
 	while (srch[j] == '*')
@@ -74,9 +76,8 @@ static int	add_to_list(t_list **lst, char *from, char *srch)
 	return (0);
 }
 
-t_list	*wilcard(int ac, char **srch)
+t_list	*wilcard(char *pattern)
 {
-	(void)ac;
 	DIR				*dir;
 	struct dirent	*_readdir;
 	t_list			*list;
@@ -86,7 +87,7 @@ t_list	*wilcard(int ac, char **srch)
 	_readdir = readdir(dir);
 	while (_readdir)
 	{
-		if (add_to_list(&list, _readdir->d_name, srch[1]))
+		if (add_to_list(&list, _readdir->d_name, pattern))
 			break ;
 		_readdir = readdir(dir);
 	}

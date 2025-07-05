@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 09:47:45 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:03:50 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*command_path(char **paths, char *cmd)
 	{
 		access_exit_code(127, WRITE);
 		printf("minishell: %s: command not found\n", cmd);
-		return (NuLL);
+		return (NULL);
 	}
 	else if (EACCES == c)
 	{

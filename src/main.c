@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 15:13:39 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:18:30 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,10 @@ int	main(void)
 		if (0 == *line)
 			continue ;
 		add_history(line);
-		tokens = tokenizer(line);
-		expand(tokens);
-		quote_removal(tokens);
-		free(line);
+		print_list(wilcard(line));
 		continue;
+		tokens = tokenizer(line);
+		free(line);
 		parse_t = parser(tokens);
 		if (!parse_t)
 			continue ;

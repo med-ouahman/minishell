@@ -6,16 +6,33 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 14:53:25 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:50:55 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
+static int  has_quotes(char *s)
+{
+    char    *f;
+    char    *l;
+    char    quote;
+
+    quote = find_next_quote(s);
+    if (!quote)
+        return (1);
+    f = ft_strchr(s, quote);
+    l = ft_strrchr(s, quote);
+    if (!l || !f || l == f)
+        return (1);
+    return (0);
+}
+
 t_redir  *create_redir_node(TOKEN *token)
 {
     t_redir *redir;
     char    **split;
+    int     __expand;
 
     split = NULL;
     if (NULL == token->next || token->next->type != WORD)
@@ -29,8 +46,10 @@ t_redir  *create_redir_node(TOKEN *token)
     redir->type = token->type;
     if (token->type == HEREDOC)
     {
-        redir->target = token->next->token;
-        redir->target = parse_heredoc(redir);
+        token = token->next;
+        __expand = has_quotes(token->token);
+        quote_removal(token);
+        redir->target = parse_heredoc(token->token, __expand);
         return (redir);
     }
     token = token->next;

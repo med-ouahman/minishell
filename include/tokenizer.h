@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 11:52:46 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 15:08:12 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:51:14 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		is_quote(int c);
 int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
+char	find_next_quote(char *s);
 int 	expand(TOKEN *token);
 t_list	*get_var_list(char *str);
 char	*expand_var_list(t_list *var_list);

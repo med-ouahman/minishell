@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 18:01:43 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:02:06 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,44 @@ char    *create_heredoc_file(int length)
 	return (filename);
 }
 
-char    *parse_content(char *content)
+char    *parse_content(char *content, int __expand)
 {
 	t_list  *l;
 
+	if (!__expand)
+		return (content);
 	l = get_var_list(content);
 	content = expand_var_list(l);
 	return (content);
 }
 
-char    *parse_heredoc(t_redir *redir)
+void	__write_to_heredoc_file(int fd, char *_delim, int __expand)
 {
-	char    *line;
+	char	*line;
+	char	*content;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			ft_printf_fd(2, "delim error\n");
+			break ;
+		}
+		if (!ft_strcmp(line, _delim))
+			break ;
+		content = parse_content(line, __expand);
+		if (!(content == line))
+			free(line);
+		write(fd, content, ft_strlen(content));
+		free(content);
+		write(fd, "\n", 1);
+	}
+}
+
+char    *parse_heredoc(char *_delim, int __expand)
+{
 	char    *file;
-	char    *content;
 	int     fd;
 	pid_t    pid;
 
@@ -81,22 +105,7 @@ char    *parse_heredoc(t_redir *redir)
 	{
 		restore_signals();
 		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		while (1)
-		{
-			line = readline("> ");
-			if (!line)
-			{
-				ft_printf_fd(2, "delim error\n");
-				break ;
-			}
-			if (!ft_strcmp(line, redir->target))
-				break ;
-			content = parse_content(line);
-			free(line);
-			write(fd, content, ft_strlen(content));
-			free(content);
-			write(fd, "\n", 1);
-		}
+		__write_to_heredoc_file(fd, _delim, __expand);
 		close(fd);
 		exit(0);
 	}
@@ -104,3 +113,19 @@ char    *parse_heredoc(t_redir *redir)
 	return (file);
 }
 
+int special_array(int *array, int size)
+{
+	if (size % 2)
+		return 0;
+	int i = 0, j = 1;
+
+
+	while (i < size - 1)
+	{
+		if (!(array[i] % 2 == 0 && array[j] % 2))
+			return 0;
+		i+=2;
+		j+=2;
+	}
+	return 1;
+}

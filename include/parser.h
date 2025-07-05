@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 15:05:04 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:15:54 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "./utils.h"
 # include "./tokenizer.h"
 # include "./signal_handler.h"
+# include <sys/types.h>
+# include <dirent.h>
 
 typedef enum
 {
@@ -69,7 +71,6 @@ void	consume(TOKEN **tokens);
 void 	print_tree(AST *ast);
 t_list	*create_pipeline(AST *ast);
 void    print_redir(t_redir *redir);
-char	*parse_heredoc(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
 t_list	*get_redirs(TOKEN **tokens);
 int		is_builtin(char *cmd);
@@ -81,6 +82,7 @@ int		is_redirection(int t);
 
 /* Parsers */
 
+char	*parse_heredoc(char *_delim, int __expand);
 AST 	*parser(TOKEN *tokens);
 AST 	*parse_command(TOKEN **tokens);
 AST		*parse_or_command(TOKEN **tokens);
@@ -88,5 +90,10 @@ AST		*parse_and_command(TOKEN **tokens);
 AST		*parse_pipeline(TOKEN **tokens);
 AST		*parse_atom(TOKEN **tokens);
 int		error(int c, int mode);
+
+
+/*	wildcard */
+
+t_list		*wilcard(char *pattern);
 
 #endif

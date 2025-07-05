@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 15:10:36 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 21:04:52 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int	add_operator(TOKEN **tokens, char *line, t_info info, int *ii)
 	{
 		info.type = WORD;
 		info.start = (*ii)++;
-		while (!is_sep_char(line[*ii]) && !is_space(line[*ii]) && !is_quote(line[*ii]) && line[*ii])
+		while (!is_sep_char(line[*ii])
+			&& !is_space(line[*ii]) && !is_quote(line[*ii]) && line[*ii])
 			(*ii)++;
 		info.end = *ii;
 		add_token(tokens, line, info);

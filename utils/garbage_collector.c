@@ -6,31 +6,31 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 15:57:33 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 12:01:15 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/04 20:34:26 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/garbage_collector.h"
 
-void	remove_ptr_from_list(t_list **__list, void *__ptr)
+void	remove_ptr_from_list(t_list **_list, void *__ptr)
 {
-	t_list	*__curr;
-	t_list	*__next;
+	t_list	*_curr;
+	t_list	*_next;
 
-	__next = *__list;
-	while (__next && __next->content != __ptr)
+	_next = *_list;
+	while (_next && _next->content != __ptr)
 	{
-		__next = __next->next;
+		_next = _next->next;
 	}
-	if (!__next)
+	if (!_next)
 		return ;
-	__next = __next->next;
-	__curr = *__list;
-	while (__curr && __curr->next && __curr->content != __ptr)
+	_next = _next->next;
+	_curr = *_list;
+	while (_curr && _curr->next && _curr->content != __ptr)
 	{
-		__curr = __curr->next;
+		_curr = _curr->next;
 	}
-	__curr->next = __next;
+	_curr->next = _next;
 }
 
 void	garbage_collector(void *__ptr, int __option)
