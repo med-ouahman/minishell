@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:37:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/05 14:30:49 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:21:39 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,17 @@ static int	is_match(char *from, char *srch)
 {
 	int	i;
 	int	j;
+	int	stat;
 
 	i = 0;
 	j = 0;
 	while (from[i] && srch[j])
 	{
-		if (loop(from, &i, srch, &j) != 2)
-			break ;
+		stat = loop(from, &i, srch, &j);
+		if (stat == 1)
+			return (1);
+		else if (stat == 0)
+			return (0);
 	}
 	while (srch[j] == '*')
 		j++;
@@ -60,7 +64,6 @@ static int	add_to_list(t_list **lst, char *from, char *srch)
 	t_list	*new;
 
 	new = NULL;
-	printf("%s %s\n", from, srch);
 	if (is_match(from, srch))
 	{
 		if (from[0] == '.')
