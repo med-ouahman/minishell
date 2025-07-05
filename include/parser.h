@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:59:25 by mouahman          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/07/05 14:15:54 by mouahman         ###   ########.fr       */
+=======
+/*   Updated: 2025/07/03 17:47:50 by aid-bray         ###   ########.fr       */
+>>>>>>> 191da425410b72e73f73348b77e5aea2e344120c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +66,7 @@ typedef struct
 
 typedef struct s_ast
 {
-	int 	node_type;
+	int		node_type;
 	void	*data;
 }	t_ast;
 
