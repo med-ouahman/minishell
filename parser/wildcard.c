@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 09:37:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/05 14:18:03 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 14:30:49 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static int	add_to_list(t_list **lst, char *from, char *srch)
 	t_list	*new;
 
 	new = NULL;
+	printf("%s %s\n", from, srch);
 	if (is_match(from, srch))
 	{
 		if (from[0] == '.')
