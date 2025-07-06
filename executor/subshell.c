@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/27 01:20:10 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 21:18:09 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:59:24 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ int	subshell(AST *atom, t_exec_control_block *exec_cb)
 		return (subshell(subshell_node->ast_node, exec_cb));
 	prepare_redirs(subshell_node->redirs, exec_cb->stdio);
 	atom = subshell_node->ast_node;
+	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (0 > pid)
 		return (-1);
 	if (0 == pid)
 	{
+		signal(SIGINT, SIG_DFL);
 		dup_stdio(exec_cb->stdio);
 		close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
 		status = executor(atom, exec_cb);

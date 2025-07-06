@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 14:35:59 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 14:44:29 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:48:47 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,5 @@ int		error(int c, int mode);
 /*	wildcard */
 
 t_list		*wilcard(char *pattern);
-
+int	is_wildcard(TOKEN *token);
 #endif

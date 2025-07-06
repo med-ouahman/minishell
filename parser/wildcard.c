@@ -6,13 +6,14 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:40:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 15:40:16 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:36:22 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
 static int	is_match(char *from, char *srch);
+
 
 static int	loop(char *from, int *i, char *srch, int *j)
 {

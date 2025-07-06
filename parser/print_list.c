@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:58:39 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 21:08:13 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:09:09 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char *get_token_type(int type)
 		return ("SUBSHELL");
 	if (type == WILDCARD)
 		return ("WILDCARD");
+	if (type == -1)
+		return ("Parser");
 	return ("UNKNOWN");
 }
 void	print_token_list(TOKEN *list)

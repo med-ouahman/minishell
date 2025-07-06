@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 13:50:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 15:11:39 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:42:34 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ char	*expand_var_list(t_list *var_list)
 
 void	add_exit_code(t_list **var_list, int code)
 {
-	t_list	*last;
 	t_list	*node;
 	char	*s;
 
@@ -116,15 +115,7 @@ void	add_exit_code(t_list **var_list, int code)
 	garbage_collector(s, COLLECT);
 	node = ft_lstnew(s);
 	garbage_collector(node, COLLECT);
-	if (*var_list == NULL)
-	{
-		*var_list = node;
-		return ;
-	}
-	last = *var_list;
-	while (last->next)
-		last = last->next;
-	last->next = node;
+	ft_lstadd_back(var_list, node);
 }
 
 t_list	*get_var_list(char *str)

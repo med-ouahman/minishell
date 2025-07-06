@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:48:34 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 13:46:30 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:06:51 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,13 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 		redir = (t_redir *)redirs->content;
 		fd = open_file(redir->target, redirection_flags(redir->type), _open_mode(redir->type));
 		if (fd < 0)
-		{
-			access_exit_code(1, WRITE);
 			return (-1);
-		}
 		if (redir->type == REDIN || redir->type == HEREDOC)
 			stdio[0] = fd;
 		else
 			stdio[1] = fd;
+		if (redirs->next)
+			close(fd);
 		redirs = redirs->next;
 	}
 	return (0);

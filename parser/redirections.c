@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 20:50:55 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 10:20:31 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_redir  *create_redir_node(TOKEN *token)
     t_redir *redir;
     char    **split;
     int     __expand;
+    char	*save;
 
     split = NULL;
     if (NULL == token->next || token->next->type != WORD)
@@ -53,7 +54,9 @@ t_redir  *create_redir_node(TOKEN *token)
         return (redir);
     }
     token = token->next;
+    save = ft_strdup(token->token);
     expand(token);
+    quote_removal(token);
     if (token->split)
     {
         split = word_split(token);
@@ -61,7 +64,7 @@ t_redir  *create_redir_node(TOKEN *token)
         if (!*split || *(split + 1))
         {
             error(1, WRITE);
-            printf("minishell: ambiguous redirect\n");
+            printf("minishell: %s ambiguous redirect\n", save);
             return (NULL);
         }
         redir->target = *split;

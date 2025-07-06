@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 16:19:05 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:17:43 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	{
 		signal(SIGINT, SIG_DFL);
 		dup_stdio(exec_cb->stdio);
+		close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
 		execve(path, args, __environ);
 		exit(EXIT_FAILURE);
 	}

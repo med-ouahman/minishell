@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:11:47 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 14:53:47 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:48:09 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ AST *parse_and_command(TOKEN **tokens)
 		if (!right)
 		{
 			token = peek(*tokens);
+			error(1, WRITE);
 			syntax_error(AND, token);
 			return (NULL);
 		}

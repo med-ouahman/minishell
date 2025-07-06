@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 14:03:50 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:44:50 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	check_access(char **path, char **paths, char *cmd)
 	int		i;
 
 	i = -1;
+	if (!*cmd)
+		return (ENOENT);
 	if (!paths)
 	{
 		*path = ft_strdup(cmd);

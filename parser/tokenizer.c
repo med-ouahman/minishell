@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 21:04:52 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:25:37 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	token_type(char *s, int type)
 		return (OPENPAR);
 	if (!ft_strcmp(s, ")"))
 		return (CLOSEPAR);
-	if (!ft_strcmp(s, "*"))
-		return (WILDCARD);
 	return (-1);
 }
 

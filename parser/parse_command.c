@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 20:49:25 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:43:26 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_list  *build_command_args(TOKEN **tokens)
 
 	args = NULL;
 	curr = peek(*tokens);
-	while (curr && curr->type == WORD)
+	while (curr && (curr->type == WORD))
 	{
 		expand(curr);
 		quote_removal(curr);
@@ -82,7 +82,8 @@ AST *parse_command(TOKEN **tokens)
 	if (error(0, READ))
 		return (NULL);
 	token = peek(*tokens);
-	if (!tokens || (token->type != WORD && !is_redirection(token->type)))
+	if (!tokens || (token->type != WORD && token->type != WILDCARD
+		&& !is_redirection(token->type)))
 	{
 		error(1, WRITE);
 		syntax_error(CMD, token);

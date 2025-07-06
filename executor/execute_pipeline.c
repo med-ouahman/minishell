@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 10:12:02 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 13:49:33 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:08:56 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ static int execute_pipe_end(AST *parse_t, t_exec_control_block *exec_cb)
 	return (0);
 }
 
-int	execute_pipeline(t_exec_control_block *exec_cb)
+int	execute_pipeline(AST *parse_t, t_exec_control_block *exec_cb)
 {
 	int         i;
 	AST			*pipe_end;
 	
+	exec_cb->pipeline = create_pipeline(parse_t);
 	exec_cb->pipes = create_pipes(num_pipes(exec_cb));
 	exec_cb->pids = malloc(exec_cb->pid_size * sizeof *exec_cb->pids);
 	garbage_collector(exec_cb->pids, COLLECT);
@@ -72,8 +73,6 @@ int	execute_pipeline(t_exec_control_block *exec_cb)
 		pipe_end = (AST *)exec_cb->pipeline->content;
 		if (pipe_end->node_type == CMD)
 			prepare_redirs(redirs((t_cmd *)pipe_end->data), exec_cb->stdio);
-		if (access_exit_code(0, READ))
-			return (-1);
 		set_stdio(exec_cb, i);
 		execute_pipe_end(exec_cb->pipeline->content, exec_cb);
 		exec_cb->pipeline = exec_cb->pipeline->next;

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:08:45 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 13:37:42 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 15:47:31 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ AST *parse_pipeline(TOKEN **tokens)
 
 	if (!peek(*tokens) || error(0, READ))
 		return (NULL);
-	token = peek(*tokens);
 	left = parse_atom(tokens);
 	if (!left)
 		return (NULL);

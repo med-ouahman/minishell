@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   is_wildcard.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 09:17:09 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:33:26 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/05 16:36:41 by mouahman          #+#    #+#             */
+/*   Updated: 2025/07/05 16:37:03 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-AST *parser(TOKEN *tokens)
+int	is_wildcard(TOKEN *token)
 {
-	AST *parse_t;
-
-	error(0, WRITE);
-	parse_t = parse_or_command(&tokens);
-	if (error(0, READ))
-		return (NULL);
-	if (tokens != NULL)
-	{
-		syntax_error(-1, peek(tokens));
-		return (NULL);
-	}
-	return (parse_t);
+	if (token->type != WORD || token->p_quote
+		|| !ft_strchr(token->token, '*'))
+		return (0);
+	return (1);
 }

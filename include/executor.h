@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:23:24 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 13:49:42 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:56:11 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*command_path(char **pvs, char *cmd);
 char	**split_path(void);
 int	    wait_children(pid_t *pids, int num_children);
 int	    exit_code(int status);
-int     execute_pipeline(t_exec_control_block *exec_cb);
+int	execute_pipeline(AST *parse_t, t_exec_control_block *exec_cb);
 int	    execute_single_command(AST *parse_t, t_exec_control_block *exec_cb);
 int	    subshell(AST *atom, t_exec_control_block *exec_cb);
 

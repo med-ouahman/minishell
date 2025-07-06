@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 15:05:27 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/07/06 11:38:04 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,11 @@ int	main(void)
 		if (0 == *line)
 			continue ;
 		add_history(line);
-		print_list(wilcard(line));
-		continue;
 		tokens = tokenizer(line);
 		free(line);
 		parse_t = parser(tokens);
 		if (!parse_t)
 			continue ;
-		access_exit_code(0, WRITE);
 		setup_execution(parse_t);
 		// garbage_coellector(NULL, DESTROY);
 	}
