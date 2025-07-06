@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   is_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:30:19 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/23 09:30:40 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 15:38:55 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ int is_builtin(char *cmd)
         return (ENV);
     return (NOT);
 }
-

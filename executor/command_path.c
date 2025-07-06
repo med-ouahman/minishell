@@ -6,13 +6,28 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:44:50 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 15:15:21 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
 
-static char	*get_cmdpath(int i, char **paths, char *cmd)
+static int	__file_state_(char *__file_path)
+{
+	struct stat	buff;
+	int			c;
+
+	c = stat(__file_path, &buff);
+	if (0 > c)
+	{
+		return (-1);
+	}
+	if (S_ISREG(buff.st_mode))
+		return (0);
+	return (-1);
+}
+
+static char	*join_paths(int i, char **paths, char *cmd)
 {
 	char	*cmdpath;
 	size_t	size;
@@ -37,14 +52,9 @@ int	check_access(char **path, char **paths, char *cmd)
 	i = -1;
 	if (!*cmd)
 		return (ENOENT);
-	if (!paths)
-	{
-		*path = ft_strdup(cmd);
-		return (0);
-	}
 	while (i == -1 || paths[i])
 	{
-		*path = get_cmdpath(i, paths, cmd);
+		*path = join_paths(i, paths, cmd);
 		if (!*path)
 			return (-1);
 		if (!access(*path, F_OK))
@@ -56,6 +66,8 @@ int	check_access(char **path, char **paths, char *cmd)
 		free(*path);
 		*path = NULL;
 		i++;
+		if (!paths)
+			break ;
 	}
 	return (errno);
 }
@@ -69,7 +81,7 @@ char	*command_path(char **paths, char *cmd)
 	c = check_access(&path, paths, cmd);
 	if (0 > c)
 		access_exit_code(1, WRITE);
-	if (ENOENT == c)
+	if (ENOENT == c || __file_state_(path))
 	{
 		access_exit_code(127, WRITE);
 		printf("minishell: %s: command not found\n", cmd);

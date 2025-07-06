@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:17:43 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 14:31:58 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	char	**args;
 	char	*path;
 	pid_t	pid;
-
+	
 	args = build_args(cmd->args);
 	if (!args)
 		return (-1);

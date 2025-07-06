@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:23:24 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 16:56:11 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 14:48:53 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include "./parser.h"
 # include <sys/wait.h>
 # include "./builtins.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 # define OPEN_MODE 0644
 

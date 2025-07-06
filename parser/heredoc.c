@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 19:02:06 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:14:24 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,22 @@ char    *create_heredoc_file(int length)
 	char    *filename;
 	int i;
 	int random_char;
+	int	fd;
 
-	return ft_strdup("heredoc");
 	filename = malloc(sizeof(char) * length + 1);
 	garbage_collector(filename, COLLECT);
+	fd = open("/dev/random", O_RDONLY);
 	i = 0;
 	while (i < length)
 	{
-		random_char = rand() % 127;
-		random_char = random_char < 32 ? random_char + 32: random_char;
-		filename[i] = random_char + 48;
+		read(fd, &random_char, 1);
+		if (!ft_isprint(random_char))
+			continue ;
+		filename[i] = random_char;
 		i++;
 	}
 	filename[i] = 0;
+	printf("%s\n", filename);
 	return (filename);
 }
 
@@ -98,7 +101,7 @@ char    *parse_heredoc(char *_delim, int __expand)
 	int     fd;
 	pid_t    pid;
 
-	file = create_heredoc_file(10);
+	file = create_heredoc_file(20);
 	pid = fork();
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
@@ -111,21 +114,4 @@ char    *parse_heredoc(char *_delim, int __expand)
 	}
 	heredoc_exit(pid);
 	return (file);
-}
-
-int special_array(int *array, int size)
-{
-	if (size % 2)
-		return 0;
-	int i = 0, j = 1;
-
-
-	while (i < size - 1)
-	{
-		if (!(array[i] % 2 == 0 && array[j] % 2))
-			return 0;
-		i+=2;
-		j+=2;
-	}
-	return 1;
 }

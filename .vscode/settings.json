@@ -1,5 +1,17 @@
 {
     "files.associations": {
-        "parser.h": "c"
+        "parser.h": "c",
+        "executor.h": "c",
+        "builtins.h": "c",
+        "utils.h": "c",
+        "minishell.h": "c",
+        "history.h": "c",
+        "signal_handler.h": "c",
+        "tokenizer.h": "c",
+        "readline.h": "c",
+        "signal.h": "c",
+        "features-time64.h": "c",
+        "timesize.h": "c",
+        "wordsize.h": "c"
     }
 }

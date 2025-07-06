@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:28:17 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 10:20:31 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 14:09:00 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_redir  *create_redir_node(TOKEN *token)
         if (!*split || *(split + 1))
         {
             error(1, WRITE);
-            printf("minishell: %s ambiguous redirect\n", save);
+            printf("minishell: %s: ambiguous redirect\n", save);
             return (NULL);
         }
         redir->target = *split;

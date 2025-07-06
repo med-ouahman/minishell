@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 15:40:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 16:36:22 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 20:20:27 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	add_to_list(t_list **lst, char *from, char *srch)
 	return (0);
 }
 
-t_list	*wilcard(char *pattern)
+t_list	*wildcard(char *pattern)
 {
 	DIR				*dir;
 	struct dirent	*_readdir;
@@ -99,3 +99,4 @@ t_list	*wilcard(char *pattern)
 	closedir(dir);
 	return (list);
 }
+

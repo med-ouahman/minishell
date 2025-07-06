@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 09:29:28 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:43:26 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 14:28:57 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,23 @@
 
 void	add_splitted_argument(t_list **args, TOKEN *token)
 {
+	char	*tmp;
 	char	**split;
 	t_list	*arg_node;
 
 	split = word_split(token);
+	tmp = token->token;
 	while (*split && **split)
 	{
-		arg_node = ft_lstnew(*split);
+		token->token = *split;
+		if (is_wildcard(token))
+			arg_node = wildcard(token->token);
+		else
+			arg_node = ft_lstnew(*split);
 		ft_lstadd_back(args, arg_node);
 		split++;
 	}
+	token->token = tmp;
 }
 
 t_list  *build_command_args(TOKEN **tokens)
@@ -42,7 +49,14 @@ t_list  *build_command_args(TOKEN **tokens)
 			add_splitted_argument(&args, curr);
 		else
 		{
-			arg_node = ft_lstnew(curr->token);
+			if (is_wildcard(curr))
+			{
+				arg_node = wildcard(curr->token);
+				if (!arg_node)
+					arg_node = ft_lstnew(curr->token);
+			}
+			else
+				arg_node = ft_lstnew(curr->token);
 			ft_lstadd_back(&args, arg_node);
 		}
 		consume(tokens);

@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 14:35:59 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 16:48:47 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/06 13:10:58 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ typedef struct
 typedef struct
 {
 	int		is_buitlin;
-	t_list	*args;
-	t_list	*redirs;
+	t_list	*args; /* list of strings, could also be an array of strings */
+	t_list	*redirs; /* list of t_redir type */
 }	t_cmd;
 
 typedef struct s_ast
@@ -94,6 +94,7 @@ int		error(int c, int mode);
 
 /*	wildcard */
 
-t_list		*wilcard(char *pattern);
-int	is_wildcard(TOKEN *token);
+t_list	*wildcard(char *pattern);
+int		is_wildcard(TOKEN *token);
+
 #endif
