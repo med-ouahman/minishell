@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:36:37 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:05:16 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/07 14:21:04 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int executor(AST *parse_t, t_exec_control_block *exec_cb)
 int	setup_execution(AST *parse_t)
 {
 	t_exec_control_block	exec_cb;
-	int						__exit_;
+	int						__exit_status;
 	
 	access_exit_code(0, WRITE);
 	exec_cb.paths = split_path();
@@ -115,9 +115,8 @@ int	setup_execution(AST *parse_t)
 	exec_cb.pipes = NULL;
 	exec_cb.pid_size = 0;
 	exec_cb.curr_pid = 0;
-	exec_cb.stdio[0] = STDIN_FILENO;
-	exec_cb.stdio[1] = STDOUT_FILENO;
-	__exit_ = executor(parse_t, &exec_cb);
-	access_exit_code(__exit_, WRITE);
-	return (__exit_);
+	reset_stdio(exec_cb.stdio);
+	__exit_status = executor(parse_t, &exec_cb);
+	access_exit_code(__exit_status, WRITE);
+	return (__exit_status);
 }
