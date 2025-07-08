@@ -6,11 +6,11 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:07:58 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 15:54:24 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/07/05 17:13:29 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../../include/minishell.h"
 
 static int	check_arg(char *arg)
 {
@@ -57,35 +57,36 @@ static int	exit_nbr(const char *nptr)
 
 static void	exit_2(t_cmd *cmd)
 {
-	if (check_arg(cmd->args->next->content))
+	char	*arg;
+
+	arg = (char *)cmd->args->next->content;
+	if (check_arg(arg))
 	{
-		ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
-			(char *)cmd->args->next->content);
+		print_file_error2("exit", arg, "numeric argument required");
 		exit(2);
 	}
 	else
-		ft_printf_fd(2, "minishell: exit: too many arguments\n",
-			(char *)cmd->args->next->content);
+		print_file_error("exit", "too may arguments");
 }
 
 int	exit_(t_cmd *cmd)
 {
-	int	exit_status;
+	int		exit_status;
+	char	*arg;
 
-	ft_printf_fd(1, "exit\n");
+	ft_printf_fd(2, "exit\n");
 	exit_status = 2;
 	if (!cmd->args->next)
 		exit (EXIT_SUCCESS);
 	if (!cmd->args->next->next)
 	{
-		exit_status = exit_nbr((const char *)cmd->args->next->content);
-		if (check_arg(cmd->args->next->content))
-			ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
-				(char *)cmd->args->next->content);
+		arg = (char *)cmd->args->next->content;
+		exit_status = exit_nbr(arg);
+		if (check_arg(arg))
+			print_file_error2("exit", arg, "numeric argument required");
 		else if (exit_status == -1)
 		{
-			ft_printf_fd(2, "minishell: exit: %s: numeric argument required\n",
-				(char *)cmd->args->next->content);
+			print_file_error2("exit", arg, "numeric argument required");
 			exit_status = 2;
 		}
 		exit(exit_status);

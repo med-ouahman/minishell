@@ -3,17 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:23:34 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 13:41:14 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/05 16:28:56 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-int	env(t_cmd *cmd)
+static int	check(char *s)
 {
-	
-	return (cmd->is_buitlin);
+	unsigned int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	env(void)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (__environ[i])
+	{
+		if (check(__environ[i]))
+			printf("%s\n", __environ[i]);
+		i++;
+	}
+	return (0);
 }

@@ -10,9 +10,76 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../../include/minishell.h"
+
+static char	*new_varpwd(char *var)
+{
+	char	*new_pwd;
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (print_file_error("cd", strerror(errno)), NULL);
+	new_pwd = ft_strjoin(var, pwd);
+	if (!new_pwd)
+	{
+		print_file_error("cd", "memory allocation");
+		free (pwd);
+		return (NULL);
+	}
+	free (pwd);
+	return (new_pwd);
+}
+
+static int	change_pwd(char ***env, char	*oldpwd)
+{
+	char	*pwd;
+	char	*tmp;
+	long		i;
+
+	pwd = new_varpwd("PWD=");
+	if (!pwd)
+		return (1);
+	i = 0;
+	while ((*env)[i])
+	{
+		if (ft_strncmp((*env)[i], pwd, 4) == 0)
+		{
+			tmp = (*env)[i];
+			(*env)[i] = pwd;
+			pwd = tmp;
+		}
+		else if (ft_strncmp((*env)[i], oldpwd, 7) == 0)
+		{
+			tmp = (*env)[i];
+			(*env)[i] = oldpwd;
+			oldpwd = tmp;
+		}
+		i++;
+	}
+	return (free(pwd), free(oldpwd), 0);
+}
 
 int	cd(t_cmd *cmd)
 {
-	return (cmd->is_buitlin);
+	char	*path;
+	char	*oldpwd;
+
+	if (!cmd->args->next)
+		return (print_file_error("cd", "no path specific"), 1);
+	if (cmd->args->next && cmd->args->next->next)
+		return (print_file_error("cd", "too many arguments"), 1);
+	path = cmd->args->next->content;
+	oldpwd = new_varpwd("OLDPWD=");
+	if (!oldpwd)
+		return (1);
+	if (chdir(path))
+	{
+		print_file_error2("cd", path, strerror(errno));
+		free(oldpwd);
+		return (1);
+	}
+	if (change_pwd(&__environ, oldpwd))
+		return (free(oldpwd), 1);
+	return (0);
 }

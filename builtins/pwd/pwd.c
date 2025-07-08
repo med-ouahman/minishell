@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../../include/minishell.h"
 
 int	pwd(t_cmd *cmd)
 {
@@ -18,8 +18,12 @@ int	pwd(t_cmd *cmd)
 
 	(void)cmd;
 	cwd = getcwd(NULL, 0);
-	garbage_collector(cwd, CHECK);
+	if (!cwd)
+	{
+		print_file_error("pwd", strerror(errno));
+		return (1);
+	}
 	printf("%s\n", cwd);
-	garbage_collector(cwd, FREE);
+	free(cwd);
 	return (0);
 }
