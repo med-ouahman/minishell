@@ -12,17 +12,36 @@
 
 #include "../include/executor.h"
 
+int	is_executable(char *__pathname, char **path)
+{
+	if (!access(__pathname, F_OK) && !access(__pathname, X_OK))
+	{
+		*path = __pathname;
+		return (0);
+	}
+	return (errno);
+}
+
+int	is_path(char *cmd)
+{
+	if (!ft_strncmp(cmd, "./", 2))
+		return (1);
+	if (*cmd == '/')
+		return (1);
+	return (0);
+}
+
 static int	__file_state_(char *__file_path)
 {
-	struct stat	buff;
+	struct stat	buf;
 	int			c;
 
-	c = stat(__file_path, &buff);
+	c = stat(__file_path, &buf);
 	if (0 > c)
 	{
 		return (-1);
 	}
-	if (S_ISREG(buff.st_mode))
+	if (S_ISREG(buf.st_mode))
 		return (0);
 	return (-1);
 }
@@ -32,13 +51,11 @@ static char	*join_paths(int i, char **paths, char *cmd)
 	char	*cmdpath;
 	size_t	size;
 
-	if (i == -1)
-		return (ft_strdup(cmd));
 	size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
 	cmdpath = malloc(size * sizeof *cmdpath);
 	if (!cmdpath)
 		return (NULL);
-	cmdpath[0] = '\0';
+	*cmdpath = 0;
 	ft_strlcat(cmdpath, paths[i], size);
 	ft_strlcat(cmdpath, "/", size);
 	ft_strlcat(cmdpath, cmd, size);
@@ -49,10 +66,12 @@ int	check_access(char **path, char **paths, char *cmd)
 {
 	int		i;
 
-	i = -1;
+	i = 0;
 	if (!*cmd)
 		return (ENOENT);
-	while (i == -1 || paths[i])
+	if (is_path(cmd))
+		return (is_executable(cmd, path));
+	while (paths[i])
 	{
 		*path = join_paths(i, paths, cmd);
 		if (!*path)
@@ -66,8 +85,6 @@ int	check_access(char **path, char **paths, char *cmd)
 		free(*path);
 		*path = NULL;
 		i++;
-		if (!paths)
-			break ;
 	}
 	return (errno);
 }

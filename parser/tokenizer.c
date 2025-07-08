@@ -12,8 +12,6 @@
 
 #include "../include/tokenizer.h"
 
-int	add_regular(TOKEN **tokens, char *line, t_info info, int *ii);
-
 void	add_node(TOKEN **list, TOKEN *node)
 {
 	TOKEN	*last;
@@ -73,9 +71,10 @@ int	add_token(TOKEN **list, char *line, t_info info)
 	return (0);
 }
 
-int		add_quoted_token(TOKEN **tokens, char *line, t_info info, int *ii)
+int		add_quoted_token(TOKEN **tokens, char *line, int *ii)
 {
-	int	i;
+	int		i;
+	t_info	info;
 
 	i = *ii;
 	info.quote = line[i];
@@ -93,9 +92,10 @@ int		add_quoted_token(TOKEN **tokens, char *line, t_info info, int *ii)
 	return (i);
 }
 
-int	add_operator(TOKEN **tokens, char *line, t_info info, int *ii)
+int	add_operator(TOKEN **tokens, char *line, int *ii)
 {
-	
+	t_info	info;
+
 	info.start = *ii;
 	if (0 == is_sep(line + (*ii), ii))
 	{
@@ -115,19 +115,41 @@ int	add_operator(TOKEN **tokens, char *line, t_info info, int *ii)
 	return (*ii);
 }
 
-int	add_regular(TOKEN **tokens, char *line, t_info info, int *ii)
+int	add_regular(TOKEN **tokens, char *line, int *ii)
 {
-	int	i;
+	int		open_q;
+	int		close_q;
+	int		i;
+	t_info	info;
 
+	open_q = 0;
+	close_q = 0;
 	i = *ii;
 	while (is_space(line[i]))
 		i++;
 	info.start = i;
-	while (!is_sep_char(line[i]) && !is_space(line[i]) && !is_quote(line[i]) && line[i])
+	while (!is_sep_char(line[i]) && !is_space(line[i]) && line[i])
+	{
+		if (open_q == line[i])
+			close_q = line[i];
+		if (!open_q && is_quote(line[i]))
+		{
+			open_q = line[i++];
+			while (line[i] && line[i] != open_q)
+				i++;
+			continue ;
+		}
+		if (close_q == open_q)
+		{
+			info.quote = open_q;
+			open_q = close_q = 0;
+		}
 		i++;
+	}
+	if (open_q != close_q)
+		return (panic("minishell: parse error: unclosed quote\n", -1));
 	info.end = i;
 	info.type = WORD;
-	info.quote = 0;
 	add_token(tokens, line, info);
 	*ii = i;
 	return (i);
@@ -137,29 +159,24 @@ TOKEN	*tokenizer(char *line)
 {
 	TOKEN	*tokens;
 	int	i;
-	t_info	info;
 	
 	i = 0;
 	tokens = NULL;
-	info.quote = 0;
 	while (line[i])
 	{
-		if (is_quote(line[i]))
+		while (ft_isspace(line[i]))
+			i++;
+		if (is_sep_char(line[i]))
 		{
-			if (-1 == add_quoted_token(&tokens, line, info, &i))
+			if (add_operator(&tokens, line, &i) < 0)
 				return (NULL);
 		}
-		else if (ft_isspace(line[i]))
-		{
-			i++;
-			while (ft_isspace(line[i]))
-				i++;
-		}
-		else if (is_sep_char(line[i]))
-			add_operator(&tokens, line, info, &i);
 		else
-			add_regular(&tokens, line, info, &i);
+		{
+			if (0 > add_regular(&tokens, line, &i))
+				return (NULL);
+		}
 	}
-	join_tokens(&tokens);
+	// join_tokens(&tokens);
 	return (tokens);
 }

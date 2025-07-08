@@ -43,27 +43,7 @@ void print_exc_list(t_list *exec_list)
     t_list  *current = exec_list;
     while (current)
     {
-        t_cmd *cmd = (t_cmd *)current->content;
-        printf("Command: ");
-        t_list *arg = cmd->args;
-        while (arg)
-        {
-            printf("'%s' ", (char *)arg->content);
-            arg = arg->next;
-        }
-        arg = cmd->redirs;
-        while (arg)
-        {
-            t_redir *redir = (t_redir *)arg->content;
-            printf("Redirection: %s -> %s ",
-                   redir->type == REDIN ? "REDIN" :
-                   redir->type == REDOUT ? "REDOUT" :
-                   redir->type == HEREDOC ? "HEREDOC" :
-                   redir->type == REDOUTAPP ? "REDOUTAPP" : "UNKNOWN",
-                   redir->target);
-           arg = arg->next;
-        }
-        printf("\n");
+        print_tree(current->content);
         current = current->next;
     }
 }
@@ -106,7 +86,7 @@ void print_atom(AST *atom)
 
     if (subshell->ast_node->node_type == ATOM)
         return print_tree(subshell->ast_node);
-    printf("type is %s\n", get_token_type(subshell->ast_node->node_type));
+    print_tree(subshell->ast_node);
 }
 
 void print_tree(AST *ast)

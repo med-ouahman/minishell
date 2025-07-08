@@ -56,7 +56,6 @@ t_redir  *create_redir_node(TOKEN *token)
     token = token->next;
     save = ft_strdup(token->token);
     expand(token);
-    quote_removal(token);
     if (token->split)
     {
         split = word_split(token);

@@ -12,11 +12,11 @@
 
 #include "../include/garbage_collector.h"
 
-void	*my_alloc(size_t _size)
+void	*my_alloc(size_t _size, int __opt)
 {
 	void	*ptr;
 
 	ptr = malloc(_size);
-	garbage_collector(ptr, COLLECT);
+	garbage_collector(ptr, __opt);
 	return (ptr);
 }

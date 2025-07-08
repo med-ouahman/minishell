@@ -70,7 +70,7 @@ t_cmd   *build_command(TOKEN **tokens)
 	t_cmd   *cmd;
 	TOKEN	*token;
 
-	cmd = my_alloc(sizeof *cmd);
+	cmd = my_alloc(sizeof *cmd, COLLECT);
 	cmd->args = build_command_args(tokens);
 	cmd->redirs = get_redirs(tokens);
 	if (error(0, READ))

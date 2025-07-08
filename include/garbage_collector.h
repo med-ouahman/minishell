@@ -24,6 +24,6 @@ typedef enum
 }   t_gbc_options;
 
 void	garbage_collector(void *_ptr, int _option);
-void	*my_alloc(size_t _size);
+void	*my_alloc(size_t _size, int __opt);
 
 #endif

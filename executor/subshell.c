@@ -32,6 +32,7 @@ int	subshell(AST *atom, t_exec_control_block *exec_cb)
 		signal(SIGINT, SIG_DFL);
 		dup_stdio(exec_cb->stdio);
 		close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
+		reset_stdio(exec_cb->stdio);
 		status = executor(atom, exec_cb);
 		exit(status);
 	}
