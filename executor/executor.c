@@ -44,7 +44,7 @@ int	execute_atom(AST *parse_t, t_exec_control_block *exec_cb)
 	if (0 > subshell(parse_t, exec_cb))
 		return (1);
 	stat = wait_children(exec_cb->pids, exec_cb->pid_size);
-	signal(SIGINT, signal_handler);
+	signal(SIGINT, sigint_handler);
 	garbage_collector(exec_cb->pids, FREE);
 	return (stat);
 }
@@ -64,6 +64,7 @@ int	execute_and(AST *parse_t, t_exec_control_block *exec_cb)
 int	execute_single_command(AST *parse_t, t_exec_control_block *exec_cb)
 {
 	t_cmd	*cmd;
+	int		stat;
 
 	cmd = (t_cmd *)parse_t->data;
 	if (prepare_redirs(cmd->redirs, exec_cb->stdio))
@@ -79,9 +80,9 @@ int	execute_single_command(AST *parse_t, t_exec_control_block *exec_cb)
 		exec_cb->pid_size = 0;
 		return (1);
 	}
-	wait_children(exec_cb->pids, exec_cb->pid_size);
-	signal(SIGINT, signal_handler);
-	return (0);
+	stat = wait_children(exec_cb->pids, exec_cb->pid_size);
+	signal(SIGINT, sigint_handler);
+	return (stat);
 }
 
 int executor(AST *parse_t, t_exec_control_block *exec_cb)

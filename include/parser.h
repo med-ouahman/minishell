@@ -69,12 +69,15 @@ typedef struct s_ast
 
 void	print_file_error(char *filename, char *err_msg);
 void	print_file_error2(char *filename, char *_path, char *__err_msg);
+
 TOKEN	*peek(TOKEN *tokens);
 void	consume(TOKEN **tokens);
+
 void 	print_tree(AST *ast);
-t_list	*create_pipeline(AST *ast);
 void    print_redir(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
+t_list	*create_pipeline(AST *ast);
+
 t_list	*get_redirs(TOKEN **tokens);
 int		is_builtin(char *cmd);
 int		last_exit_code(int new_value, int mode);

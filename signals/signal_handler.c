@@ -12,7 +12,7 @@
 
 #include "../include/signal_handler.h"
 
-void	signal_handler(int signum)
+void	sigint_handler(int signum)
 {
 	if (SIGINT == signum)
 	{
@@ -20,4 +20,10 @@ void	signal_handler(int signum)
 		rl_new_prompt();
 		return ;
 	}
+}
+
+void	handle_signals(void)
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

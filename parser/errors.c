@@ -22,6 +22,7 @@ int	syntax_error(int claimer, TOKEN *token)
 		s = token->token;
 	printf("error: claimer: %s\nminishell: syntax error near unexpected token `%s'\n",
 		get_token_type(claimer), s);
+	error(1, WRITE);
 	return (0);
 }
 

@@ -18,8 +18,8 @@ int	main(void)
 	TOKEN	*tokens;
 	AST		*parse_t;
 
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
+	handle_signals();
+	dup_env(&__environ);
 	while (true)
 	{
 		line = readline("$ ");

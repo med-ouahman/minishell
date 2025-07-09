@@ -56,9 +56,7 @@ int	add_token(TOKEN **list, char *line, t_info info)
 {
 	TOKEN	*token;
 	
-	token = malloc(sizeof *token);
-	if (NULL == token)
-		return (-1);
+	token = my_alloc(sizeof *token, COLLECT);
 	token->type = info.type;
 	token->p_quote = info.quote;
 	token->token = ft_substr(line, info.start, info.end - info.start);
@@ -69,27 +67,6 @@ int	add_token(TOKEN **list, char *line, t_info info)
 	token->next = NULL;
 	add_node(list, token);
 	return (0);
-}
-
-int		add_quoted_token(TOKEN **tokens, char *line, int *ii)
-{
-	int		i;
-	t_info	info;
-
-	i = *ii;
-	info.quote = line[i];
-	info.start = i++;
-	while (line[i] != info.quote && line[i])
-		i++;
-	if (!line[i])
-		return (panic("minishell: parse error: unclosed quote\n", -1));
-	if (line[i] == info.quote)
-		i++;
-	info.end = i;
-	info.type = WORD;
-	add_token(tokens, line, info);
-	*ii = i;
-	return (i);
 }
 
 int	add_operator(TOKEN **tokens, char *line, int *ii)

@@ -48,9 +48,7 @@ AST *parse_or_command(TOKEN **tokens)
 			return (NULL);
 		if (!right)
 		{
-			token = peek(*tokens);
-			syntax_error(OR, token);
-			error(1, WRITE);
+			syntax_error(OR, peek(*tokens));
 			return (NULL);
 		}
 		left = build_or_command(left, right);

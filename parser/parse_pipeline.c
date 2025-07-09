@@ -50,9 +50,7 @@ AST *parse_pipeline(TOKEN **tokens)
 			return (NULL);
 		if (!right)
 		{
-			token = peek(*tokens);
-			error(1, WRITE);
-			syntax_error(PIPE, token);
+			syntax_error(PIPE, peek(*tokens));
 			return (NULL);
 		}
 		left = build_pipeline(left, right);

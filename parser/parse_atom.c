@@ -27,6 +27,30 @@ static AST	*build_atom(AST *atom, t_list *redirs)
 	atom_node->node_type = ATOM;
 	return (atom_node);
 }
+
+static AST	*parse_parens(TOKEN **tokens)
+{
+	AST		*atom;
+	TOKEN	*token;
+
+	atom = parse_or_command(tokens);
+	if (error(0, READ))
+		return (NULL);
+	if (!atom)
+	{
+		syntax_error(ATOM, peek(*tokens));
+		return (NULL);
+	}
+	token = peek(*tokens);
+	if (!token || token->type != CLOSEPAR)
+	{
+		syntax_error(ATOM, token);
+		return (NULL);
+	}
+	consume(tokens);
+	return (atom);
+}
+
 AST *parse_atom(TOKEN **tokens)
 {
 	TOKEN	*token;
@@ -37,32 +61,9 @@ AST *parse_atom(TOKEN **tokens)
 	if (!token || error(0, READ))
 		return (NULL);
 	if (token->type != OPENPAR)
-	{
-		atom = parse_command(tokens);
-		if (error(0, READ))
-			return (NULL);
-		token = peek(*tokens);
-		return (atom);
-	}
+		return (parse_command(tokens));
 	consume(tokens);
-	atom = parse_or_command(tokens);
-	if (error(0, READ))
-		return (NULL);
-	if (!atom)
-	{
-		token = peek(*tokens);
-		error(1, WRITE);
-		syntax_error(ATOM, token);
-		return (NULL);
-	}
-	token = peek(*tokens);
-	if (!token || token->type != CLOSEPAR)
-	{
-		error(1, WRITE);
-		syntax_error(ATOM, token);
-		return (NULL);
-	}
-	consume(tokens);
+	atom = parse_parens(tokens);
 	redirs = get_redirs(tokens);
 	return (build_atom(atom, redirs));
 }

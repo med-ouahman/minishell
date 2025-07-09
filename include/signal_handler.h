@@ -19,7 +19,8 @@
 #include <unistd.h>
 
 void    rl_new_prompt(void);
-void	signal_handler(int signum);
+void	sigint_handler(int signum);
 void	rl_after_fork(void);
+void	handle_signals(void);
 
 #endif

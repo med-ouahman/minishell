@@ -12,7 +12,22 @@
 
 #include "../include/parser.h"
 
-void	add_splitted_argument(t_list **args, TOKEN *token)
+static t_list	*get_wildcard_args(TOKEN *curr)
+{
+	t_list	*arg_node;
+	
+	if (is_wildcard(curr))
+	{
+		arg_node = wildcard(curr->token);
+		if (!arg_node)
+		arg_node = ft_lstnew(curr->token);
+	}
+	else
+		arg_node = ft_lstnew(curr->token);
+	return (arg_node);
+}
+
+static void	add_splitted_argument(t_list **args, TOKEN *token)
 {
 	char	*tmp;
 	char	**split;
@@ -41,7 +56,7 @@ t_list  *build_command_args(TOKEN **tokens)
 
 	args = NULL;
 	curr = peek(*tokens);
-	while (curr && (curr->type == WORD))
+	while (curr && curr->type == WORD)
 	{
 		expand(curr);
 		quote_removal(curr);
@@ -49,14 +64,7 @@ t_list  *build_command_args(TOKEN **tokens)
 			add_splitted_argument(&args, curr);
 		else
 		{
-			if (is_wildcard(curr))
-			{
-				arg_node = wildcard(curr->token);
-				if (!arg_node)
-					arg_node = ft_lstnew(curr->token);
-			}
-			else
-				arg_node = ft_lstnew(curr->token);
+			arg_node = get_wildcard_args(curr);
 			ft_lstadd_back(&args, arg_node);
 		}
 		consume(tokens);
@@ -99,7 +107,6 @@ AST *parse_command(TOKEN **tokens)
 	if (!tokens || (token->type != WORD && token->type != WILDCARD
 		&& !is_redirection(token->type)))
 	{
-		error(1, WRITE);
 		syntax_error(CMD, token);
 		return (NULL);
 	}

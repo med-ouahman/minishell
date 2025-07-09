@@ -49,9 +49,7 @@ AST *parse_and_command(TOKEN **tokens)
 			return (NULL);
 		if (!right)
 		{
-			token = peek(*tokens);
-			error(1, WRITE);
-			syntax_error(AND, token);
+			syntax_error(AND, peek(*tokens));
 			return (NULL);
 		}
 		left = build_and_command(left, right);
