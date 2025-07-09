@@ -91,9 +91,7 @@ int executor(AST *parse_t, t_exec_control_block *exec_cb)
 	if (parse_t->node_type == PIPE)
 		return (execute_pipeline(parse_t, exec_cb));
 	else if (parse_t->node_type == CMD)
-	{
 		return (execute_single_command(parse_t, exec_cb));
-	}
 	if (parse_t->node_type == OR)
 		return (execute_or(parse_t, exec_cb));
 	if (parse_t->node_type == AND)

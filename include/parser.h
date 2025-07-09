@@ -39,6 +39,7 @@ typedef struct
 {
 	int		type;
 	char	*target;
+	int		heredoc_fd;
 }	t_redir;
 
 typedef struct
@@ -66,6 +67,8 @@ typedef struct s_ast
 	void	*data;
 }	t_ast;
 
+void	print_file_error(char *filename, char *err_msg);
+void	print_file_error2(char *filename, char *_path, char *__err_msg);
 TOKEN	*peek(TOKEN *tokens);
 void	consume(TOKEN **tokens);
 void 	print_tree(AST *ast);
@@ -82,7 +85,7 @@ int		is_redirection(int t);
 
 /* Parsers */
 
-char	*parse_heredoc(char *_delim, int __expand);
+int		parse_heredoc(char *_delim, int __expand);
 AST 	*parser(TOKEN *tokens);
 AST 	*parse_command(TOKEN **tokens);
 AST		*parse_or_command(TOKEN **tokens);

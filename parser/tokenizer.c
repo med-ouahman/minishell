@@ -166,6 +166,8 @@ TOKEN	*tokenizer(char *line)
 	{
 		while (ft_isspace(line[i]))
 			i++;
+		if (!line[i])
+			break ;
 		if (is_sep_char(line[i]))
 		{
 			if (add_operator(&tokens, line, &i) < 0)
@@ -177,6 +179,5 @@ TOKEN	*tokenizer(char *line)
 				return (NULL);
 		}
 	}
-	// join_tokens(&tokens);
 	return (tokens);
 }

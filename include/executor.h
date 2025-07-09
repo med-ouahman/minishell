@@ -60,6 +60,7 @@ int	preserve_stdio(int *old_stdio, int *stdio);
 /* built-in stdio */
 
 void	print_file_error(char *filename, char *__err_msg);
+void	print_file_error2(char *filename, char *__err_msg,  char *sda);
 
 t_list	*redirs(t_cmd *cmd);
 

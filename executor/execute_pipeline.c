@@ -31,19 +31,22 @@ static int	num_pipes(t_exec_control_block *exec_cb)
 	return (exec_cb->pid_size - 1);
 }
 
-static int execute_pipe_end(AST *parse_t, t_exec_control_block *exec_cb)
+static int
+	execute_pipe_end(AST *parse_t, t_exec_control_block *exec_cb, int curr)
 {
 	t_cmd	*cmd;
 
 	if (parse_t->node_type == CMD)
 	{
 		cmd = (t_cmd *)parse_t->data;
+		prepare_redirs(cmd->redirs, exec_cb->stdio);
+		set_stdio(exec_cb, curr);
 		if (cmd->is_buitlin)
 		{
-			if (0 > run_builtin_in_subshell(cmd, exec_cb))
+			if (run_builtin_in_subshell(cmd, exec_cb))
 				return (-1);
 		}
-		else if (0 > simple_command(cmd, exec_cb))
+		else if (simple_command(cmd, exec_cb))
 		{
 			close_stdio(exec_cb->stdio);
 			return (-1);
@@ -51,7 +54,8 @@ static int execute_pipe_end(AST *parse_t, t_exec_control_block *exec_cb)
 	}
 	if (parse_t->node_type == ATOM)
 	{
-		if (0 > subshell(parse_t, exec_cb))
+		set_stdio(exec_cb, curr);
+		if (subshell(parse_t, exec_cb))
 			return (-1);
 	}
 	return (0);
@@ -71,10 +75,7 @@ int	execute_pipeline(AST *parse_t, t_exec_control_block *exec_cb)
 	{
 		reset_stdio(exec_cb->stdio);
 		pipe_end = (AST *)exec_cb->pipeline->content;
-		if (pipe_end->node_type == CMD)
-			prepare_redirs(redirs((t_cmd *)pipe_end->data), exec_cb->stdio);
-		set_stdio(exec_cb, i);
-		execute_pipe_end(exec_cb->pipeline->content, exec_cb);
+		execute_pipe_end(exec_cb->pipeline->content, exec_cb, i);
 		exec_cb->pipeline = exec_cb->pipeline->next;
 		i++;
 	}

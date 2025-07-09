@@ -50,7 +50,7 @@ t_redir  *create_redir_node(TOKEN *token)
         token = token->next;
         __expand = has_quotes(token->token);
         quote_removal(token);
-        redir->target = parse_heredoc(token->token, __expand);
+        redir->heredoc_fd = parse_heredoc(token->token, __expand);
         return (redir);
     }
     token = token->next;
@@ -66,10 +66,10 @@ t_redir  *create_redir_node(TOKEN *token)
             printf("minishell: %s: ambiguous redirect\n", save);
             return (NULL);
         }
-        redir->target = *split;
+        token->token = *split;
     }
-    else
-        redir->target = token->token;
+    quote_removal(token);
+    redir->target = token->token;
     return (redir);
 }
 

@@ -36,6 +36,7 @@ static int	__file_state_(char *__file_path)
 	struct stat	buf;
 	int			c;
 
+
 	c = stat(__file_path, &buf);
 	if (0 > c)
 	{

@@ -17,12 +17,21 @@
 # include "./utils.h"
 # include "./parser.h"
 
+/* builtins */
+
 int cd(t_cmd *cmd);
 int export(t_cmd *cmd);
 int pwd(t_cmd *cmd);
-int env(t_cmd *cmd);
+int env(void);
 int unset(t_cmd *cmd);
 int echo(t_cmd *cmd);
 int exit_(t_cmd *cmd);
+
+/* buitlin utilities */
+
+void	destroy_env(char ***env);
+int		dup_env(char ***env);
+long	size_env(char **env);
+int	    export_add(t_list *args);
 
 #endif

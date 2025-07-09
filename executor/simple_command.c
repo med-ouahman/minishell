@@ -38,6 +38,8 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	char	*path;
 	pid_t	pid;
 	
+	if (!cmd->args)
+		return (0);
 	args = build_args(cmd->args);
 	if (!args)
 		return (-1);
@@ -58,7 +60,6 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	}
 	exec_cb->pids[exec_cb->curr_pid] = pid;
 	exec_cb->curr_pid++;
-	
 	close_stdio(exec_cb->stdio);
 	return (0);
 }

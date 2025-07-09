@@ -21,7 +21,6 @@
 
 In bash the value of IFS (Internal Field Separators) is unset
 which means that it defaults to <space>, <tab> and <newline> characters.
-
 */
 
 typedef enum e_types

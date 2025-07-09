@@ -45,18 +45,16 @@ char    *create_heredoc_file(int length)
 
 	filename = malloc(sizeof(char) * length + 1);
 	garbage_collector(filename, COLLECT);
-	fd = open("/dev/random", O_RDONLY);
+	fd = open("/dev/urandom", O_RDONLY);
 	i = 0;
 	while (i < length)
 	{
 		read(fd, &random_char, 1);
-		if (!ft_isprint(random_char))
-			continue ;
 		filename[i] = random_char;
 		i++;
 	}
+	close(fd);
 	filename[i] = 0;
-	printf("%s\n", filename);
 	return (filename);
 }
 
@@ -95,23 +93,28 @@ void	__write_to_heredoc_file(int fd, char *_delim, int __expand)
 	}
 }
 
-char    *parse_heredoc(char *_delim, int __expand)
+int	parse_heredoc(char *_delim, int __expand)
 {
 	char    *file;
 	int     fd;
+	int		read_fd;
 	pid_t    pid;
 
 	file = create_heredoc_file(20);
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC , 0644);
+	read_fd = open(file, O_RDONLY);
+	unlink(file);
+	free(file);
 	pid = fork();
 	signal(SIGINT, SIG_IGN);
 	if (pid == 0)
 	{
 		restore_signals();
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 		__write_to_heredoc_file(fd, _delim, __expand);
 		close(fd);
 		exit(0);
 	}
+	close(fd);
 	heredoc_exit(pid);
-	return (file);
+	return (read_fd);
 }

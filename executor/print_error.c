@@ -16,3 +16,8 @@ void	print_file_error(char *__file, char *__err_msg)
 {
 	ft_printf_fd(2, "minishell: %s: %s\n", __file, __err_msg);
 }
+
+void	print_file_error2(char *filename, char *_path, char *__err_msg)
+{
+	ft_printf_fd(2, "%s: %s: %s\n", filename, _path, __err_msg);
+}

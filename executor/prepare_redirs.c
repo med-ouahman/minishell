@@ -14,7 +14,7 @@
 
 static int	redirection_flags(int redir_type)
 {
-	if (redir_type == REDIN || redir_type == HEREDOC)
+	if (redir_type == REDIN)
 		return (O_RDONLY);
 	if (redir_type == REDOUT)
 		return (O_CREAT | O_WRONLY | O_TRUNC);
@@ -60,7 +60,10 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 	while (redirs)
 	{
 		redir = (t_redir *)redirs->content;
-		fd = open_file(redir->target, redirection_flags(redir->type), _open_mode(redir->type));
+		if (redir->type == HEREDOC)
+			fd = redir->heredoc_fd;
+		else
+			fd = open_file(redir->target, redirection_flags(redir->type), _open_mode(redir->type));
 		if (fd < 0)
 			return (-1);
 		if (redir->type == REDIN || redir->type == HEREDOC)

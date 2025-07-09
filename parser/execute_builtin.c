@@ -51,7 +51,7 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	if (UNSET == cmd->is_buitlin)
 		code = (unset(cmd));
 	if (ENV == cmd->is_buitlin)
-		code = (env(cmd));
+		code = (env());
 	restore_stdio(old);
 	return (code);
 }

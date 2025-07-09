@@ -24,10 +24,7 @@ int	main(void)
 	{
 		line = readline("$ ");
 		if (NULL == line)
-		{
-			rl_clear_history();
-			return (1);
-		}
+			exit(!!errno);
 		if (0 == *line)
 			continue ;
 		add_history(line);

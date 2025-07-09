@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/builtins.h"
 
 static int	add_to_env(char ***env, char *s)
 {
