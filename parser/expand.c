@@ -137,16 +137,14 @@ t_list	*get_var_list(char *str)
 		j = i++;
 		if (!is_starting(str[i]))
 		{
-			if ('$' == str[i])
-				i++;
-			else if ('?' == str[i])
+			if ('?' == str[i])
 			{
 				add_exit_code(&var_list, access_exit_code(0, READ));
 				i++;
 			}
 			else
 			{
-				while (str[i] && '$' != str[i])
+				while (str[i] && '$' != str[i] && !is_starting(str[i]))
 					i++;
 				add_raw_token(&var_list, str, j, i);
 			}

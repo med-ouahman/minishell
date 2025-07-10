@@ -60,6 +60,7 @@ int	add_token(TOKEN **list, char *line, t_info info)
 	token->type = info.type;
 	token->p_quote = info.quote;
 	token->token = ft_substr(line, info.start, info.end - info.start);
+	garbage_collector(token->token, COLLECT);
 	token->start = info.start == 0 ? line[info.start]: line[info.start - 1];
 	token->end = line[info.end];
 	token->type = token_type(token->token, token->type);

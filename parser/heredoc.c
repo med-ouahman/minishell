@@ -77,11 +77,13 @@ void	__write_to_heredoc_file(int fd, char *_delim, int __expand)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
+		if (!line && !errno)
 		{
-			ft_printf_fd(2, "delim error\n");
+			ft_printf_fd(2, "minishell: here-document delimited by EOF (wanted `%s')\n", _delim);
 			break ;
 		}
+		if (!line)
+			exit(EXIT_FAILURE);
 		if (!ft_strcmp(line, _delim))
 			break ;
 		content = parse_content(line, __expand);

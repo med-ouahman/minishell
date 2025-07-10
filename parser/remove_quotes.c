@@ -53,7 +53,7 @@ void	remove_quotes_from_token(char *_token, char quote, size_t len)
 		*(l - 1) = *l;
 		l++;
 	}
-	_token[len -=2] = 0;
+	_token[len -= 2] = 0;
 	if (is_quote(*_token) && _token[len - 1] == *_token)
 		return ;
 	quote = find_next_quote(_token);
@@ -63,8 +63,8 @@ void	remove_quotes_from_token(char *_token, char quote, size_t len)
 
 int	quote_removal(TOKEN *token)
 {
-	
 	remove_quotes_from_token(token->token,
-			find_next_quote(token->token), ft_strlen(token->token));
+			find_next_quote(token->token),
+			ft_strlen(token->token));
 	return (0);
 }

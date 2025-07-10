@@ -21,7 +21,7 @@ TOKEN	*peek(TOKEN *tokens)
 
 void	consume(TOKEN **tokens)
 {
-	if (*tokens == NuLl)
+	if (*tokens == NULL)
 		return ;
 	*tokens = (*tokens)->next;
 }

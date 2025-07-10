@@ -56,6 +56,7 @@ int	execute_and(AST *parse_t, t_exec_control_block *exec_cb)
 
 	bin = (t_ast_binary *)parse_t->data;
 	stat = executor(bin->left, exec_cb);
+	printf("status of cmd1 %d\n", stat);
 	if (!stat)
 		stat = executor(bin->right, exec_cb);
 	return (stat);

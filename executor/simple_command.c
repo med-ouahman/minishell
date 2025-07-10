@@ -37,7 +37,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	char	**args;
 	char	*path;
 	pid_t	pid;
-	
+	printf("%s\n", (char *)cmd->args->content);
 	if (!cmd->args)
 		return (0);
 	args = build_args(cmd->args);
