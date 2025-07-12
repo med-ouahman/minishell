@@ -57,12 +57,13 @@ t_redir  *create_redir_node(TOKEN *token)
     tmp = token->next;
     token->next = NULL;
     args = build_argument_list(token);
+    token->next = tmp;
     if (args[1])
     {
         print_file_error(save, "ambigous redirect");
+        return (NULL);
     }
     redir->target = token->token;
-    token->next = tmp;
     return (redir);
 }
 
