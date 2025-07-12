@@ -19,19 +19,19 @@
 
 /* builtins */
 
-int cd(t_cmd *cmd);
-int export(t_cmd *cmd);
-int pwd(t_cmd *cmd);
+int cd(char **args);
+int export(char **args);
+int pwd(void);
 int env(void);
-int unset(t_cmd *cmd);
-int echo(t_cmd *cmd);
-int exit_(t_cmd *cmd);
+int unset(char **args);
+int echo(char **args);
+int exit_(char **args);
 
 /* buitlin utilities */
 
 void	destroy_env(char ***env);
 int		dup_env(char ***env);
 long	size_env(char **env);
-int	    export_add(t_list *args);
+int	    export_add(char **vars);
 
 #endif

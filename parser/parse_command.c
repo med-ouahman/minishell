@@ -12,62 +12,19 @@
 
 #include "../include/parser.h"
 
-static t_list	*get_wildcard_args(TOKEN *curr)
-{
-	t_list	*arg_node;
-	
-	if (is_wildcard(curr))
-	{
-		arg_node = wildcard(curr->token);
-		if (!arg_node)
-		arg_node = ft_lstnew(curr->token);
-	}
-	else
-		arg_node = ft_lstnew(curr->token);
-	return (arg_node);
-}
-
-static void	add_splitted_argument(t_list **args, TOKEN *token)
-{
-	char	*tmp;
-	char	**split;
-	t_list	*arg_node;
-
-	split = word_split(token);
-	tmp = token->token;
-	while (*split && **split)
-	{
-		token->token = *split;
-		if (is_wildcard(token))
-			arg_node = wildcard(token->token);
-		else
-			arg_node = ft_lstnew(*split);
-		ft_lstadd_back(args, arg_node);
-		split++;
-	}
-	token->token = tmp;
-}
-
-t_list  *build_command_args(TOKEN **tokens)
+TOKEN  *build_command_args(TOKEN **tokens)
 {
 	TOKEN    *curr;
-	t_list  *args;
-	t_list  *arg_node;
+	TOKEN  	*args;
+	TOKEN	*next;
 
 	args = NULL;
 	curr = peek(*tokens);
 	while (curr && curr->type == WORD)
 	{
-		expand(curr);
-		quote_removal(curr);
-		if (curr->split)
-			add_splitted_argument(&args, curr);
-		else
-		{
-			arg_node = get_wildcard_args(curr);
-			ft_lstadd_back(&args, arg_node);
-		}
-		consume(tokens);
+		next = consume(tokens);
+		curr->next = NULL;
+		add_token_back(&args, curr);
 		curr = peek(*tokens);
 	}
 	return (args);
@@ -86,12 +43,12 @@ t_cmd   *build_command(TOKEN **tokens)
 	token = peek(*tokens);
 	while (token && token->type == WORD)
 	{
-		ft_lstadd_back(&cmd->args, build_command_args(tokens));
+		add_token_back(&cmd->args, build_command_args(tokens));
 		ft_lstadd_back(&cmd->redirs, get_redirs(tokens));
 		token = peek(*tokens);
 	}
 	if (cmd->args)
-		cmd->is_buitlin = is_builtin(cmd->args->content);
+		cmd->is_buitlin = is_builtin(cmd->args->token);
 	return (cmd);
 }
 

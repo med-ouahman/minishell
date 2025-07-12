@@ -62,16 +62,16 @@ void print_t(t_cmd *cmd)
 }
 void print_cmd(t_cmd *cmd)
 {
-    t_list *args = cmd->args;
+    TOKEN *args = cmd->args;
     
     if (!args)
         return ;
-    printf("command name: %s\n", (char *)args->content);
+    printf("command name: %s\n", (char *)args->token);
     args = args->next;
     printf("Arguments: [");
     while (args)
     {
-        printf("%s%s", (char *)args->content, args->next ? ", " : "");
+        printf("%s%s", (char *)args->token, args->next ? ", " : "");
         args = args->next;
     }
     printf("]\n");

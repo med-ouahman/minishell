@@ -31,7 +31,7 @@ static char	*new_varpwd(char *var)
 	return (new_pwd);
 }
 
-static int	change_pwd(char ***env, char	*oldpwd)
+static int	change_pwd(char ***env, char *oldpwd)
 {
 	char	*pwd;
 	char	*tmp;
@@ -60,16 +60,16 @@ static int	change_pwd(char ***env, char	*oldpwd)
 	return (free(pwd), free(oldpwd), 0);
 }
 
-int	cd(t_cmd *cmd)
+int	cd(char **args)
 {
 	char	*path;
 	char	*oldpwd;
 
-	if (!cmd->args->next)
+	if (!args[1])
 		return (print_file_error("cd", "no path specific"), 1);
-	if (cmd->args->next && cmd->args->next->next)
+	if (args[2])
 		return (print_file_error("cd", "too many arguments"), 1);
-	path = cmd->args->next->content;
+	path = args[1];
 	oldpwd = new_varpwd("OLDPWD=");
 	if (!oldpwd)
 		return (1);

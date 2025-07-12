@@ -12,38 +12,18 @@
 
 #include "../include/executor.h"
 
-char	**build_args(t_list *arg_list)
-{
-	char	**args;
-	int		i;
-
-	if (!arg_list)
-		return (NULL);
-	args = malloc((ft_lstsize(arg_list) + 1) * sizeof(char *));
-	garbage_collector(args, COLLECT);
-	i = 0;
-	while (arg_list)
-	{
-		args[i] = (char *)arg_list->content;
-		arg_list = arg_list->next;
-		i++;
-	}
-	args[i] = null;
-	return (args);
-}
-
 int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
 	char	**args;
 	char	*path;
 	pid_t	pid;
-	printf("%s\n", (char *)cmd->args->content);
+
 	if (!cmd->args)
 		return (0);
-	args = build_args(cmd->args);
+	args = build_argument_list(cmd->args);
 	if (!args)
 		return (-1);
-	path = command_path(exec_cb->paths, cmd->args->content);
+	path = command_path(exec_cb->paths, args[0]);
 	if (!path)
 		return (-1);
 	signal(SIGINT, SIG_IGN);

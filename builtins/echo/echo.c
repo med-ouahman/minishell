@@ -12,29 +12,29 @@
 
 #include "../../include/builtins.h"
 
-int	echo(t_cmd *cmd)
+int	echo(char **args)
 {
-	t_list	*args;
-	int		option;
+	int				option;
+	unsigned int	i;
 
-	args = cmd->args->next;
-	if (!args)
+	if (!args[1])
 	{
 		printf("\n");
 		return (0);
 	}
 	option = 0;
-	if (!ft_strcmp(args->content, "-n"))
+	i = 0;
+	if (!ft_strcmp(args[1], "-n"))
 	{
 		option = 1;
-		args = args->next;
+		i++;
 	}
-	while (args)
+	while (args[i])
 	{
-		printf("%s", (char *)args->content);
-		if (args->next)
+		printf("%s", args[i]);
+		if (args[i + 1])
 			printf(" ");
-		args = args->next;
+		i++;
 	}
 	if (!option)
 		printf("\n");

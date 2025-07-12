@@ -28,7 +28,7 @@ int	execute_or(AST *parse_t, t_exec_control_block *exec_cb)
 	
 	bin = (t_ast_binary *)parse_t->data;
 	stat = executor(bin->left, exec_cb);
-	if (stat)
+	if (WIFEXITED(stat) && WEXITSTATUS(stat) != 0)
 		stat = executor(bin->right, exec_cb);
 	return (stat);
 }
@@ -56,7 +56,6 @@ int	execute_and(AST *parse_t, t_exec_control_block *exec_cb)
 
 	bin = (t_ast_binary *)parse_t->data;
 	stat = executor(bin->left, exec_cb);
-	printf("status of cmd1 %d\n", stat);
 	if (!stat)
 		stat = executor(bin->right, exec_cb);
 	return (stat);
@@ -66,7 +65,7 @@ int	execute_single_command(AST *parse_t, t_exec_control_block *exec_cb)
 {
 	t_cmd	*cmd;
 	int		stat;
-
+	
 	cmd = (t_cmd *)parse_t->data;
 	if (prepare_redirs(cmd->redirs, exec_cb->stdio))
 		return (1);
@@ -106,7 +105,7 @@ int executor(AST *parse_t, t_exec_control_block *exec_cb)
 int	setup_execution(AST *parse_t)
 {
 	t_exec_control_block	exec_cb;
-	int						__exit_status;
+	int						exit_status;
 	
 	access_exit_code(0, WRITE);
 	exec_cb.paths = split_path();
@@ -116,7 +115,7 @@ int	setup_execution(AST *parse_t)
 	exec_cb.pid_size = 0;
 	exec_cb.curr_pid = 0;
 	reset_stdio(exec_cb.stdio);
-	__exit_status = executor(parse_t, &exec_cb);
-	access_exit_code(__exit_status, WRITE);
-	return (__exit_status);
+	exit_status = executor(parse_t, &exec_cb);
+	exit_status = exit_code(exit_status);
+	return (exit_status);
 }

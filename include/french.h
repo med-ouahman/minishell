@@ -1,28 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_action.c                                     :+:      :+:    :+:   */
+/*   french.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 11:40:09 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/19 11:40:34 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/10 21:19:41 by mouahman          #+#    #+#             */
+/*   Updated: 2025/07/10 21:24:19 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#ifndef FRENCH_H
 
-TOKEN	*peek(TOKEN *tokens)
-{
-	if (NULL == tokens)
-		return (NULL);
-	return (tokens);
-}
+# define FRENCH_H
 
-TOKEN	*consume(TOKEN **tokens)
-{
-	if (*tokens == NULL)
-		return (NULL);
-	*tokens = (*tokens)->next;
-	return (*tokens);
-}
+# define si if
+
+# define sinon else
+
+# define sinonsi if else
+
+# define pour for
+
+# define tanque while
+
+# define retourne return
+
+# define volumede sizeof
+
+# define casse break
+
+# define vid void
+
+# define entier int
+
+# define lent long
+
+# define court short
+
+
+#endif

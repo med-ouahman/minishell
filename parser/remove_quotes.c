@@ -12,6 +12,41 @@
 
 #include "../include/tokenizer.h"
 
+int	remove_quotes(char *token, int start, int end)
+{
+	while (token[start])
+	{
+		token[start] = token[start + 1];
+		start++;
+	}
+	end--;
+	while (token[end])
+	{
+		token[end] = token[end + 1];
+		end++;
+	}
+	return (0);
+}
+
+int	index_of_quote(char *token, int qt, int first)
+{
+	int	i;
+
+	i = 0;
+	while (token[i] && token[i] != qt)
+		i++;
+	if (!token[i])
+		return (-1);
+	if (first)
+		return (i);
+	i++;
+	while (token[i] && token[i] != qt)
+		i++;
+	if (!token[i])
+		return (-1);
+	return (i);
+}
+
 char	find_next_quote(char *s)
 {
 	char	*dq;
@@ -30,41 +65,34 @@ char	find_next_quote(char *s)
 	return (*sq);
 }
 
-void	remove_quotes_from_token(char *_token, char quote, size_t len)
+void	remove_quotes_from_token(char *_token)
+{
+	int	start;
+	int	end;
+	int	qt;
+
+	qt = find_next_quote(_token);
+	start = index_of_quote(_token, qt, 1);
+	end = index_of_quote(_token, qt, 0);
+	if (start == -1)
+		return ;
+	remove_quotes(_token, start, end);
+	remove_quotes_from_token(_token + end - 1);
+}
+
+int	quote_removal(t_list *tokens)
 {
 	char	*f;
 	char	*l;
 
-	if (!_token || !quote)
-		return ;
-	f = ft_strchr(_token, quote);
-	if (!f)
-		return ;
-	l = ft_strchr(f + 1, quote);
-	if (!l || f == l)
-		return ;
-	while (*f)
+	f = NULL;
+	l = NULL;
+	while (tokens)
 	{
-		*f = *(f + 1);
-		f++;
+		remove_quotes_from_token(tokens->content);
+		tokens = tokens->next;
 	}
-	while (*l)
-	{
-		*(l - 1) = *l;
-		l++;
-	}
-	_token[len -= 2] = 0;
-	if (is_quote(*_token) && _token[len - 1] == *_token)
-		return ;
-	quote = find_next_quote(_token);
-	f = ft_strchr(_token, quote);
-	remove_quotes_from_token(f, quote, ft_strlen(f));	
-}
-
-int	quote_removal(TOKEN *token)
-{
-	remove_quotes_from_token(token->token,
-			find_next_quote(token->token),
-			ft_strlen(token->token));
 	return (0);
 }
+
+

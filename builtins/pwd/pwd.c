@@ -12,11 +12,10 @@
 
 #include "../../include/minishell.h"
 
-int	pwd(t_cmd *cmd)
+int	pwd(void)
 {
 	char	*cwd;
 
-	(void)cmd;
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{

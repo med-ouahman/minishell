@@ -30,15 +30,14 @@ static int  has_quotes(char *s)
 
 t_redir  *create_redir_node(TOKEN *token)
 {
+    TOKEN   *tmp;
     t_redir *redir;
-    char    **split;
+    char    **args;
     int     __expand;
     char	*save;
 
-    split = NULL;
     if (NULL == token->next || token->next->type != WORD)
     {
-        error(1, WRITE);
         syntax_error(token->type, token->next);
         return (NULL);
     }
@@ -49,27 +48,21 @@ t_redir  *create_redir_node(TOKEN *token)
     {
         token = token->next;
         __expand = has_quotes(token->token);
-        quote_removal(token);
+        remove_quotes_from_token(token->token);
         redir->heredoc_fd = parse_heredoc(token->token, __expand);
         return (redir);
     }
     token = token->next;
     save = ft_strdup(token->token);
-    expand(token);
-    if (token->split)
+    tmp = token->next;
+    token->next = NULL;
+    args = build_argument_list(token);
+    if (args[1])
     {
-        split = word_split(token);
-        garbage_collector(split, COLLECT);
-        if (!*split || *(split + 1))
-        {
-            error(1, WRITE);
-            printf("minishell: %s: ambiguous redirect\n", save);
-            return (NULL);
-        }
-        token->token = *split;
+        print_file_error(save, "ambigous redirect");
     }
-    quote_removal(token);
     redir->target = token->token;
+    token->next = tmp;
     return (redir);
 }
 

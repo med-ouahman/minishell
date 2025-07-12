@@ -21,6 +21,7 @@
 
 In bash the value of IFS (Internal Field Separators) is unset
 which means that it defaults to <space>, <tab> and <newline> characters.
+
 */
 
 typedef enum e_types
@@ -75,7 +76,7 @@ int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
 char	find_next_quote(char *s);
-int 	expand(TOKEN *token);
+t_list	*expand(TOKEN *token);
 t_list	*get_var_list(char *str);
 char	*expand_var_list(t_list *var_list);
 int		is_starting(int c);
@@ -84,8 +85,9 @@ int		invalid_var_char(int c);
 
 void	print_token_list(TOKEN *list);
 int		join_tokens(TOKEN **tokens);
-int		quote_removal(TOKEN *tokens);
-char	**word_split(TOKEN *tokens);
+int		quote_removal(t_list *tokens);
+void	remove_quotes_from_token(char *_token);
+t_list	*word_split(TOKEN *tokens);
 TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node);
 int	access_exit_code(int new_val, int mode);
 #endif

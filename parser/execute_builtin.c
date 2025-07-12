@@ -33,23 +33,25 @@ int	run_builtin_in_subshell(t_cmd *builtin_cmd, t_exec_control_block *exec_cb)
 
 int	execute_builtin(t_cmd *cmd, int *stdio)
 {
-	int	old[2];
-	int	code;
+	int		old[2];
+	int		code;
+	char	**args;
 
 	preserve_stdio(old, stdio);
 	dup_stdio(stdio);
+	args = build_argument_list(cmd->args);
 	if (CD == cmd->is_buitlin)
-		code = (cd(cmd));
+		code = (cd(args));
 	if (PWD == cmd->is_buitlin)
-		code = (pwd(cmd));
+		code = (pwd());
 	if (EXIT == cmd->is_buitlin)
-		code = (exit_(cmd));
+		code = (exit_(args));
 	if (ECHO == cmd->is_buitlin)
-		code = (echo(cmd));
+		code = (echo(args));
 	if (EXPORT == cmd->is_buitlin)
-		code = (export(cmd));
+		code = (export(args));
 	if (UNSET == cmd->is_buitlin)
-		code = (unset(cmd));
+		code = (unset(args));
 	if (ENV == cmd->is_buitlin)
 		code = (env());
 	restore_stdio(old);

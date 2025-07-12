@@ -55,11 +55,11 @@ static int	exit_nbr(const char *nptr)
 	return (nb);
 }
 
-static void	exit_2(t_cmd *cmd)
+static void	exit_2(char **args)
 {
 	char	*arg;
 
-	arg = (char *)cmd->args->next->content;
+	arg = args[1];
 	if (check_arg(arg))
 	{
 		print_file_error2("exit", arg, "numeric argument required");
@@ -69,18 +69,18 @@ static void	exit_2(t_cmd *cmd)
 		print_file_error("exit", "too may arguments");
 }
 
-int	exit_(t_cmd *cmd)
+int	exit_(char **args)
 {
 	int		exit_status;
 	char	*arg;
 
 	ft_printf_fd(2, "exit\n");
 	exit_status = 2;
-	if (!cmd->args->next)
+	if (!args[1])
 		exit (EXIT_SUCCESS);
-	if (!cmd->args->next->next)
+	if (!args[2])
 	{
-		arg = (char *)cmd->args->next->content;
+		arg = args[1];
 		exit_status = exit_nbr(arg);
 		if (check_arg(arg))
 			print_file_error2("exit", arg, "numeric argument required");
@@ -91,6 +91,6 @@ int	exit_(t_cmd *cmd)
 		}
 		exit(exit_status);
 	}
-	exit_2(cmd);
+	exit_2(args);
 	return (0);
 }

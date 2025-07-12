@@ -72,21 +72,20 @@ static int	del_from_env(char ***env, long n)
 	return (0);
 }
 
-int	unset(t_cmd *cmd)
+int	unset(char **args)
 {
-	t_list	*arg;
 	long	i;
 
-	arg = cmd->args->next;
-	while (arg)
+	args++;
+	while (args)
 	{
-		i = searsh_var(arg->content);
+		i = searsh_var(*args);
 		if (i >= 0)
 		{
 			if (del_from_env(&__environ, i))
 				return (1);
 		}
-		arg = arg->next;
+		args++;
 	}
 	return (0);
 

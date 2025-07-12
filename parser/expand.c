@@ -158,29 +158,24 @@ t_list	*get_var_list(char *str)
 	return (var_list);
 }
 
-int expand(TOKEN *token)
+t_list *expand(TOKEN *token)
 {
 	char	*tmp;
 	t_list	*var_list;
 	
-	if (!token)
-		return (0);
-	if (*"'" == token->p_quote || token->type != WORD)
-	{
-		token->split = 0;
-		return (0);
-	}
 	if (token->p_quote)
 		token->split = 0;
 	else
 		token->split = is_splittable(token->token);
 	var_list = get_var_list(token->token);
+	if (!var_list)
+		return (NULL);
 	tmp = token->token;
 	token->token = expand_var_list(var_list);
 	if (token->split)
 		token->split = has_spaces(token->token);
 	free(tmp);
 	ft_lstclear(&var_list, free);
-	return (0);
+	return (word_split(token));
 }
 

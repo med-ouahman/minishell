@@ -54,12 +54,22 @@ int	add_splitted_tokens(TOKEN **tokens, TOKEN *node, char **split)
 	return (0);
 }
 
-char	**word_split(TOKEN *token)
+t_list	*word_split(TOKEN *token)
 {
+	t_list	*list;
 	char	**split;
 
-	split = NULL;
+	if (!token->split)
+	{
+		list = ft_lstnew(token->token);
+		return (list);
+	}
+	list = NULL;
 	split = ft_split2(token->token, IFS);
-	garbage_collector(split, COLLECT);
-	return (split);
+	while (*split)
+	{
+		ft_lstadd_back(&list, ft_lstnew(*split));
+		split++;
+	}
+	return (list);
 }

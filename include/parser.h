@@ -6,7 +6,7 @@
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 14:35:59 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 13:10:58 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/07/12 22:28:10 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct
 typedef struct
 {
 	int		is_buitlin;
-	t_list	*args; /* list of strings, could also be an array of strings */
+	TOKEN	*args; /* list of strings, could also be an array of strings */
 	t_list	*redirs; /* list of t_redir type */
 }	t_cmd;
 
@@ -71,8 +71,9 @@ void	print_file_error(char *filename, char *err_msg);
 void	print_file_error2(char *filename, char *_path, char *__err_msg);
 
 TOKEN	*peek(TOKEN *tokens);
-void	consume(TOKEN **tokens);
+TOKEN	*consume(TOKEN **tokens);
 
+void	add_token_back(TOKEN **args, TOKEN *token);
 void 	print_tree(AST *ast);
 void    print_redir(t_redir *redir);
 void	print_exc_list(t_list *exec_list);
@@ -96,11 +97,13 @@ AST		*parse_and_command(TOKEN **tokens);
 AST		*parse_pipeline(TOKEN **tokens);
 AST		*parse_atom(TOKEN **tokens);
 int		error(int c, int mode);
-
+size_t	token_list_size(TOKEN *list);
 
 /*	wildcard */
 
 t_list	*wildcard(char *pattern);
 int		is_wildcard(TOKEN *token);
+
+char	**build_argument_list(TOKEN *tokens);
 
 #endif

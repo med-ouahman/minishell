@@ -88,6 +88,8 @@ t_list	*wildcard(char *pattern)
 	t_list			*list;
 
 	list = NULL;
+	if (!ft_strchr(pattern, '*'))
+		return (ft_lstnew(pattern));
 	dir = opendir(".");
 	_readdir = readdir(dir);
 	while (_readdir)
@@ -97,6 +99,8 @@ t_list	*wildcard(char *pattern)
 		_readdir = readdir(dir);
 	}
 	closedir(dir);
+	if (list == NULL)
+		return (ft_lstnew(pattern));
 	return (list);
 }
 

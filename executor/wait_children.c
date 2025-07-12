@@ -23,6 +23,5 @@ int	wait_children(pid_t *pids, int num_children)
 		waitpid(pids[i], &status, 0);
 		i++;
 	}
-	status = exit_code(status);
 	return (status);
 }

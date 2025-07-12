@@ -12,6 +12,22 @@
 
 #include "../include/garbage_collector.h"
 
+// void	safe_free(void *_ptr)
+// {
+	
+// }
+
+static int		is_in_list(t_list *lst, void *ptr)
+{
+	while (lst)
+	{
+		if (lst->content == ptr)
+			return (1);
+		lst = lst->next;
+	}
+	return (0);
+}
+
 void	remove_ptr_from_list(t_list **_list, void *__ptr)
 {
 	t_list	*_curr;
@@ -42,6 +58,8 @@ void	garbage_collector(void *__ptr, int __option)
 	{
 		if (!__ptr)
 			exit(EXIT_FAILURE);
+		if (is_in_list(list, __ptr))
+			return ;
 		node = ft_lstnew(__ptr);
 		if (!node)
 			exit(EXIT_FAILURE);

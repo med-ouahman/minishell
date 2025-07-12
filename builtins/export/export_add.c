@@ -100,14 +100,14 @@ static int	check_var(char *arg)
 	return (0);
 }
 
-int	export_add(t_list *args)
+int	export_add(char **vars)
 {
 	int		n;
 	char	*tmp;
 
-	while (args)
+	while (vars)
 	{
-		tmp = (char *)(args->content);
+		tmp = *vars;
 		if (check_var(tmp))
 			print_file_error2("export", tmp, "not a valid identifier");
 		else
@@ -120,7 +120,7 @@ int	export_add(t_list *args)
 			else if (add_to_env(&__environ, ft_strdup(tmp)))
 				return (destroy_env(&__environ), 1);
 		}
-		args = args->next;
+		vars++;
 	}
 	return (0);
 }

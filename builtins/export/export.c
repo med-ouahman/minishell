@@ -84,7 +84,7 @@ int	print_env(void)
 	return (0);
 }
 
-int	export(t_cmd *cmd)
+int	export(char **args)
 {
 	// static int	is_set = 0;
 
@@ -94,9 +94,9 @@ int	export(t_cmd *cmd)
 	// 		return (1);
 	// 	is_set = 1;
 	// }
-	if (!cmd->args->next)
+	if (!args[1])
 		return (print_env(), 0);
-	if (export_add(cmd->args->next))
+	if (export_add(args + 1))
 	{
 		destroy_env(&__environ);
 		return (1);

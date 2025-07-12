@@ -49,7 +49,7 @@ void	print_token_list(TOKEN *list)
 {
 	while (list)
 	{
-		printf("Token: '%s' Type: %s\n", list->token, get_token_type(list->type));
+		printf("Token: %s Type: %s\n", list->token, get_token_type(list->type));
 		list = list->next;
 	}
 }

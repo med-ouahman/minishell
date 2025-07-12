@@ -1,28 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_action.c                                     :+:      :+:    :+:   */
+/*   add_token_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 11:40:09 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/19 11:40:34 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/10 21:28:09 by mouahman          #+#    #+#             */
+/*   Updated: 2025/07/10 21:31:41 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-TOKEN	*peek(TOKEN *tokens)
+size_t	token_list_size(TOKEN *list)
 {
-	if (NULL == tokens)
-		return (NULL);
-	return (tokens);
+	size_t	list_size;
+
+	list_size = 0;
+	while (list)
+	{
+		list = list->next;
+		list_size = list_size + 1;
+	}
+	return (list_size);
 }
 
-TOKEN	*consume(TOKEN **tokens)
+void	add_token_back(TOKEN **list, TOKEN *token)
 {
-	if (*tokens == NULL)
-		return (NULL);
-	*tokens = (*tokens)->next;
-	return (*tokens);
+	TOKEN 	*last;
+
+	if (*list == NULL)
+		*list = token;
+	else
+	{
+		last = *list;
+		while (last->next)
+			last = last->next;
+		last->next = token;
+	}
 }
+
+
