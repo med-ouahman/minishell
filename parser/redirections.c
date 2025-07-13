@@ -60,6 +60,7 @@ t_redir  *create_redir_node(TOKEN *token)
     token->next = tmp;
     if (args[1])
     {
+        error(1, WRITE);
         print_file_error(save, "ambigous redirect");
         return (NULL);
     }
