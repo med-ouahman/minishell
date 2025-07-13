@@ -23,7 +23,7 @@ int	echo(char **args)
 		return (0);
 	}
 	option = 0;
-	i = 0;
+	i = 1;
 	if (!ft_strcmp(args[1], "-n"))
 	{
 		option = 1;

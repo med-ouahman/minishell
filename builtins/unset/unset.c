@@ -77,7 +77,7 @@ int	unset(char **args)
 	long	i;
 
 	args++;
-	while (args)
+	while (*args)
 	{
 		i = searsh_var(*args);
 		if (i >= 0)

@@ -105,7 +105,7 @@ int	export_add(char **vars)
 	int		n;
 	char	*tmp;
 
-	while (vars)
+	while (*vars)
 	{
 		tmp = *vars;
 		if (check_var(tmp))

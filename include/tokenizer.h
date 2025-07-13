@@ -81,6 +81,8 @@ t_list	*get_var_list(char *str);
 char	*expand_var_list(t_list *var_list);
 int		is_starting(int c);
 int		is_subsequent(int c);
+int	is_splittable(char *token);
+int	has_spaces(char *s);
 int		invalid_var_char(int c);
 
 void	print_token_list(TOKEN *list);
@@ -90,4 +92,5 @@ void	remove_quotes_from_token(char *_token);
 t_list	*word_split(TOKEN *tokens);
 TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node);
 int	access_exit_code(int new_val, int mode);
+void	add_exit_code(t_list **var_list, int code);
 #endif

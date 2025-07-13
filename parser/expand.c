@@ -12,34 +12,6 @@
 
 #include "../include/tokenizer.h"
 
-int	has_spaces(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!*s)
-		return (1);
-	while (s[i])
-	{
-		if (ft_isspace(s[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	is_splittable(char *token)
-{
-	char	*l;
-
-	l = ft_strrchr(token, '$');
-	if (NULL == l)
-		return (0);
-	if (!*(l + 1) || !is_starting(*(l + 1)))
-		return (0);
-	return (1);
-}
-
 int	add_raw_token(t_list **var_list, char *str, int start, int end)
 {
 	char	*s;
@@ -104,18 +76,6 @@ char	*expand_var_list(t_list *var_list)
 	result[0] = 0;
 	copy_list(result, var_list, lsize);
 	return (result);
-}
-
-void	add_exit_code(t_list **var_list, int code)
-{
-	t_list	*node;
-	char	*s;
-
-	s = ft_itoa(code);
-	garbage_collector(s, COLLECT);
-	node = ft_lstnew(s);
-	garbage_collector(node, COLLECT);
-	ft_lstadd_back(var_list, node);
 }
 
 t_list	*get_var_list(char *str)
