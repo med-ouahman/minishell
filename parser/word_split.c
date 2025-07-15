@@ -12,6 +12,12 @@
 
 #include "../include/tokenizer.h"
 
+TOKEN	*get_prev_node(TOKEN *token_l, TOKEN *node)
+{
+	while (token_l && token_l->next && token_l->next != node)
+		token_l = token_l->next;
+	return (token_l);
+}
 
 static TOKEN	*create_node(char *s)
 {
@@ -27,9 +33,7 @@ static TOKEN	*create_node(char *s)
 	node->split = 0;
 	node->end = -1;
 	node->start = -1;
-	node->join_with = NULL;
 	node->p_quote = -1;
-	node->line = NULL;
 	return (node);
 }
 

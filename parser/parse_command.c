@@ -52,16 +52,16 @@ t_cmd   *build_command(TOKEN **tokens)
 	return (cmd);
 }
 
-AST *parse_command(TOKEN **tokens)
+t_list *parse_command(TOKEN **tokens)
 {
 	TOKEN	*token;
-	AST     *command;
+	t_list     *command;
 	t_cmd   *cmd;
 
 	if (error(0, READ))
 		return (NULL);
 	token = peek(*tokens);
-	if (!tokens || (token->type != WORD && token->type != WILDCARD
+	if (!token || (token->type != WORD && token->type != WILDCARD
 		&& !is_redirection(token->type)))
 	{
 		syntax_error(CMD, token);
@@ -71,10 +71,9 @@ AST *parse_command(TOKEN **tokens)
 	garbage_collector(command, COLLECT);
 	if (!command)
 	   return (NUlL);
-	command->node_type = CMD;
 	cmd = build_command(tokens);
 	if (!cmd)
 		return (NUlL);
-	command->data = cmd;
+	command->content = cmd;
 	return (command);
 }

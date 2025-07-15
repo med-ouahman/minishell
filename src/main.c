@@ -16,7 +16,7 @@ int	main(void)
 {
 	char	*line;
 	TOKEN	*tokens;
-	AST		*parse_t;
+	t_list	*pipeline;
 
 	handle_signals();
 	dup_env(&__environ);
@@ -30,10 +30,10 @@ int	main(void)
 		add_history(line);
 		tokens = tokenizer(line);
 		free(line);
-		parse_t = parser(tokens);
-		if (!parse_t)
+		pipeline = parser(tokens);
+		if (!pipeline)
 			continue ;
-		setup_execution(parse_t);
+		setup_execution(pipeline);
 		// garbage_coellector(NULL, DESTROY);
 	}
 	return (0);

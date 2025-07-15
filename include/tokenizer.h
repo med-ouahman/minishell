@@ -49,7 +49,6 @@ typedef struct	s_token	t_token;
 
 typedef struct s_token
 {
-	char	*line;
 	char	*token;
 	int		split;
 	int		type;
@@ -57,7 +56,6 @@ typedef struct s_token
 	int		start;
 	int		end;
 	int		p_quote;
-	TOKEN	*join_with;
 	TOKEN	*next;
 }	TOKEN;
 
@@ -75,6 +73,7 @@ int		is_quote(int c);
 int		is_sep_char(int c);
 int 	is_sep(char *line, int *i);
 
+t_list	*expander(char *token);
 char	find_next_quote(char *s);
 t_list	*expand(TOKEN *token);
 t_list	*get_var_list(char *str);
@@ -83,6 +82,7 @@ int		is_starting(int c);
 int		is_subsequent(int c);
 int	is_splittable(char *token);
 int	has_spaces(char *s);
+int	index_of_quote(char *token, int qt, int first);
 int		invalid_var_char(int c);
 
 void	print_token_list(TOKEN *list);

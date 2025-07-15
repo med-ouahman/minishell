@@ -64,7 +64,6 @@ int	add_token(TOKEN **list, char *line, t_info info)
 	token->start = info.start == 0 ? line[info.start]: line[info.start - 1];
 	token->end = line[info.end];
 	token->type = token_type(token->token, token->type);
-	token->join_with = NULL;
 	token->next = NULL;
 	add_node(list, token);
 	return (0);

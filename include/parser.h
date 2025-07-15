@@ -90,12 +90,9 @@ int		is_redirection(int t);
 /* Parsers */
 
 int		parse_heredoc(char *_delim, int __expand);
-AST 	*parser(TOKEN *tokens);
-AST 	*parse_command(TOKEN **tokens);
-AST		*parse_or_command(TOKEN **tokens);
-AST		*parse_and_command(TOKEN **tokens);
-AST		*parse_pipeline(TOKEN **tokens);
-AST		*parse_atom(TOKEN **tokens);
+t_list 	*parser(TOKEN *tokens);
+t_list 	*parse_command(TOKEN **tokens);
+t_list	*parse_pipeline(TOKEN **tokens);
 int		error(int c, int mode);
 size_t	token_list_size(TOKEN *list);
 

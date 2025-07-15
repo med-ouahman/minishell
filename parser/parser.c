@@ -12,12 +12,12 @@
 
 #include "../include/parser.h"
 
-AST *parser(TOKEN *tokens)
+t_list *parser(TOKEN *tokens)
 {
-	AST *parse_t;
+	t_list *pipeline;
 
 	error(0, WRITE);
-	parse_t = parse_or_command(&tokens);
+	pipeline = parse_pipeline(&tokens);
 	if (error(0, READ))
 		return (NULL);
 	if (tokens != NULL)
@@ -25,5 +25,5 @@ AST *parser(TOKEN *tokens)
 		syntax_error(-1, peek(tokens));
 		return (NULL);
 	}
-	return (parse_t);
+	return (pipeline);
 }

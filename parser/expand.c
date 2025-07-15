@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/tokenizer.h"
-
+t_list	*split_tokens(char *token);
 int	add_raw_token(t_list **var_list, char *str, int start, int end)
 {
 	char	*s;
@@ -120,22 +120,71 @@ t_list	*get_var_list(char *str)
 
 t_list *expand(TOKEN *token)
 {
+	t_list	*split;
 	char	*tmp;
 	t_list	*var_list;
 	
-	if (token->p_quote)
-		token->split = 0;
-	else
-		token->split = is_splittable(token->token);
-	var_list = get_var_list(token->token);
-	if (!var_list)
-		return (NULL);
-	tmp = token->token;
-	token->token = expand_var_list(var_list);
-	if (token->split)
-		token->split = has_spaces(token->token);
-	free(tmp);
+	split = split_tokens(token->token);
+	var_list = NULL;
+	while (split)
+	{
+		token->p_quote = find_next_quote(split->content);
+		if (token->p_quote)
+			token->split = 0;
+		if (token->p_quote == *"'")
+			ft_lstadd_back(&var_list, ft_lstnew(split->content));
+		else
+			ft_lstadd_back(&var_list, get_var_list(split->content));
+		if (!var_list)
+			return (NULL);
+		tmp = token->token;
+		token->token = expand_var_list(var_list);
+		if (token->split)
+			token->split = has_spaces(token->token);
+		free(tmp);
+		split = split->next;
+	}
 	ft_lstclear(&var_list, free);
 	return (word_split(token));
 }
+int	skipp_chars(char *token)
+{
+	int	i;
 
+	i = 0;
+	while (token[i] && !is_quote(token[i]))
+		i++;
+	return (i);
+}
+
+t_list	*split_tokens(char *token)
+{
+	int	end;
+	int	qt;
+	t_list	*lst;
+	int	in;
+
+	in = 0;
+	qt = find_next_quote(token);
+	if (*token == qt)
+		in = 1;
+	lst = NULL;
+	end = 0;
+	while (*token)
+	{
+		if (in)
+		{
+			qt = find_next_quote(token);
+			end = index_of_quote(token, qt, 0) + 1;
+			in = 0;
+		}
+		else
+		{
+			end = skipp_chars(token);
+			in = 1;
+		}
+		add_raw_token(&lst, token, 0, end);
+		token += end;
+	}
+	return (lst);
+}

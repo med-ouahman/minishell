@@ -12,40 +12,22 @@
 
 #include "../include/parser.h"
 
-static AST *build_pipeline(AST *left, AST *right)
+t_list *parse_pipeline(TOKEN **tokens)
 {
-	AST	 			*pipe_node;
-	t_ast_binary	*pip;
-
-	pipe_node = malloc(sizeof *pipe_node);
-	if (!pipe_node)
-		return (NULL);
-	pipe_node->node_type = PIPE;
-	pip = malloc(sizeof(*pip));
-	if (!pip)
-		return (NULL);
-	pip->left = left;
-	pip->right = right;
-	pipe_node->data = pip;
-	return (pipe_node);
-}
-
-AST *parse_pipeline(TOKEN **tokens)
-{
-	TOKEN	*token;
-	AST		*left;
-	AST		*right;
+	TOKEN		*token;
+	t_list		*left;
+	t_list		*right;
 
 	if (!peek(*tokens) || error(0, READ))
 		return (NULL);
-	left = parse_atom(tokens);
+	left = parse_command(tokens);
 	if (!left)
 		return (NULL);
 	token = peek(*tokens);
 	while (token && token->type == PIPE)
 	{
 		consume(tokens);
-		right = parse_atom(tokens);
+		right = parse_command(tokens);
 		if (error(0, READ))
 			return (NULL);
 		if (!right)
@@ -53,7 +35,7 @@ AST *parse_pipeline(TOKEN **tokens)
 			syntax_error(PIPE, peek(*tokens));
 			return (NULL);
 		}
-		left = build_pipeline(left, right);
+		ft_lstadd_back(&left, right);
 		token = peek(*tokens);
 	}
 	return (left);

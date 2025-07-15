@@ -24,17 +24,12 @@ int	is_quote(int c)
 
 int	is_sep_char(int c)
 {
-	return ('|' == c
-		|| '>' == c
-		|| '<' == c
-		|| ')' == c
-		|| '(' == c
-		|| '&' == c);
+	return ('|' == c || '>' == c || '<' == c);
 }
 
 int is_sep(char *line, int *i)
 {
-	static char	*seps[] = {"||", ">>", "<<", ">", "<", "&&", "|", "(", ")", NULL};
+	static char	*seps[] = {">>", "<<", ">", "<", "|", NULL};
 	int		j;
 	int		len;
 

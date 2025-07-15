@@ -32,51 +32,38 @@ static int	num_pipes(t_exec_control_block *exec_cb)
 }
 
 static int
-	execute_pipe_end(AST *parse_t, t_exec_control_block *exec_cb, int curr)
+	execute_pipe_end(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
-	t_cmd	*cmd;
-
-	if (parse_t->node_type == CMD)
+	if (cmd->is_buitlin)
 	{
-		cmd = (t_cmd *)parse_t->data;
-		prepare_redirs(cmd->redirs, exec_cb->stdio);
-		set_stdio(exec_cb, curr);
-		if (cmd->is_buitlin)
-		{
-			if (run_builtin_in_subshell(cmd, exec_cb))
-				return (-1);
-		}
-		else if (simple_command(cmd, exec_cb))
-		{
-			close_stdio(exec_cb->stdio);
+		if (run_builtin_in_subshell(cmd, exec_cb))
 			return (-1);
-		}
 	}
-	if (parse_t->node_type == ATOM)
+	else if (simple_command(cmd, exec_cb))
 	{
-		set_stdio(exec_cb, curr);
-		if (subshell(parse_t, exec_cb))
-			return (-1);
+		close_stdio(exec_cb->stdio);
+		return (-1);
 	}
 	return (0);
 }
 
-int	execute_pipeline(AST *parse_t, t_exec_control_block *exec_cb)
+int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 {
-	int         i;
-	AST			*pipe_end;
+	int		i;
+	t_cmd	*pipe_end;
 	
-	exec_cb->pipeline = create_pipeline(parse_t);
+	exec_cb->pipeline = pipeline;
 	exec_cb->pipes = create_pipes(num_pipes(exec_cb));
 	exec_cb->pids = malloc(exec_cb->pid_size * sizeof *exec_cb->pids);
 	garbage_collector(exec_cb->pids, COLLECT);
 	i = 0;
-	while (exec_cb->pipeline)
+	while (pipeline)
 	{
-		reset_stdio(exec_cb->stdio);
-		pipe_end = (AST *)exec_cb->pipeline->content;
-		execute_pipe_end(exec_cb->pipeline->content, exec_cb, i);
-		exec_cb->pipeline = exec_cb->pipeline->next;
+		pipe_end = (t_cmd *)pipeline->content;
+		prepare_redirs(pipe_end->redirs, exec_cb->stdio);
+		set_stdio(exec_cb, i);
+		execute_pipe_end(pipe_end, exec_cb);
+		pipeline = pipeline->next;
 		i++;
 	}
 	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
