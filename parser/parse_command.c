@@ -61,8 +61,7 @@ t_list *parse_command(TOKEN **tokens)
 	if (error(0, READ))
 		return (NULL);
 	token = peek(*tokens);
-	if (!token || (token->type != WORD && token->type != WILDCARD
-		&& !is_redirection(token->type)))
+	if (!token || (token->type != WORD && !is_redirection(token->type)))
 	{
 		syntax_error(CMD, token);
 		return (NULL);

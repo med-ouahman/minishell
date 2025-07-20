@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "../include/tokenizer.h"
+
 t_list	*split_tokens(char *token);
+
 int	add_raw_token(t_list **var_list, char *str, int start, int end)
 {
 	char	*s;
@@ -47,8 +49,8 @@ int	expand_token(t_list **var_list, char *str, int start, int end)
 	key = ft_substr(str, start, end - start);
 	value = getenv(key);
 	free(key);
-	if (NULL == value)
-		node = ft_lstnew(ft_strdup(""));
+	if (NULL == value || 0 == *value)
+		return (0);
 	else
 	{
 		value = ft_strdup(value);
@@ -147,6 +149,7 @@ t_list *expand(TOKEN *token)
 	ft_lstclear(&var_list, free);
 	return (word_split(token));
 }
+
 int	skipp_chars(char *token)
 {
 	int	i;

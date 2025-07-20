@@ -14,6 +14,7 @@
 #include "../include/utils.h"
 #include "../include/parser.h"
 
+void print_cmd(t_cmd *cmd);
 void    print_redir(t_redir *redir)
 {
 
@@ -43,7 +44,7 @@ void print_exc_list(t_list *exec_list)
     t_list  *current = exec_list;
     while (current)
     {
-        print_tree(current->content);
+        print_cmd(current->content);
         current = current->next;
     }
 }
@@ -60,6 +61,7 @@ void print_t(t_cmd *cmd)
     }
     printf("]\n");
 }
+
 void print_cmd(t_cmd *cmd)
 {
     TOKEN *args = cmd->args;
@@ -76,65 +78,4 @@ void print_cmd(t_cmd *cmd)
     }
     printf("]\n");
     print_t(cmd);
-}
-
-void print_atom(AST *atom)
-{
-    t_subshell *subshell;
-
-    subshell = (t_subshell *)atom->data;
-
-    if (subshell->ast_node->node_type == ATOM)
-        return print_tree(subshell->ast_node);
-    print_tree(subshell->ast_node);
-}
-
-void print_tree(AST *ast)
-{
-   t_ast_binary *bin;
-    t_cmd *cmd;
-   
-    if (!ast ||!ast->data)
-    {
-        printf("NULL\n");
-        return ;
-    }
-     printf("Node Type: %s\n", get_token_type(ast->node_type));
-    switch (ast->node_type)
-    {
-        case PIPE:
-            bin = (t_ast_binary *)ast->data;
-            printf("Left:\n");
-            print_tree(bin->left);
-            printf("Right:\n");
-            print_tree(bin->right);
-            break;
-        case OR:
-            bin = (t_ast_binary *)ast->data;
-            printf("Left:\n");
-            print_tree(bin->left);
-            printf("Right:\n");
-            print_tree(bin->right);
-            break;
-        case AND:
-            bin = (t_ast_binary *)ast->data;
-            printf("Left:\n");
-            print_tree(bin->left);
-            printf("Right:\n");
-            print_tree(bin->right);
-            break;
-        case CMD:
-            cmd = (t_cmd *)ast->data;
-            if (cmd)
-                print_cmd((t_cmd *)ast->data);
-            else
-                printf("NULL is cmd\n");
-            break;
-        case ATOM:
-            print_atom(ast);
-            break;
-        default:
-            printf("Unknown node type: %d\n",  ast->node_type);
-            break;
-    }
 }

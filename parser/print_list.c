@@ -27,20 +27,6 @@ char *get_token_type(int type)
 		return ("REDOUTAPP");
 	if (type == HEREDOC)
 		return ("HEREDOC");
-	if (type == AND)
-		return ("AND");
-	if (type == OR)
-		return ("OR");
-	if (type == OPENPAR)
-		return ("OPENPAR");
-	if (type == CLOSEPAR)
-		return ("CLOSEPAR");
-	if (type == ATOM)
-		return ("ATOM");
-	if (type == SUBSHELL)
-		return ("SUBSHELL");
-	if (type == WILDCARD)
-		return ("WILDCARD");
 	if (type == -1)
 		return ("Parser");
 	return ("UNKNOWN");

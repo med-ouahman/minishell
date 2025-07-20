@@ -12,6 +12,16 @@
 
 #include "../../include/builtins.h"
 
+static unsigned int	key_size(char *s1)
+{
+	unsigned int	l1;
+
+	l1 = 0;
+	while (s1[l1] && s1[l1] != '=')
+		l1++;
+	return (l1);
+}
+
 static char	**step_copy(char **env)
 {
 	char			**new_env;
@@ -36,6 +46,8 @@ char	**sort_env(char **env)
 	char			*swap;
 	unsigned int	j;
 	unsigned int	i;
+	unsigned int	l1;
+	unsigned int	l2;
 
 	i = 0;
 	new_env = step_copy(env);
@@ -43,10 +55,12 @@ char	**sort_env(char **env)
 		return (NULL);
 	while (new_env[i])
 	{
+		l1 = key_size(new_env[i]);
 		j = i + 1;
 		while (env[j])
 		{
-			if (ft_strcmp(new_env[i], new_env[j]) > 0)
+			l2 = key_size(new_env[j]);
+			if (ft_strncmp(new_env[i], new_env[j], min(l1, l2)) > 0)
 			{
 				swap = new_env[i];
 				new_env[i] = new_env[j];

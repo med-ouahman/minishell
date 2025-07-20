@@ -28,3 +28,10 @@ int	index_of(char *str_ptr[], char *key)
 		return (-1);
 	return (index);
 }
+
+int	min(int a, int b)
+{
+	if (a > b)
+		return (b);
+	return (a);
+}

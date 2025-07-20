@@ -33,6 +33,7 @@ typedef enum
     true
 }   t_bool;
 
+int     min(int, int);
 int	    index_of(char *str_ptr[], char *key);
 int	    panic(char *s, int code);
 void	print_list(t_list *list);

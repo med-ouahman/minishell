@@ -36,14 +36,15 @@ static t_list	*build_list(TOKEN *arg_list)
 	lst = NULL;
 	while (arg_list)
 	{
+		arg_list->split = is_splittable(arg_list->token);
 		node = expand(arg_list);
 		if (!node)
 		{
 			arg_list = arg_list->next;
 			continue ;
 		}
-		quote_removal(node);
 		wildcard_args = build_wildcard_args(node);
+		quote_removal(node);
 		ft_lstadd_back(&lst, wildcard_args);
 		arg_list = arg_list->next;
 	}
@@ -57,6 +58,8 @@ char	**build_argument_list(TOKEN *arg_list)
 	int		i;
 
 	lst = build_list(arg_list);
+	if (!lst)
+		return (NULL);
 	args = malloc(ft_lstsize(lst) * sizeof *lst + sizeof *lst);
 	i = 0;
 	while (lst)

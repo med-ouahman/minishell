@@ -18,7 +18,7 @@ int	exit_code(int status)
 
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
-	if (WIFSIGNALED(status) || WIFSTOPPED(status))
+	if (WIFSIGNALED(status))
 	{
 		signum = WTERMSIG(status);
 		if (SIGINT == signum)

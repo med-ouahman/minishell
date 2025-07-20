@@ -27,20 +27,13 @@ which means that it defaults to <space>, <tab> and <newline> characters.
 typedef enum e_types
 {
 	WORD = 1,
-	OPERATOR,
+	OP,
 	PIPE,
 	REDIN,
 	REDOUT,
 	REDOUTAPP,
 	HEREDOC,
-	AND,
-	OR,
-	OPENPAR,
-	CLOSEPAR,
-	SUBSHELL,
-	ATOM,
 	CMD,
-	WILDCARD,
 }	t_types;
 
 typedef struct	s_token	t_token;

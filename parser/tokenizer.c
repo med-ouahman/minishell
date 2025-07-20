@@ -41,14 +41,6 @@ int	token_type(char *s, int type)
 		return (REDOUTAPP);
 	if (!ft_strcmp(s, "<<"))
 		return (HEREDOC);
-	if (!ft_strcmp(s, "||"))
-		return (OR);
-	if (!ft_strcmp(s, "&&"))
-		return (AND);
-	if (!ft_strcmp(s, "("))
-		return (OPENPAR);
-	if (!ft_strcmp(s, ")"))
-		return (CLOSEPAR);
 	return (-1);
 }
 
@@ -86,7 +78,7 @@ int	add_operator(TOKEN **tokens, char *line, int *ii)
 		return (0);
 	}
 	info.end = *ii;
-	info.type = OPERATOR;
+	info.type = OP;
 	info.quote = 0;
 	add_token(tokens, line, info);
 	return (*ii);

@@ -13,16 +13,17 @@
 #include "../include/minishell.h"
 
 int	main(void)
-{
-	char	*line;
+{	char	*line;
 	TOKEN	*tokens;
 	t_list	*pipeline;
 
+	if (!isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
+		return (1);
 	handle_signals();
 	dup_env(&__environ);
 	while (true)
 	{
-		line = readline("$ ");
+		line = readline(PROMPT);
 		if (NULL == line)
 			exit(!!errno);
 		if (0 == *line)
@@ -33,7 +34,7 @@ int	main(void)
 		pipeline = parser(tokens);
 		if (!pipeline)
 			continue ;
-		setup_execution(pipeline);
+		access_exit_code(setup_execution(pipeline), WRITE);
 		// garbage_coellector(NULL, DESTROY);
 	}
 	return (0);

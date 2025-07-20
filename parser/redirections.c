@@ -58,10 +58,10 @@ t_redir  *create_redir_node(TOKEN *token)
     token->next = NULL;
     args = build_argument_list(token);
     token->next = tmp;
-    if (args[1])
+    if (!args || args[1])
     {
         error(1, WRITE);
-        print_file_error(save, "ambigous redirect");
+        print_file_error(save, "ambiguous redirect");
         return (NULL);
     }
     redir->target = token->token;
