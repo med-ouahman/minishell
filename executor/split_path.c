@@ -21,6 +21,6 @@ char	**split_path(void)
 	if (!path)
 		return (NULL);
 	paths = ft_split(path, ':');
-	garbage_collector(paths, COLLECT);
+	collect_malloc(paths, CHECK);
 	return (paths);
 }

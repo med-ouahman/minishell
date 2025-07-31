@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   allocate.c                                         :+:      :+:    :+:   */
+/*   print_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 16:32:10 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/04 20:33:16 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/05 14:36:20 by mouahman          #+#    #+#             */
+/*   Updated: 2025/07/05 14:44:20 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/garbage_collector.h"
+#include "../include/utils.h"
 
-void	*my_alloc(size_t _size, int __opt)
+void	print_file_error(char *__file, char *__err_msg)
 {
-	void	*ptr;
+	ft_printf_fd(2, "minishell: %s: %s\n", __file, __err_msg);
+}
 
-	ptr = malloc(_size);
-	garbage_collector(ptr, __opt);
-	return (ptr);
+void	print_file_error2(char *filename, char *_path, char *__err_msg)
+{
+	ft_printf_fd(2, "%s: %s: %s\n", filename, _path, __err_msg);
 }

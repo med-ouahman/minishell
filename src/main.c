@@ -12,33 +12,59 @@
 
 #include "../include/minishell.h"
 
+void	print_redirs(t_list	*redirs)
+{
+	t_redir *rad;
+
+	printf("end commands\n");
+	printf("start redirections:\n");
+	while (redirs)
+	{
+		rad = redirs->content;
+		printf("TYPE: %d --- target: %s\n", rad->type, rad->file);
+		redirs = redirs->next;
+	}
+	printf("end redirections\n");
+}
+
+void	print_exec_list(t_list *lst)
+{
+	t_cmd	*axd;
+	printf("start commands:\n");
+	while (lst)
+	{
+		axd = lst->content;
+		print_list(axd->args);
+		print_redirs(axd->redir);
+		lst = lst->next;
+	}
+}
+
 int	main(void)
-{	char	*line;
-	TOKEN	*tokens;
+{
+	char	*line;
 	t_list	*pipeline;
 
-	if (!isatty(STDOUT_FILENO) || !isatty(STDERR_FILENO))
-		return (1);
 	handle_signals();
 	dup_env(&__environ);
 	while (true)
 	{
 		line = readline(PROMPT);
 		if (NULL == line)
-			exit(!!errno);
+			exit(0);
 		if (0 == *line)
 			continue ;
 		add_history(line);
-		tokens = tokenizer(line);
+		pipeline = parser(line);
 		free(line);
-		pipeline = parser(tokens);
 		if (!pipeline)
 			continue ;
-		access_exit_code(setup_execution(pipeline), WRITE);
+		executor(pipeline);
 		// garbage_coellector(NULL, DESTROY);
 	}
 	return (0);
 }
+
 /*
 
 NFA -> DFA -> mDFA

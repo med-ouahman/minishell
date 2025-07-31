@@ -21,7 +21,6 @@
 # include "./parser.h"
 # include "./builtins.h"
 # include "./signal_handler.h"
-# include "./tokenizer.h"
 # include "./executor.h"
 
 #endif

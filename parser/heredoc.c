@@ -3,120 +3,84 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/23 09:26:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 20:14:24 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/30 05:24:07 by aid-bray          #+#    #+#             */
+/*   Updated: 2025/07/30 06:25:51 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
+#define LENGHT 20
+
+static void	create_heredoc_name(char *file_name)
+{
+	char	random_c[LENGHT + 1];
+	int		i;
+	int		fd;
+
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd < 0)
+	{
+		print_err1(strerror(errno));
+		collect_malloc(NULL, CLEAR);
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < LENGHT)
+	{
+		read (fd, random_c, LENGHT);
+		file_name[i] = random_c[i];
+		i++;
+	}
+	file_name[i] = '\0';
+	close(fd);
+}
+
 static void	heredoc_exit(pid_t pid)
 {
 	int	status;
 
+	status = 0;
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status))
 	{
-		if (SIGINT == WTERMSIG(status))
+		if (WTERMSIG(status) == SIGINT)
 		{
 			rl_after_fork();
 			error(1, WRITE);
 			access_exit_code(130, WRITE);
 		}
 	}
+	signal(SIGINT, sigint_handler);
 }
 
-static void  restore_signals(void)
+int	parser_heredoc(char *delim)
 {
-	struct sigaction    act;
-
-	act.sa_handler = SIG_DFL;
-	sigaction(SIGINT, &act, NULL);
-}
-
-char    *create_heredoc_file(int length)
-{
-	char    *filename;
-	int i;
-	int random_char;
-	int	fd;
-
-	filename = malloc(sizeof(char) * length + 1);
-	garbage_collector(filename, COLLECT);
-	fd = open("/dev/urandom", O_RDONLY);
-	i = 0;
-	while (i < length)
-	{
-		read(fd, &random_char, 1);
-		filename[i] = random_char;
-		i++;
-	}
-	close(fd);
-	filename[i] = 0;
-	return (filename);
-}
-
-char    *parse_content(char *content, int __expand)
-{
-	t_list  *l;
-
-	if (!__expand)
-		return (content);
-	l = get_var_list(content);
-	content = expand_var_list(l);
-	return (content);
-}
-
-void	__write_to_heredoc_file(int fd, char *_delim, int __expand)
-{
-	char	*line;
-	char	*content;
-
-	while (1)
-	{
-		line = readline("> ");
-		if (!line && !errno)
-		{
-			ft_printf_fd(2, "minishell: here-document delimited by EOF (wanted `%s')\n", _delim);
-			break ;
-		}
-		if (!line)
-			exit(EXIT_FAILURE);
-		if (!ft_strcmp(line, _delim))
-			break ;
-		content = parse_content(line, __expand);
-		if (!(content == line))
-			free(line);
-		write(fd, content, ft_strlen(content));
-		free(content);
-		write(fd, "\n", 1);
-	}
-}
-
-int	parse_heredoc(char *_delim, int __expand)
-{
-	char    *file;
-	int     fd;
+	char	file[LENGHT + 1];
+	pid_t	pid;
+	int		fd;
 	int		read_fd;
-	pid_t    pid;
 
-	file = create_heredoc_file(20);
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC , 0644);
+	create_heredoc_name(file);
+	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (fd < 0)
+		return (print_err2(file, strerror(errno)), collect_malloc(NULL, CLEAR),
+			exit(EXIT_FAILURE), -1);
 	read_fd = open(file, O_RDONLY);
+	if (read_fd < 0)
+		return (print_err1(strerror(errno)), collect_malloc(NULL, CLEAR),
+			close(fd), exit(EXIT_FAILURE), -1);
 	unlink(file);
-	free(file);
-	pid = fork();
 	signal(SIGINT, SIG_IGN);
-	if (pid == 0)
+	pid = fork();
+	if (!pid)
 	{
-		restore_signals();
-		__write_to_heredoc_file(fd, _delim, __expand);
+		read_heredoc(delim, fd);
+		close(read_fd);
 		close(fd);
 		exit(0);
 	}
-	close(fd);
-	heredoc_exit(pid);
-	return (read_fd);
+	return (close(fd), heredoc_exit(pid), read_fd);
 }

@@ -14,18 +14,20 @@
 
 static int	redirection_flags(int redir_type)
 {
-	if (redir_type == REDIN)
+	if (AMBIGUES == redir_type)
+		return (AMBIGUES);
+	if (redir_type == RED_INP)
 		return (O_RDONLY);
-	if (redir_type == REDOUT)
+	if (redir_type == RED_OUT)
 		return (O_CREAT | O_WRONLY | O_TRUNC);
-	if (redir_type == REDOUTAPP)
+	if (redir_type == RED_APPOUT)
 		return (O_CREAT | O_WRONLY | O_APPEND);
 	return (-1);
 }
 
 static int	_open_mode(int type)
 {
-	if (type == REDOUTAPP || type == REDOUT)
+	if (type == RED_APPOUT || type == RED_OUT)
 		return (OPEN_MODE);
 	return (-1);
 }
@@ -34,6 +36,11 @@ static int	open_file(char *__filename, int _flags, int __mode__)
 {
 	int	fd;
 
+	if (AMBIGUES == _flags)
+	{
+		print_err2(__filename, "ambiguous redirect");
+		return (-1);
+	}
 	if (__mode__ < 0)
 	{
 		fd = open(__filename, _flags);
@@ -60,13 +67,13 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 	while (redirs)
 	{
 		redir = (t_redir *)redirs->content;
-		if (redir->type == HEREDOC)
+		if (redir->type == RED_HERDOC)
 			fd = redir->heredoc_fd;
 		else
-			fd = open_file(redir->target, redirection_flags(redir->type), _open_mode(redir->type));
+			fd = open_file(redir->file, redirection_flags(redir->type), _open_mode(redir->type));
 		if (fd < 0)
 			return (-1);
-		if (redir->type == REDIN || redir->type == HEREDOC)
+		if (redir->type == RED_INP || redir->type == RED_HERDOC)
 			stdio[0] = fd;
 		else
 			stdio[1] = fd;

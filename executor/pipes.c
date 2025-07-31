@@ -31,11 +31,15 @@ t_pipefd	*create_pipes(int count)
 	int			i;
 
 	pipes = malloc(count * sizeof *pipes);
-	garbage_collector(pipes, COLLECT);
+	collect_malloc(pipes, CHECK);
 	i = 0;
 	while (i < count)
 	{
-		pipe(pipes[i].pipefds);
+		if (pipe(pipes[i].pipefds))
+		{
+			perror("pipe");
+			return (NULL);
+		}
 		i++;
 	}
 	return (pipes);

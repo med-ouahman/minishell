@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   min.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 11:53:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/02 11:54:53 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/31 00:21:50 by mouahman          #+#    #+#             */
+/*   Updated: 2025/07/31 00:21:52 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/utils.h"
-
-void	vfree(void *ptr)
+unsigned int	min(unsigned int a, unsigned int b)
 {
-	garbage_collector(ptr, 2);
+	static unsigned int arr[2];
+
+	arr[0] = a;
+	arr[1] = b;
+	return (arr[a > b]);
 }

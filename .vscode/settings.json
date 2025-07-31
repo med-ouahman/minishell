@@ -13,6 +13,9 @@
         "features-time64.h": "c",
         "timesize.h": "c",
         "wordsize.h": "c",
-        "random": "c"
+        "random": "c",
+        "dirent.h": "c",
+        "stdio.h": "c",
+        "garbage_collector.h": "c"
     }
 }

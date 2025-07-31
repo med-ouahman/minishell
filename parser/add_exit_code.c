@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/tokenizer.h"
+#include "../include/parser.h"
 
 void	add_exit_code(t_list **var_list, int code)
 {
@@ -18,8 +18,8 @@ void	add_exit_code(t_list **var_list, int code)
 	char	*s;
 
 	s = ft_itoa(code);
-	garbage_collector(s, COLLECT);
+	collect_malloc(s, CHECK);
 	node = ft_lstnew(s);
-	garbage_collector(node, COLLECT);
+	collect_malloc(node, CHECK);
 	ft_lstadd_back(var_list, node);
 }

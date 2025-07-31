@@ -3,150 +3,137 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/13 11:58:42 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 16:25:37 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/30 05:24:15 by aid-bray          #+#    #+#             */
+/*   Updated: 2025/07/30 11:46:48 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/tokenizer.h"
+#include "../include/parser.h"
 
-void	add_node(TOKEN **list, TOKEN *node)
+int	add_token(t_token **tokens, char *input, t_info info)
 {
-	TOKEN	*last;
+	t_token	*token;
+	t_token	*tmp;
 
-	if (NULL == *list)
-	{
-		*list = node;
-		return ;
-	}
-	last = *list;
-	while (last->next)
-		last = last->next;
-	last->next = node;
-}
-
-int	token_type(char *s, int type)
-{
-	if (type == WORD)
-		return (type);
-	if (!ft_strcmp(s, "|"))
-		return (PIPE);
-	if (!ft_strcmp(s, ">"))
-		return (REDOUT);
-	if (!ft_strcmp(s, "<"))
-		return (REDIN);
-	if (!ft_strcmp(s, ">>"))
-		return (REDOUTAPP);
-	if (!ft_strcmp(s, "<<"))
-		return (HEREDOC);
-	return (-1);
-}
-
-int	add_token(TOKEN **list, char *line, t_info info)
-{
-	TOKEN	*token;
-	
-	token = my_alloc(sizeof *token, COLLECT);
+	if (info.end <= info.start)
+		return (0);
+	token = ft_calloc(1, sizeof(t_token));
+	collect_malloc(token, CHECK);
+	token->str = ft_substr(input, info.start, info.end - info.start);
+	collect_malloc(token->str, CHECK);
 	token->type = info.type;
-	token->p_quote = info.quote;
-	token->token = ft_substr(line, info.start, info.end - info.start);
-	garbage_collector(token->token, COLLECT);
-	token->start = info.start == 0 ? line[info.start]: line[info.start - 1];
-	token->end = line[info.end];
-	token->type = token_type(token->token, token->type);
 	token->next = NULL;
-	add_node(list, token);
+	if (!(*tokens))
+		*tokens = token;
+	else
+	{
+		tmp = *tokens;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = token;
+	}
 	return (0);
 }
 
-int	add_operator(TOKEN **tokens, char *line, int *ii)
+static void	read_token_input(char *input, t_info *info, int *i)
 {
-	t_info	info;
-
-	info.start = *ii;
-	if (0 == is_sep(line + (*ii), ii))
+	info->start = *i;
+	info->type = WORD;
+	while (input[*i])
 	{
-		info.type = WORD;
-		info.start = (*ii)++;
-		while (!is_sep_char(line[*ii])
-			&& !is_space(line[*ii]) && !is_quote(line[*ii]) && line[*ii])
-			(*ii)++;
-		info.end = *ii;
-		add_token(tokens, line, info);
-		return (0);
+		if (input[*i] == '\'' && !info->is_dquote)
+			info->is_squote = !info->is_squote;
+		else if (input[*i] == '"' && !info->is_squote)
+			info->is_dquote = !info->is_dquote;
+		else if (is_space(input[*i]) && !info->is_squote && !info->is_dquote)
+			break ;
+		else if (is_operator(input, i, 0) && info->start != *i
+			&& !info->is_squote && !info->is_dquote)
+			break ;
+		else if (is_operator(input, i, 0)
+			&& !info->is_squote && !info->is_dquote)
+		{
+			info->type = is_operator(input, i, 1);
+			break ;
+		}
+		(*i)++;
 	}
-	info.end = *ii;
-	info.type = OP;
-	info.quote = 0;
-	add_token(tokens, line, info);
-	return (*ii);
+	info->end = *i;
 }
 
-int	add_regular(TOKEN **tokens, char *line, int *ii)
+void	split_token_dquote(t_token **side_tokens, char *input)
 {
-	int		open_q;
-	int		close_q;
 	int		i;
 	t_info	info;
 
-	open_q = 0;
-	close_q = 0;
-	i = *ii;
-	while (is_space(line[i]))
-		i++;
-	info.start = i;
-	while (!is_sep_char(line[i]) && !is_space(line[i]) && line[i])
+	i = 0;
+	ft_memset(&info, 0, sizeof(t_info));
+	while (input[i])
 	{
-		if (open_q == line[i])
-			close_q = line[i];
-		if (!open_q && is_quote(line[i]))
+		if (check_for_expand(input, i))
 		{
-			open_q = line[i++];
-			while (line[i] && line[i] != open_q)
-				i++;
+			info.end = i;
+			info.type = NO_QUOTE;
+			add_token(side_tokens, input, info);
+			info.start = i;
+			info.type = AMBIGUES;
+			i = check_for_expand(input, i);
+			info.end = i;
+			add_token(side_tokens, input, info);
+			info.start = i;
 			continue ;
-		}
-		if (close_q == open_q)
-		{
-			info.quote = open_q;
-			open_q = close_q = 0;
 		}
 		i++;
 	}
-	if (open_q != close_q)
-		return (panic("minishell: parse error: unclosed quote\n", -1));
 	info.end = i;
-	info.type = WORD;
-	add_token(tokens, line, info);
-	*ii = i;
-	return (i);
+	info.type = NO_QUOTE;
+	add_token(side_tokens, input, info);
 }
 
-TOKEN	*tokenizer(char *line)
+void	read_token_token(char *input, t_info *info, int *i)
 {
-	TOKEN	*tokens;
-	int	i;
-	
+	info->start = *i;
+	if (input[*i] == '\'')
+		info->end = ft_strchr(input + *i + 1, '\'') - input + 1;
+	else if (input[*i] == '"')
+		info->end = ft_strchr(input + *i + 1, '"') - input + 1;
+	else if (check_for_expand(input, *i))
+		info->end = check_for_expand(input, *i);
+	else
+	{
+		while (input[*i] && !check_for_expand(input, *i) && input[*i] != '\''
+			&& input[*i] != '"')
+			(*i)++;
+		info->end = *i;
+	}
+	info->type = NO_QUOTE;
+	if (input[info->start] == '\'')
+		info->type = S_QUOTE;
+	else if (input[info->start] == '"')
+		info->type = D_QUOTE;
+	else if (check_for_expand(input, info->start))
+		info->type = AMBIGUES;
+}
+
+t_token	*get_tokens(char *input)
+{
+	t_token	*tokens;
+	t_info	info;
+	int		i;
+
 	i = 0;
 	tokens = NULL;
-	while (line[i])
+	ft_memset(&info, 0, sizeof(info));
+	while (input[i])
 	{
-		while (ft_isspace(line[i]))
+		while (is_space(input[i]))
 			i++;
-		if (!line[i])
+		if (!input[i])
 			break ;
-		if (is_sep_char(line[i]))
-		{
-			if (add_operator(&tokens, line, &i) < 0)
-				return (NULL);
-		}
-		else
-		{
-			if (0 > add_regular(&tokens, line, &i))
-				return (NULL);
-		}
+		read_token_input(input, &info, &i);
+		add_token(&tokens, input, info);
 	}
 	return (tokens);
 }

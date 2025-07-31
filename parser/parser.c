@@ -3,27 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/19 09:17:09 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:33:26 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/30 05:24:09 by aid-bray          #+#    #+#             */
+/*   Updated: 2025/07/30 06:29:23 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-t_list *parser(TOKEN *tokens)
+void	free_list_token(t_token *token)
 {
-	t_list *pipeline;
+	t_token	*t;
 
-	error(0, WRITE);
-	pipeline = parse_pipeline(&tokens);
-	if (error(0, READ))
-		return (NULL);
-	if (tokens != NULL)
+	while (token)
 	{
-		syntax_error(-1, peek(tokens));
-		return (NULL);
+		t = token->next;
+		if (token)
+			collect_malloc(token, DELETE);
+		token = t;
 	}
-	return (pipeline);
+}
+
+static void	run_heredoc(t_token *tokens, int valid)
+{
+	t_token	*prev;
+
+	if (valid < 0)
+		return ;
+	while (tokens)
+	{
+		prev = tokens;
+		tokens = tokens->next;
+		if (!tokens)
+			break ;
+		if ((is_redirection(prev) && tokens->type != WORD)
+			|| (prev->type == PIPE && tokens->type == PIPE))
+			break ;
+		if (prev->type == RED_HERDOC && tokens->str)
+			close(parser_heredoc(tokens->str));
+	}
+}
+
+t_list	*parser(char *input)
+{
+	t_token	*token;
+	t_list	*cmd;
+	int		valid;
+
+	token = get_tokens(input);
+	if (!token)
+		return (NULL);
+	valid = check_valid_input(token);
+	if (valid)
+		return (run_heredoc(token, valid), NULL);
+	cmd = set_cmd(token);
+	if (!cmd)
+		return (NULL);
+	free_list_token(token);
+	expand(cmd);
+	return (cmd);
 }

@@ -40,19 +40,19 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	preserve_stdio(old, stdio);
 	dup_stdio(stdio);
 	args = build_argument_list(cmd->args);
-	if (CD == cmd->is_buitlin)
+	if (CD == cmd->is_builtin)
 		code = (cd(args));
-	if (PWD == cmd->is_buitlin)
+	if (PWD == cmd->is_builtin)
 		code = (pwd());
-	if (EXIT == cmd->is_buitlin)
+	if (EXIT == cmd->is_builtin)
 		code = (exit_(args));
-	if (ECHO == cmd->is_buitlin)
+	if (ECHO == cmd->is_builtin)
 		code = (echo(args));
-	if (EXPORT == cmd->is_buitlin)
+	if (EXPORT == cmd->is_builtin)
 		code = (export(args));
-	if (UNSET == cmd->is_buitlin)
+	if (UNSET == cmd->is_builtin)
 		code = (unset(args));
-	if (ENV == cmd->is_buitlin)
+	if (ENV == cmd->is_builtin)
 		code = (env());
 	restore_stdio(old);
 	return (code);

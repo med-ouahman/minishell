@@ -19,7 +19,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 # Fetch all source files from the defined directories
 
-SRCS_SRC = $(wildcard $(SRCS)/*.c)
+SRCS_SRC = $(SRCS)/main.c
 BUILTINS_SRC = $(wildcard $(BUILTINS)/*.c)
 EXECUTOR_SRC = $(wildcard $(EXECUTOR)/*.c)
 SIGNALS_SRC = $(wildcard $(SIGNALS)/*.c)

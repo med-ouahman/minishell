@@ -12,20 +12,6 @@
 
 #include "../include/parser.h"
 
-int	syntax_error(int claimer, TOKEN *token)
-{
-	char	*s;
-
-	if (!token)
-		s = "newline";
-	else
-		s = token->token;
-	printf("error: claimer: %s\nminishell: syntax error near unexpected token `%s'\n",
-		get_token_type(claimer), s);
-	error(1, WRITE);
-	return (0);
-}
-
 int	error(int c, int mode)
 {
 	static int	err;

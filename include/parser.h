@@ -3,23 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/05 14:35:59 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/12 22:28:10 by mouahman         ###   ########.fr       */
+/*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
+/*   Updated: 2025/07/30 09:30:05 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "./utils.h"
-# include "./tokenizer.h"
-# include "./signal_handler.h"
-# include <sys/types.h>
+# include "../libft/libft.h"
+# include "utils.h"
 # include <dirent.h>
+# include <wait.h>
+# include <fcntl.h>
+# include <stdio.h> /////////////////del
 
-typedef enum
+typedef enum s_enum
+{
+	WORD = 1,
+	PIPE,
+	RED_OUT,
+	RED_INP,
+	RED_APPOUT,
+	RED_HERDOC,
+	AMBIGUES,
+	S_QUOTE,
+	D_QUOTE,
+	NO_QUOTE,
+	SPLIT,
+	JOIN
+}	t_enum;
+
+typedef enum s_enum_buil
 {
 	NOT,
 	CD,
@@ -31,76 +48,82 @@ typedef enum
 	UNSET
 }	t_builtins;
 
-typedef struct s_ast t_ast;
+typedef struct s_info
+{
+	char	type;
+	int	start;
+	int	end;
+	char	is_squote;
+	char	is_dquote;
+}	t_info;
 
-# define AST t_ast
+typedef struct s_token
+{
+	char			*str;
+	char			type;
+	struct s_token	*next;
+}	t_token;
 
-typedef struct
+typedef struct s_redir
 {
 	int		type;
-	char	*target;
+	char	*file;
 	int		heredoc_fd;
 }	t_redir;
 
-typedef struct
+typedef struct s_cmd
 {
-	AST *left;
-	AST *right;
-}   t_ast_binary;
-
-typedef struct
-{
-	AST		*ast_node;
-	t_list	*redirs;
-}	t_subshell;
-
-typedef struct
-{
-	int		is_buitlin;
-	TOKEN	*args; /* list of strings, could also be an array of strings */
-	t_list	*redirs; /* list of t_redir type */
+	int		is_builtin;
+	t_list	*args;
+	t_list	*redir;
 }	t_cmd;
 
-typedef struct s_ast
-{
-	int		node_type;
-	void	*data;
-}	t_ast;
+////////////// tools.c
+int		is_quote(char c);
+int		is_space(char c);
+int		is_operator(char *input, int *i, int flag);
+int		is_redirection(t_token *token);
 
-void	print_file_error(char *filename, char *err_msg);
-void	print_file_error2(char *filename, char *_path, char *__err_msg);
+////////////// tokenizer.c
+t_token	*get_tokens(char *input);
+int		add_token(t_token **tokens, char *input, t_info info);
+void	read_token_token(char *input, t_info *info, int *i);
+void	split_token_dquote(t_token **side_tokens, char *input);
 
-TOKEN	*peek(TOKEN *tokens);
-TOKEN	*consume(TOKEN **tokens);
+////////////// parser.c
+t_list	*parser(char *input);
+void	free_list_token(t_token *token);
 
-void	add_token_back(TOKEN **args, TOKEN *token);
-void 	print_tree(AST *ast);
-void    print_redir(t_redir *redir);
-void	print_exc_list(t_list *exec_list);
-t_list	*create_pipeline(AST *ast);
+////////////// valid_input.c
+int		check_valid_input(t_token *token);
 
-t_list	*get_redirs(TOKEN **tokens);
-int		is_builtin(char *cmd);
-int		last_exit_code(int new_value, int mode);
-int		syntax_error(int claimer, TOKEN *token);
-int		is_redirection(int t);
+////////////// set_commands.c
+t_list	*set_cmd(t_token *token);
+
+////////////// expand*.c
+int		expand(t_list *cmd);
+void	split_after_expand(t_token *tokens);
+int		check_split(t_token *token, int i);
+int		split_new_token(char *token);
+t_token	*split_token(char *str);
+int		check_for_expand(char *input, int i);
+void	expand_tokens(t_token *tokens);
+void	expand_token_dqoute(t_token *token);
+void	expand_token_var(t_token *token);
+t_token	*new_tokens_expanded(t_token *token);
+t_list	*join_tokens_args(t_list **arg, t_token *tokens);
+void	join_tokens_redir(t_redir *redir, t_token *tokens);
+t_token	*prepar_args(t_list	**arg, t_token *tokens);
+int		check_last_token_unexpanded(t_token *tokens);
+
+////////////// heredoc*.c
+t_list	*parser(char *input);
+void	free_list_token(t_token *token);
+void	read_heredoc(char *delmiter, int fd);
+int		parser_heredoc(char *delim);
+char	*ft_join(char *str1, int free1, char *str2, int free2);
+char	*parser_line(char *input, int _expand);
 
 
-
-/* Parsers */
-
-int		parse_heredoc(char *_delim, int __expand);
-t_list 	*parser(TOKEN *tokens);
-t_list 	*parse_command(TOKEN **tokens);
-t_list	*parse_pipeline(TOKEN **tokens);
-int		error(int c, int mode);
-size_t	token_list_size(TOKEN *list);
-
-/*	wildcard */
-
-t_list	*wildcard(char *pattern);
-int		is_wildcard(TOKEN *token);
-
-char	**build_argument_list(TOKEN *tokens);
-
+int	check_valid_variable(char *str); /// add to builtins header
 #endif
