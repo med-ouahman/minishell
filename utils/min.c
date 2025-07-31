@@ -12,7 +12,7 @@
 
 unsigned int	min(unsigned int a, unsigned int b)
 {
-	static unsigned int arr[2];
+	static unsigned int	arr[2];
 
 	arr[0] = a;
 	arr[1] = b;

@@ -37,4 +37,3 @@ int	restore_stdio(int *old)
 	}
 	return (0);
 }
-

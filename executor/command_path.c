@@ -12,48 +12,13 @@
 
 #include "../include/executor.h"
 
-int	is_executable(char *__pathname, char **path)
-{
-	if (!access(__pathname, F_OK) && !access(__pathname, X_OK))
-	{
-		*path = __pathname;
-		return (0);
-	}
-	return (errno);
-}
-
-int	is_path(char *cmd)
-{
-	if (!ft_strncmp(cmd, "./", 2))
-		return (1);
-	if (*cmd == '/')
-		return (1);
-	return (0);
-}
-
-static int	__file_state_(char *__file_path)
-{
-	struct stat	buf;
-	int			c;
-
-
-	c = stat(__file_path, &buf);
-	if (0 > c)
-	{
-		return (-1);
-	}
-	if (S_ISREG(buf.st_mode))
-		return (0);
-	return (-1);
-}
-
 static char	*join_paths(int i, char **paths, char *cmd)
 {
 	char	*cmdpath;
 	size_t	size;
 
 	size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
-	cmdpath = malloc(size * sizeof *cmdpath);
+	cmdpath = malloc(size * sizeof * cmdpath);
 	if (!cmdpath)
 		return (NULL);
 	*cmdpath = 0;
@@ -70,8 +35,6 @@ int	check_access(char **path, char **paths, char *cmd)
 	i = 0;
 	if (!*cmd)
 		return (ENOENT);
-	if (is_path(cmd))
-		return (is_executable(cmd, path));
 	while (paths[i])
 	{
 		*path = join_paths(i, paths, cmd);
@@ -96,20 +59,24 @@ char	*command_path(char **paths, char *cmd)
 	int		c;
 
 	path = NULL;
+	if (is_path(cmd))
+	{
+		if (!is_executable(cmd))
+			return (cmd);
+		return (NULL);
+	}
 	c = check_access(&path, paths, cmd);
 	if (0 > c)
 		access_exit_code(1, WRITE);
-	if (ENOENT == c || __file_state_(path))
+	if (ENOENT == c)
 	{
 		access_exit_code(127, WRITE);
 		printf("minishell: %s: command not found\n", cmd);
-		return (NULL);
 	}
 	else if (EACCES == c)
 	{
 		access_exit_code(126, WRITE);
 		printf("minishell: %s: Permission denied\n", path);
-		return (NULL);
 	}
 	return (path);
 }

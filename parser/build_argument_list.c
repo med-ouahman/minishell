@@ -19,7 +19,7 @@ char	**build_argument_list(t_list *lst)
 
 	if (!lst)
 		return (NULL);
-	args = malloc(ft_lstsize(lst) * sizeof *lst + sizeof *lst);
+	args = malloc(ft_lstsize(lst) * sizeof * lst + sizeof * lst);
 	i = 0;
 	while (lst)
 	{

@@ -16,9 +16,9 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include "../include/parser.h"
-#include <unistd.h>
+# include <unistd.h>
 
-void    rl_new_prompt(void);
+void	rl_new_prompt(void);
 void	sigint_handler(int signum);
 void	rl_after_fork(void);
 void	handle_signals(void);

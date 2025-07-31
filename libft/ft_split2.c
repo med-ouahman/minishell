@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-int printf(const char*, ...);
-static int	is_sep(char, char *);
+
+static int	is_sep(char c, char *s);
 
 static int	word_count(char *s, char *charset)
 {
@@ -82,16 +82,3 @@ char	**ft_split2(char *str, char *charset)
 	split[k] = NULL;
 	return (split);
 }
-
-
-// int main(int x, char **y)
-// {
-// 	char **so = ft_split2(y[1], " \t\n\r\v\f");
-	
-// 	while (*so)
-// 	{
-// 		printf("%s\n", *so);
-// 		so++;
-// 	}
-
-// }

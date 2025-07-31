@@ -62,15 +62,14 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 	t_redir	*redir;
 	int		fd;
 
-	if (!redirs)
-		return (0);
 	while (redirs)
 	{
 		redir = (t_redir *)redirs->content;
 		if (redir->type == RED_HERDOC)
 			fd = redir->heredoc_fd;
 		else
-			fd = open_file(redir->file, redirection_flags(redir->type), _open_mode(redir->type));
+			fd = open_file(redir->file,
+					redirection_flags(redir->type), _open_mode(redir->type));
 		if (fd < 0)
 			return (-1);
 		if (redir->type == RED_INP || redir->type == RED_HERDOC)

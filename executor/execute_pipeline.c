@@ -46,12 +46,12 @@ int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 {
 	int		i;
 	t_cmd	*pipe_end;
-	
+
 	exec_cb->pipeline = pipeline;
 	exec_cb->pipes = create_pipes(num_pipes(exec_cb));
 	if (!exec_cb->pipes)
 		return (1);
-	exec_cb->pids = malloc(exec_cb->pid_size * sizeof *exec_cb->pids);
+	exec_cb->pids = malloc(exec_cb->pid_size * sizeof * exec_cb->pids);
 	collect_malloc(exec_cb->pids, CHECK);
 	i = 0;
 	while (pipeline)

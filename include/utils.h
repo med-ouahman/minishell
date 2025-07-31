@@ -26,6 +26,8 @@
 # define READ 0
 # define WRITE 1
 
+typedef unsigned int	t_uint;
+
 typedef enum s_num
 {
 	false,
@@ -38,7 +40,7 @@ void	print_err1(char *msg);
 void	print_err2(char *cmd, char *msg);
 void	print_err3(char *cmd, char *arg, char *msg);
 void	print_file_error(char *filename, char *__err_msg);
-void	print_file_error2(char *filename, char *__err_msg,  char *sda);
+void	print_file_error2(char *filename, char *__err_msg, char *sda);
 void	print_list(t_list *list);
 //////////// collect_malloc.c
 void	collect_malloc(void *ptr, int option);
@@ -51,10 +53,9 @@ void	sigint_handler(int signum);
 void	rl_after_fork(void);
 void	rl_new_prompt(void);
 
-
 /////////// access_exit_code.c
 int		access_exit_code(int new_val, int mode);
 int		error(int c, int mode);
-unsigned int	min(unsigned int a, unsigned int b);
+t_uint	min(unsigned int a, unsigned int b);
 
 #endif

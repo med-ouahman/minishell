@@ -14,7 +14,7 @@
 
 void	print_redirs(t_list	*redirs)
 {
-	t_redir *rad;
+	t_redir	*rad;
 
 	printf("end commands\n");
 	printf("start redirections:\n");
@@ -30,6 +30,7 @@ void	print_redirs(t_list	*redirs)
 void	print_exec_list(t_list *lst)
 {
 	t_cmd	*axd;
+
 	printf("start commands:\n");
 	while (lst)
 	{
@@ -60,7 +61,7 @@ int	main(void)
 		if (!pipeline)
 			continue ;
 		executor(pipeline);
-		// garbage_coellector(NULL, DESTROY);
+		collect_malloc(NULL, CLEAR);
 	}
 	return (0);
 }

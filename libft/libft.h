@@ -37,7 +37,6 @@ typedef struct s_flag
 	char	c;
 }	t_flags;
 
-
 char	*get_next_line(int fd);
 
 int		ft_printf_fd(int fd, const char *format, ...);

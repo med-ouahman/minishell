@@ -27,8 +27,3 @@ void	handle_signals(void)
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
-
-void	restore_signals(void)
-{
-	
-}

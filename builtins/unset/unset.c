@@ -37,8 +37,8 @@ static long	searsh_var(char *var)
 	{
 		if (ft_strncmp(__environ[i], var, eq) == 0)
 		{
-			if (!var[eq] &&
-				(__environ[i][eq] == '=' || !__environ[i][eq]))
+			if (!var[eq]
+				&& (__environ[i][eq] == '=' || !__environ[i][eq]))
 				return (i);
 		}
 		i++;
@@ -88,5 +88,4 @@ int	unset(char **args)
 		args++;
 	}
 	return (0);
-
 }

@@ -35,7 +35,7 @@ static int	change_pwd(char ***env, char *oldpwd)
 {
 	char	*pwd;
 	char	*tmp;
-	long		i;
+	long	i;
 
 	pwd = new_varpwd("PWD=");
 	if (!pwd)
@@ -66,7 +66,7 @@ int	cd(char **args)
 	char	*oldpwd;
 
 	if (!args[1])
-		return (print_file_error("cd", "no path specific"), 1);
+		return (print_file_error("cd", "too few arguments"), 1);
 	if (args[2])
 		return (print_file_error("cd", "too many arguments"), 1);
 	path = args[1];

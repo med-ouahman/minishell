@@ -15,7 +15,7 @@
 void	close_pipes(t_pipefd *pipes, int size)
 {
 	int	var;
-	
+
 	var = 0;
 	while (var < size)
 	{
@@ -30,7 +30,7 @@ t_pipefd	*create_pipes(int count)
 	t_pipefd	*pipes;
 	int			i;
 
-	pipes = malloc(count * sizeof *pipes);
+	pipes = malloc(count * sizeof * pipes);
 	collect_malloc(pipes, CHECK);
 	i = 0;
 	while (i < count)

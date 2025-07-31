@@ -51,8 +51,8 @@ typedef enum s_enum_buil
 typedef struct s_info
 {
 	char	type;
-	int	start;
-	int	end;
+	int		start;
+	int		end;
 	char	is_squote;
 	char	is_dquote;
 }	t_info;
@@ -124,6 +124,5 @@ int		parser_heredoc(char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
 
-
-int	check_valid_variable(char *str); /// add to builtins header
+int		check_valid_variable(char *str); /// add to builtins header
 #endif

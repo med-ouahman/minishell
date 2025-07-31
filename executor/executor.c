@@ -12,7 +12,7 @@
 
 #include "../include/executor.h"
 
-static void	setup(t_exec_control_block *exec_cb)
+static void	setup_exec_cb(t_exec_control_block *exec_cb)
 {
 	exec_cb->paths = split_path();
 	exec_cb->pids = NULL;
@@ -23,7 +23,6 @@ static void	setup(t_exec_control_block *exec_cb)
 	reset_stdio(exec_cb->stdio);
 }
 
-
 void	reset_exec_cb(t_exec_control_block *exec_cb)
 {
 	free(exec_cb->pids);
@@ -33,11 +32,11 @@ void	reset_exec_cb(t_exec_control_block *exec_cb)
 	reset_stdio(exec_cb->stdio);
 }
 
-int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
+static int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
 	int		pid;
 	int		stat;
-	
+
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
 		return (1);
 	if (cmd->is_builtin)
@@ -50,12 +49,12 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	return (stat);
 }
 
-int executor(t_list *pipeline)
+int	executor(t_list *pipeline)
 {
 	int						exit_status;
 	t_exec_control_block	exec_cb;
 
-	setup(&exec_cb);
+	setup_exec_cb(&exec_cb);
 	if (!pipeline)
 		return (0);
 	if (NULL == pipeline->next)

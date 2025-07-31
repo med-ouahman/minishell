@@ -12,6 +12,16 @@
 
 #include "../include/executor.h"
 
+static void	child(char *path, char **args, t_exec_control_block *exec_cb)
+{
+	signal(SIGINT, SIG_DFL);
+	dup_stdio(exec_cb->stdio);
+	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
+	execve(path, args, __environ);
+	collect_malloc(NULL, CLEAR);
+	exit(EXIT_FAILURE);
+}
+
 int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
 	char	**args;
@@ -22,24 +32,19 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 		return (0);
 	args = build_argument_list(cmd->args);
 	if (!args)
-		return (-1);
+		return (1);
 	path = command_path(exec_cb->paths, args[0]);
 	if (!path)
-		return (-1);
+		return (access_exit_code(0, READ));
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
 	if (0 > pid)
-		return (-1);
+		return (1);
 	if (0 == pid)
 	{
-		signal(SIGINT, SIG_DFL);
-		dup_stdio(exec_cb->stdio);
-		close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
-		execve(path, args, __environ);
-		exit(EXIT_FAILURE);
+		child(path, args, exec_cb);
 	}
-	exec_cb->pids[exec_cb->curr_pid] = pid;
-	exec_cb->curr_pid++;
+	exec_cb->pids[exec_cb->curr_pid++] = pid;
 	close_stdio(exec_cb->stdio);
 	return (0);
 }

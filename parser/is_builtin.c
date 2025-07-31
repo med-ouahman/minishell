@@ -12,9 +12,9 @@
 
 #include "../include/parser.h"
 
-int is_builtin(char *cmd)
+int	is_builtin(char *cmd)
 {
-    if (!ft_strcmp(cmd, "cd"))
+	if (!ft_strcmp(cmd, "cd"))
 		return (CD);
 	else if (!ft_strcmp(cmd, "pwd"))
 		return (PWD);
@@ -27,6 +27,6 @@ int is_builtin(char *cmd)
 	else if (!ft_strcmp(cmd, "unset"))
 		return (UNSET);
 	else if (!ft_strcmp(cmd, "env"))
-        return (ENV);
-    return (NOT);
+		return (ENV);
+	return (NOT);
 }
