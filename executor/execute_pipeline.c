@@ -31,13 +31,11 @@ static int
 {
 	if (cmd->is_builtin)
 	{
-		if (run_builtin_in_subshell(cmd, exec_cb))
-			return (-1);
+		return (run_builtin_in_subshell(cmd, exec_cb));
 	}
-	else if (simple_command(cmd, exec_cb))
+	else
 	{
-		close_stdio(exec_cb->stdio);
-		return (-1);
+		return (simple_command(cmd, exec_cb));
 	}
 	return (0);
 }
@@ -45,9 +43,9 @@ static int
 int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 {
 	int		i;
+	int		last_exit_code;
 	t_cmd	*pipe_end;
 
-	exec_cb->pipeline = pipeline;
 	exec_cb->pipes = create_pipes(num_pipes(exec_cb));
 	if (!exec_cb->pipes)
 		return (1);
@@ -59,11 +57,11 @@ int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 		pipe_end = (t_cmd *)pipeline->content;
 		prepare_redirs(pipe_end->redir, exec_cb->stdio);
 		set_stdio(exec_cb, i);
-		execute_pipe_end(pipe_end, exec_cb);
+		last_exit_code = execute_pipe_end(pipe_end, exec_cb);
 		reset_stdio(exec_cb->stdio);
 		pipeline = pipeline->next;
 		i++;
 	}
 	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
-	return (wait_children(exec_cb->pids, exec_cb->pid_size));
+	return (last_exit_code || wait_children(exec_cb->pids, exec_cb->pid_size));
 }

@@ -48,6 +48,7 @@ int			preserve_stdio(int *old_stdio, int *stdio);
 
 char		**build_argument_list(t_list *lst);
 int			simple_command(t_cmd *cmd, t_exec_control_block *exec_cb);
+int			is_builtin(char *command);
 int			executor(t_list *pipeline);
 int			execute_builtin(t_cmd *cmd, int *stdio);
 int			run_builtin_in_subshell(t_cmd *builtin_cmd,

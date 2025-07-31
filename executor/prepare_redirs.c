@@ -51,7 +51,7 @@ static int	open_file(char *__filename, int _flags, int __mode__)
 	}
 	if (fd < 0)
 	{
-		print_file_error(__filename, strerror(errno));
+		print_err2(__filename, strerror(errno));
 		return (-1);
 	}
 	return (fd);

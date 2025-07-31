@@ -12,6 +12,14 @@
 
 #include "../include/minishell.h"
 
+static void	get_out(void)
+{
+	rl_clear_history();
+	collect_malloc(NULL, CLEAR);
+	destroy_env(&__environ);
+	exit(EXIT_SUCCESS);
+}
+
 void	print_redirs(t_list	*redirs)
 {
 	t_redir	*rad;
@@ -52,10 +60,9 @@ int	main(void)
 	{
 		line = readline(PROMPT);
 		if (NULL == line)
-			exit(0);
-		if (0 == *line)
-			continue ;
-		add_history(line);
+			get_out();
+		if (*line)
+			add_history(line);
 		pipeline = parser(line);
 		free(line);
 		if (!pipeline)

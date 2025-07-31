@@ -22,9 +22,9 @@ unsigned int	key_size(char *s1)
 	return (l1);
 }
 
-void	swap_ptrs(void **p1, void **p2)
+void	swap_ptrs(char **p1, char **p2)
 {
-	void	*tmp;
+	char	*tmp;
 
 	tmp = *p1;
 	*p1 = *p2;

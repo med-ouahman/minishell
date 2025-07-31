@@ -12,25 +12,6 @@
 
 #include "../include/parser.h"
 
-// static int	is_builtin(char *cmd)
-// {
-// 	if (!ft_strcmp(cmd, "cd"))
-// 		return (CD);
-// 	else if (!ft_strcmp(cmd, "pwd"))
-// 		return (PWD);
-// 	else if (!ft_strcmp(cmd, "exit"))
-// 		return (EXIT);
-// 	else if (!ft_strcmp(cmd, "echo"))
-// 		return (ECHO);
-// 	else if (!ft_strcmp(cmd, "export"))
-// 		return (EXPORT);
-// 	else if (!ft_strcmp(cmd, "unset"))
-// 		return (UNSET);
-// 	else if (!ft_strcmp(cmd, "env"))
-// 		return (ENV);
-// 	return (NOT);
-// }
-
 static int	expand_redir(t_list *list_redir)
 {
 	t_list	*tmp;
@@ -99,7 +80,7 @@ int	expand(t_list *list_cmd)
 	return (0);
 }
 
-///////// to export 
+///////// to export
 int	check_valid_variable(char *str)
 {
 	int		i;

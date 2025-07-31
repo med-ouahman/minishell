@@ -14,6 +14,8 @@
 
 int	is_builtin(char *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (!ft_strcmp(cmd, "cd"))
 		return (CD);
 	else if (!ft_strcmp(cmd, "pwd"))

@@ -19,8 +19,7 @@ static char	*join_paths(int i, char **paths, char *cmd)
 
 	size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
 	cmdpath = malloc(size * sizeof * cmdpath);
-	if (!cmdpath)
-		return (NULL);
+	collect_malloc(cmdpath, CHECK);
 	*cmdpath = 0;
 	ft_strlcat(cmdpath, paths[i], size);
 	ft_strlcat(cmdpath, "/", size);
@@ -46,7 +45,7 @@ int	check_access(char **path, char **paths, char *cmd)
 				return (0);
 			return (errno);
 		}
-		free(*path);
+		collect_malloc(*path, DELETE);
 		*path = NULL;
 		i++;
 	}

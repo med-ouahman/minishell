@@ -12,7 +12,7 @@
 
 #include "../include/executor.h"
 
-static int	is_path(char *cmd)
+int	is_path(char *cmd)
 {
 	if (!ft_strncmp(cmd, "./", 2) || ft_strchr(cmd, '/'))
 		return (1);
@@ -21,7 +21,7 @@ static int	is_path(char *cmd)
 	return (0);
 }
 
-static int	get_file_type(char *__file_path)
+int	get_file_type(char *__file_path)
 {
 	struct stat	buf;
 	int			c;
@@ -34,7 +34,7 @@ static int	get_file_type(char *__file_path)
 	return (buf.st_mode);
 }
 
-static int	is_executable(char *__pathname)
+int	is_executable(char *__pathname)
 {
 	int	file_type;
 

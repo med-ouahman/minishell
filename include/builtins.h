@@ -33,7 +33,7 @@ void	destroy_env(char ***env);
 int		dup_env(char ***env);
 long	size_env(char **env);
 int		export_add(char **vars);
-void	swap_ptrs(void **p1, void **p2);
+void	swap_ptrs(char **p1, char **p2);
 t_uint	key_size(char *s1);
 
 #endif

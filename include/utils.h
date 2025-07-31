@@ -57,5 +57,6 @@ void	rl_new_prompt(void);
 int		access_exit_code(int new_val, int mode);
 int		error(int c, int mode);
 t_uint	min(unsigned int a, unsigned int b);
+int		cleanup(int code);
 
 #endif

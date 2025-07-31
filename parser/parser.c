@@ -51,6 +51,8 @@ t_list	*parser(char *input)
 	t_list	*cmd;
 	int		valid;
 
+	if (!*input)
+		return (NULL);
 	token = get_tokens(input);
 	if (!token)
 		return (NULL);

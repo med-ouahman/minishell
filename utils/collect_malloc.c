@@ -12,6 +12,13 @@
 
 #include "../include/utils.h"
 
+int	cleanup(int code)
+{
+	rl_clear_history();
+	collect_malloc(NULL, CLEAR);
+	exit(code);
+}
+
 static void	free_ptr(t_list **lst, void *ptr)
 {
 	t_list	*cur;
@@ -42,8 +49,8 @@ void	collect_malloc(void *ptr, int option)
 
 	if (!ptr && option == CHECK)
 	{
-		ft_lstclear(&lst, free);
 		print_err1("Memory allocation");
+		ft_lstclear(&lst, free);
 		exit(EXIT_FAILURE);
 	}
 	else if (option == CHECK)

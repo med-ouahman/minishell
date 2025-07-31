@@ -37,6 +37,7 @@ t_pipefd	*create_pipes(int count)
 	{
 		if (pipe(pipes[i].pipefds))
 		{
+			close_pipes(pipes, i);
 			perror("pipe");
 			return (NULL);
 		}
