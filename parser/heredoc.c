@@ -55,32 +55,45 @@ static void	heredoc_exit(pid_t pid)
 	}
 	signal(SIGINT, sigint_handler);
 }
+static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
+{
+	*write_fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (*write_fd < 0)
+	{
+		print_err2(file_name, strerror(errno));
+		collect_malloc(NULL, CLEAR);
+		exit(EXIT_FAILURE);
+	}
+	*read_fd = open(file_name, O_RDONLY);
+	if (*read_fd < 0)
+	{
+		print_err1(strerror(errno));
+		collect_malloc(NULL, CLEAR);
+		close(write_fd);
+		exit(EXIT_FAILURE);
+	}
+	unlink(file_name);
+}
 
 int	parser_heredoc(char *delim)
 {
 	char	file[LENGHT + 1];
 	pid_t	pid;
-	int		fd;
+	int		write_fd;
 	int		read_fd;
 
 	create_heredoc_name(file);
-	fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (fd < 0)
-		return (print_err2(file, strerror(errno)), collect_malloc(NULL, CLEAR),
-			exit(EXIT_FAILURE), -1);
-	read_fd = open(file, O_RDONLY);
-	if (read_fd < 0)
-		return (print_err1(strerror(errno)), collect_malloc(NULL, CLEAR),
-			close(fd), exit(EXIT_FAILURE), -1);
-	unlink(file);
+	create_heredoc_file(file, &write_fd, &read_fd);
 	signal(SIGINT, SIG_IGN);
 	pid = fork();
+	if (pid < 0)
+		return (print_err1(strerror(errno)), -1);
 	if (!pid)
 	{
-		read_heredoc(delim, fd);
+		read_heredoc(delim, write_fd);
 		close(read_fd);
-		close(fd);
+		close(write_fd);
 		exit(0);
 	}
-	return (close(fd), heredoc_exit(pid), read_fd);
+	return (close(write_fd), heredoc_exit(pid), read_fd);
 }

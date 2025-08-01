@@ -25,26 +25,6 @@ void	free_list_token(t_token *token)
 	}
 }
 
-static void	run_heredoc(t_token *tokens, int valid)
-{
-	t_token	*prev;
-
-	if (valid < 0)
-		return ;
-	while (tokens)
-	{
-		prev = tokens;
-		tokens = tokens->next;
-		if (!tokens)
-			break ;
-		if ((is_redirection(prev) && tokens->type != WORD)
-			|| (prev->type == PIPE && tokens->type == PIPE))
-			break ;
-		if (prev->type == RED_HERDOC && tokens->str)
-			close(parser_heredoc(tokens->str));
-	}
-}
-
 t_list	*parser(char *input)
 {
 	t_token	*token;
@@ -56,7 +36,7 @@ t_list	*parser(char *input)
 		return (NULL);
 	valid = check_valid_input(token);
 	if (valid)
-		return (run_heredoc(token, valid), NULL);
+		return (NULL);
 	cmd = set_cmd(token);
 	if (!cmd)
 		return (NULL);

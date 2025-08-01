@@ -57,10 +57,9 @@ int	main(void)
 			continue ;
 		add_history(line);
 		pipeline = parser(line);
+		if (pipeline)
+			executor(pipeline);
 		free(line);
-		if (!pipeline)
-			continue ;
-		executor(pipeline);
 		collect_malloc(NULL, CLEAR);
 	}
 	return (0);

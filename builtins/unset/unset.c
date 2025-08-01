@@ -37,8 +37,8 @@ static long	searsh_var(char *var)
 	{
 		if (ft_strncmp(__environ[i], var, eq) == 0)
 		{
-			if (!var[eq]
-				&& (__environ[i][eq] == '=' || !__environ[i][eq]))
+			if (!var[eq] &&
+				(__environ[i][eq] == '=' || !__environ[i][eq]))
 				return (i);
 		}
 		i++;
@@ -72,20 +72,22 @@ static int	del_from_env(char ***env, long n)
 	return (0);
 }
 
-int	unset(char **args)
+int	unset(t_cmd *cmd)
 {
+	t_list	*arg;
 	long	i;
 
-	args++;
-	while (*args)
+	arg = cmd->args->next;
+	while (arg)
 	{
-		i = searsh_var(*args);
+		i = searsh_var(arg->content);
 		if (i >= 0)
 		{
 			if (del_from_env(&__environ, i))
 				return (1);
 		}
-		args++;
+		arg = arg->next;
 	}
 	return (0);
+
 }
