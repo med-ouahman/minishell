@@ -12,9 +12,18 @@
 
 #include "../include/executor.h"
 
+char	*getpath(int init)
+{
+	static char	*path;
+
+	if (!init)
+		path = getenv("PATH");
+	return (path);
+}
+
 static char	*reset(char *old_val, int *offset, int *null_pos)
 {
-	getenv("PATH")[*null_pos] = *old_val;
+	getpath(1)[*null_pos] = *old_val;
 	*old_val = 0;
 	*offset = 0;
 	*null_pos = 0;

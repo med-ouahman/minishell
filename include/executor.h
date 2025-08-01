@@ -65,6 +65,7 @@ int			get_file_type(char *filename);
 int			is_path(char *pathname);
 char		*command_path(char *cmd);
 char		*get_next_path(char *path, int r);
+char		*getpath(int init);
 
 int			wait_children(pid_t *pids, t_uint num_children);
 int			exit_code(int status);

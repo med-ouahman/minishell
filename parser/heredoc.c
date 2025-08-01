@@ -24,7 +24,7 @@ static void	create_heredoc_name(char *file_name)
 	if (fd < 0)
 	{
 		print_err1(strerror(errno));
-		collect_malloc(NULL, CLEAR);
+		collect_malloc(NULL, DESTROY);
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
@@ -72,6 +72,7 @@ static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 		collect_malloc(NULL, CLEAR);
 		close(*write_fd);
 		unlink(file_name);
+		collect_malloc(NULL, DESTROY);
 		exit(EXIT_FAILURE);
 	}
 	unlink(file_name);
@@ -95,6 +96,7 @@ int	parser_heredoc(char *delim)
 		read_heredoc(delim, write_fd);
 		close(read_fd);
 		close(write_fd);
+		collect_malloc(NULL, DESTROY);
 		exit(0);
 	}
 	return (close(write_fd), heredoc_exit(pid), read_fd);

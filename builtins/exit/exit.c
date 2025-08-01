@@ -81,10 +81,10 @@ int	exit_(char **args)
 	{
 		exit_status = exit_nbr(args[1]);
 		if (check_arg(args[1]))
-			print_file_error2("exit", args[1], "numeric argument required");
+			print_err3("exit", args[1], "numeric argument required");
 		else if (exit_status == -1)
 		{
-			print_file_error2("exit", args[1], "numeric argument required");
+			print_err3("exit", args[1], "numeric argument required");
 			exit_status = 2;
 		}
 		cleanup(exit_status);

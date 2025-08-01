@@ -29,13 +29,11 @@ static char	*join_paths(char *path, char *cmd)
 
 int	check_access(char **path, char *cmd)
 {
-	char	*path_var;
 	char	*next_path;
-
-	path_var = getenv("PATH");
-	if (!*cmd || !path_var)
+	
+	if (!*cmd)
 		return (ENOENT);
-	next_path = get_next_path(path_var, 0);
+	next_path = get_next_path(getpath(0), 0);
 	while (next_path)
 	{
 		*path = join_paths(next_path, cmd);
@@ -43,14 +41,14 @@ int	check_access(char **path, char *cmd)
 		{
 			if (!access(*path, X_OK))
 			{
-				get_next_path(path_var, 1);
+				get_next_path(getpath(1), 1);
 				return (0);
 			}
 			return (errno);
 		}
 		collect_malloc(*path, DELETE);
 		*path = NULL;
-		next_path = get_next_path(path_var, 0);
+		next_path = get_next_path(getpath(1), 0);
 	}
 	return (errno);
 }

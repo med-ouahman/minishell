@@ -85,8 +85,8 @@ static void	add_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
 
 void	collect_malloc(void *ptr, int option)
 {
-	static t_list	*lst = NULL;
-	static t_list	*env_list = NULL;
+	static t_list	*lst;
+	static t_list	*env_list;
 
 	if (option == CHECK || option == ENV_CHECK)
 		add_ptr(&lst, &env_list, ptr, option);

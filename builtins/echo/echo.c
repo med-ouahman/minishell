@@ -36,9 +36,7 @@ int	echo(char **args)
 	i = 1;
 	while (args[i])
 	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
+		printf("%s%c", args[i], " "[args[i + 1] == NULL]);
 		i++;
 	}
 	printf("%s", newline);
