@@ -63,7 +63,7 @@ static void	exit_2(char **args)
 	if (check_arg(arg))
 	{
 		print_file_error2("exit", arg, "numeric argument required");
-		exit(2);
+		cleanup(2);
 	}
 	else
 		print_file_error("exit", "too may arguments");
@@ -76,12 +76,11 @@ int	exit_(char **args)
 
 	ft_printf_fd(2, "exit\n");
 	exit_status = 2;
-	if (!args[1])
-		exit (EXIT_SUCCESS);
+	if (args[1] == NULL)
+		cleanup(EXIT_SUCCESS);
 	if (!args[2])
 	{
-		arg = args[1];
-		exit_status = exit_nbr(arg);
+		exit_status = exit_nbr(args[2]);
 		if (check_arg(arg))
 			print_file_error2("exit", arg, "numeric argument required");
 		else if (exit_status == -1)
@@ -89,7 +88,7 @@ int	exit_(char **args)
 			print_file_error2("exit", arg, "numeric argument required");
 			exit_status = 2;
 		}
-		exit(exit_status);
+		cleanup(exit_status);
 	}
 	exit_2(args);
 	return (0);

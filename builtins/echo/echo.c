@@ -12,23 +12,29 @@
 
 #include "../../include/builtins.h"
 
+
+static int	is_noption(char *s)
+{
+	if (*s != '-')
+		return (0);
+	while (*s)
+	{
+		if (s != 'n')
+			return (0);
+		s++;
+	}
+	return (1);
+}
+
 int	echo(char **args)
 {
-	int				option;
-	unsigned int	i;
+	t_uint	i;
+	char	*newline;
 
-	if (!args[1])
-	{
-		printf("\n");
-		return (0);
-	}
-	option = 0;
-	i = 1;
-	if (!ft_strcmp(args[1], "-n"))
-	{
-		option = 1;
-		i++;
-	}
+	newline = "\n";
+	if (is_noption(args[1]))
+		newline = "";
+	i = 0;
 	while (args[i])
 	{
 		printf("%s", args[i]);
@@ -36,7 +42,6 @@ int	echo(char **args)
 			printf(" ");
 		i++;
 	}
-	if (!option)
-		printf("\n");
+	printf("%s", newline);
 	return (0);
 }

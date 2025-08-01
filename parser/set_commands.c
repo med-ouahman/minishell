@@ -21,7 +21,7 @@ static void	add_to_args(t_list **args, t_token *token)
 	ft_lstadd_back(args, new);
 }
 
-static void	add_to_redirection(t_list **redir, t_token *token)
+static int	add_to_redirection(t_list **redir, t_token *token)
 {
 	t_list	*new;
 	t_redir	*tmp;
@@ -32,11 +32,16 @@ static void	add_to_redirection(t_list **redir, t_token *token)
 	tmp->file = token->next->str;
 	tmp->heredoc_fd = -1;
 	if (tmp->type == RED_HERDOC)
+	{
 		tmp->heredoc_fd = parser_heredoc(tmp->file);
+		if (tmp->heredoc_fd < 0)
+			return (1);
+	}
 	new = ft_lstnew(tmp);
 	collect_malloc(new, CHECK);
 	collect_malloc(token->str, DELETE);
 	ft_lstadd_back(redir, new);
+	return (0);
 }
 
 static t_list	*add_next_cmd(t_list **cmd, t_token *token)
@@ -75,12 +80,11 @@ t_list	*set_cmd(t_token *token)
 		if (token->type == WORD)
 			add_to_args(&(((t_cmd *)tmp->content)->args), token);
 		else if (token->type == PIPE)
-		{
 			tmp = add_next_cmd(&cmd, token);
-		}
 		else if (is_redirection(token))
 		{
-			add_to_redirection(&(((t_cmd *)tmp->content)->redir), token);
+			if (add_to_redirection(&(((t_cmd *)tmp->content)->redir), token))
+				return (NULL);
 			token = token->next;
 		}
 		token = token->next;

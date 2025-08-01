@@ -10,117 +10,78 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/builtins.h"
+#include "../../include/minishell.h"
 
-static int	add_to_env(char ***env, char *s)
-{
-	char			**tmp;
-	unsigned int	size;
-	unsigned int	i;
-
-	size = size_env(*env);
-	i = 0;
-	if (!s)
-		return (print_file_error("export", "memory allocation"), 1);
-	tmp = malloc ((size + 2) * sizeof(char *));
-	if (!tmp)
-	{
-		print_file_error("export", "memory allocation");
-		free(s);
-		return (1);
-	}
-	while ((*env)[i])
-	{
-		tmp[i] = (*env)[i];
-		i++;
-	}
-	tmp[i++] = s;
-	tmp[i] = NULL;
-	free((*env));
-	(*env) = tmp;
-	return (0);
-}
-
-static int	check_equal(char *s)
+int	check_exist_var(char *str)
 {
 	int	i;
+	int	eq;
 
+	eq = (int)(ft_strchr(str, '=') - str);
+	if (eq < 0)
+		eq = ft_strlen(str);
+	else
+		eq--;
 	i = 0;
-	while (s[i])
+	while (__environ[i])
 	{
-		if (s[i] == '=')
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
-static int	change_var(char ***env, char *s, int eq)
-{
-	unsigned int	i;
-	char			*tmp;
-
-	i = 0;
-	while ((*env)[i])
-	{
-		if (ft_strncmp(s, (*env)[i], eq) == 0)
-		{
-			if (s[eq] == '=' && ((*env)[i][eq] == '=' || !(*env)[i][eq]))
-			{
-				printf("change value\n");
-				tmp = ft_strdup(s);
-				if (!tmp)
-					return (print_file_error("export", "memory allocation"),
-						-1);
-				free ((*env)[i]);
-				(*env)[i] = tmp;
-				return (0);
-			}
-			else if (s[eq] == (*env)[i][eq] || (*env)[i][eq] == '=')
-				return (0);
-		}
-		i++;
-	}
-	return (1);
-}
-
-static int	check_var(char *arg)
-{
-	int	i;
-
-	if (!ft_isalpha(arg[0]) && arg[0] != '_')
-		return (1);
-	i = 1;
-	while (arg[i] && arg[i] != '=')
-	{
-		if (!ft_isalnum(arg[0]) && arg[0] != '_')
+		if (ft_strncmp(__environ[i], str, eq) == 0)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-int	export_add(char **vars)
+void	change_var(char *new, int index)
 {
-	int		n;
-	char	*tmp;
+	int		i;
+	char	*dup_new;
 
-	while (*vars)
+	i = 0;
+	if (!ft_strchr(new, '='))
+		return ;
+	dup_new = ft_strdup(new);
+	collect_malloc(dup_new, CHECK);
+	collect_malloc(__environ[index], DELETE);
+	__environ[index] = dup_new;
+}
+
+void	add_var(char ***env, char *new_var)
+{
+	int		i;
+	int		size;
+	char	*dup_new;
+	char	**new_env;
+
+	i = 0;
+	size = size_env(*env);
+	dup_new = ft_strdup(new_var);
+	collect_malloc(dup_new, CHECK);
+	new_env = malloc (sizeof(char *) * (size + 2));
+	collect_malloc(new_env, CHECK);
+	new_env[size] = dup_new;
+	new_env[size + 1] = NULL;
+}
+
+int	export_add(char **argv)
+{
+	int		i;
+	int		index;
+
+	i = 1;
+	while (argv[i])
 	{
-		tmp = *vars;
-		if (check_var(tmp))
-			print_file_error2("export", tmp, "not a valid identifier");
-		else
+		if (check_valid_variable(argv[i]))
 		{
-			n = change_var(&__environ, tmp, check_equal(tmp));
-			if (n < 0)
-				return (destroy_env(&__environ), 1);
-			else if (n == 0)
-				n = 0;
-			else if (add_to_env(&__environ, ft_strdup(tmp)))
-				return (destroy_env(&__environ), 1);
+			index = check_exist_var(argv[i]);
+			if (index)
+				change_var(argv[i], index);
+			else
+				add_var(&__environ, argv[i]);
 		}
-		vars++;
+		else
+			print_err3("export", argv[i], "not a valid identifier");
+		i++;
 	}
 	return (0);
 }

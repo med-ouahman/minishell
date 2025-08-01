@@ -14,12 +14,13 @@
 
 static char	**step_copy(char **env)
 {
-	char			**new_env;
-	unsigned int	i;
+	char	**new_env;
+	int		i;
 
 	new_env = malloc ((size_env(env) + 1) * sizeof(char *));
 	if (!new_env)
 		return (print_file_error("env", "memory allocation"), NULL);
+	collect_malloc(new_env, CHECK);
 	i = 0;
 	while (env[i])
 	{
@@ -30,67 +31,80 @@ static char	**step_copy(char **env)
 	return (new_env);
 }
 
-char	**sort_env(char **env)
+int	check_equal(char *var1, char *var2)
 {
-	char			**new_env;
-	unsigned int	j;
-	unsigned int	i;
-	unsigned int	l1;
-	unsigned int	l2;
+	int	eq1;
+	int	eq2;
+
+	eq1 = ft_strchr(var1, '=') - var1;
+	if (eq1 < 0)
+		eq1 = ft_strlen(var1);
+	eq2 = ft_strchr(var2, '=') - var2;
+	if (eq2 < 0)
+		eq2 = ft_strlen(var2);
+	if (eq1 > eq2)
+		return (eq2 - 1);
+	return (eq1 - 1);
+}
+
+void	sort_env(char **new_env)
+{
+	char	*swap;
+	int		j;
+	int		i;
+	int		eq;
 
 	i = 0;
-	new_env = step_copy(env);
-	if (!new_env)
-		return (NULL);
 	while (new_env[i])
 	{
-		l1 = key_size(new_env[i]);
 		j = i + 1;
-		while (env[j])
+		while (new_env[j])
 		{
-			l2 = key_size(new_env[j]);
-			if (ft_strncmp(new_env[i], new_env[j], min(l1, l2)) > 0)
-				swap_ptrs(new_env + i, new_env + j);
+			eq = check_equal(new_env[i], new_env[j]);
+			if (ft_strncmp(new_env[i], new_env[j], eq) > 0)
+			{
+				swap = new_env[i];
+				new_env[i] = new_env[j];
+				new_env[j] = swap;
+			}
 			j++;
 		}
 		i++;
 	}
-	return (new_env);
 }
 
-int	print_env(void)
+int	print_env(char **env)
 {
-	char			**tmp;
-	unsigned int	i;
-	size_t			j;
+	int		i;
+	int		j;
 
 	i = 0;
-	tmp = sort_env(__environ);
-	if (!tmp)
-		return (1);
-	while (tmp[i] != NULL)
+	while (env[i] != NULL)
 	{
 		printf("declare -x ");
 		j = 0;
-		while (tmp[i][j] && tmp[i][j] != '=')
-			printf("%c", tmp[i][j++]);
-		if (tmp[i][j] == '=')
-			printf("=\"%s\"", &tmp[i][j + 1]);
+		while (env[i][j] && env[i][j] != '=')
+			printf("%c", env[i][j++]);
+		if (env[i][j] == '=')
+			printf("=\"%s\"", &env[i][j + 1]);
 		printf("\n");
 		i++;
 	}
-	free(tmp);
 	return (0);
 }
 
 int	export(char **args)
 {
+	char	**tmp_env;
+
 	if (!args[1])
-		return (print_env(), 0);
-	if (export_add(args + 1))
 	{
-		destroy_env(&__environ);
-		return (1);
+		tmp_env = step_copy(__environ);
+		sort_env(tmp_env);
+		print_env(tmp_env);
+		collect_malloc(tmp_env, DELETE);
 	}
+	else
+		export_add(args);
 	return (0);
 }

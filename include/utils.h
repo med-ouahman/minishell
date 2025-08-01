@@ -19,9 +19,16 @@
 # include <errno.h>
 # include <readline/readline.h>
 
-# define CHECK 0
-# define DELETE 1
-# define CLEAR 2
+typedef enum e_gb
+{
+	CHECK = 1,
+	DELETE,
+	CLEAR,
+	ENV_CHECK,
+	ENV_DELETE,
+	ENV_CLEAR,
+	DESTROY
+}	t_gb;
 
 # define READ 0
 # define WRITE 1

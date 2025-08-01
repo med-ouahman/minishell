@@ -14,22 +14,41 @@
 
 int	cleanup(int code)
 {
-	/*
-		add env to the garbage collector or manually free it.
-	*/
 	rl_clear_history();
-	collect_malloc(NULL, CLEAR);
+	collect_malloc(NULL, DESTROY);
 	exit(code);
 }
 
-static void	free_ptr(t_list **lst, void *ptr)
+static void	clear_list(t_list **lst, t_list **env_list, int opt)
 {
+	t_list	**to_clear;
+
+	to_clear = lst;
+	if (opt == ENV_CLEAR)
+		to_clear = env_list;
+	ft_lstclear(to_clear, free);
+}
+
+void	ultimate_free(t_list **lst1, t_list **lst2)
+{
+	print_err1("memory");
+	ft_lstclear(lst1, free);
+	ft_lstclear(lst2, free);
+	exit(EXIT_FAILURE);
+}
+
+static void	free_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
+{
+	t_list	**to_remove;
 	t_list	*cur;
 	t_list	*prev;
 
+	to_remove = lst;
+	if (opt == ENV_DELETE)
+		to_remove = env_list;
 	if (!ptr)
 		return ;
-	prev = *lst;
+	prev = *to_remove;
 	cur = prev;
 	while (cur && cur->content != ptr)
 	{
@@ -39,36 +58,39 @@ static void	free_ptr(t_list **lst, void *ptr)
 	if (!cur)
 		return ;
 	if (prev == cur)
-		*lst = cur->next;
+		*to_remove = cur->next;
 	else
 		prev->next = cur->next;
 	ft_lstdelone(cur, free);
 }
 
+static void	add_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
+{
+	t_list	**to_add;
+
+	to_add = lst;
+	if (opt == ENV_CHECK)
+		to_add = env_list;
+	if (!ptr)
+		collect_malloc(NULL, DESTROY);
+	ft_lstadd_back(to_add, ptr);
+}
+
 void	collect_malloc(void *ptr, int option)
 {
 	static t_list	*lst = NULL;
+	static t_list	*env_list;
 	t_list			*tmp;
 
-	if (!ptr && option == CHECK)
+	if (option == CHECK || option == ENV_CHECK)
+		add_ptr(&lst, &env_list, ptr, option);
+	else if (option == DELETE || option == ENV_DELETE)
+		free_ptr(&lst, &env_list, ptr, option);
+	else if (option == CLEAR || option == ENV_CLEAR)
+		clear_list(&lst, &env_list, option);
+	else if (option == DESTROY)
 	{
-		print_err1("Memory allocation");
-		ft_lstclear(&lst, free);
-		exit(EXIT_FAILURE);
+		clear_list(&lst, &env_list, CLEAR);
+		clear_list(&lst, &env_list, ENV_CLEAR);
 	}
-	else if (option == CHECK)
-	{
-		tmp = ft_lstnew(ptr);
-		if (!tmp)
-		{
-			ft_lstclear(&lst, free);
-			print_err1("Memory allocation");
-			exit(EXIT_FAILURE);
-		}
-		ft_lstadd_back(&lst, tmp);
-	}
-	else if (option == DELETE)
-		free_ptr(&lst, ptr);
-	else if (option == CLEAR)
-		ft_lstclear(&lst, free);
 }

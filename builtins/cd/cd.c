@@ -10,76 +10,58 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/builtins.h"
 
-static char	*new_varpwd(char *var)
+static int	change_pwd(char *new_val, char *key)
 {
-	char	*new_pwd;
-	char	*pwd;
+	t_uint	i;
+	t_uint	len;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-		return (print_file_error("cd", strerror(errno)), NULL);
-	new_pwd = ft_strjoin(var, pwd);
-	if (!new_pwd)
+	i = 0;
+	if (!new_val && ENOMEM == errno)
+		collect_malloc(NULL, DESTROY);
+	if (!new_val)
 	{
-		print_file_error("cd", "memory allocation");
-		free (pwd);
-		return (NULL);
+		print_err2("cd", strerror(errno));
+		return (1);
 	}
-	free (pwd);
-	return (new_pwd);
+	collect_malloc(new_val, ENV_CHECK);
+	len = ft_strlen(key);
+	while (__environ[i] && ft_strncmp(__environ[i], key, len))
+		i++;
+	if (__environ[i] == NULL)
+		return (0);
+	collect_malloc(__environ[i], ENV_DELETE);
+	__environ[i] = ft_strjoin(key, new_val);
+	collect_malloc(__environ[i], ENV_CHECK);
+	return (0);
 }
 
-static int	change_pwd(char ***env, char *oldpwd)
+static int	change_dir(char *dirname)
 {
-	char	*pwd;
-	char	*tmp;
-	long	i;
-
-	pwd = new_varpwd("PWD=");
-	if (!pwd)
+	if (change_pwd(getcwd(NULL, 0), "OLDPWD="))
 		return (1);
-	i = 0;
-	while ((*env)[i])
+	if (chdir(dirname))
 	{
-		if (ft_strncmp((*env)[i], pwd, 4) == 0)
-		{
-			tmp = (*env)[i];
-			(*env)[i] = pwd;
-			pwd = tmp;
-		}
-		else if (ft_strncmp((*env)[i], oldpwd, 7) == 0)
-		{
-			tmp = (*env)[i];
-			(*env)[i] = oldpwd;
-			oldpwd = tmp;
-		}
-		i++;
+		print_err2("cd", strerror(errno));
+		return (1);
 	}
-	return (free(pwd), free(oldpwd), 0);
+	if (change_pwd(getcwd(NULL, 0), "PWD="))
+		return (1);
+	return (0);
 }
 
 int	cd(char **args)
 {
-	char	*path;
-	char	*oldpwd;
-
-	if (!args[1])
-		return (print_file_error("cd", "too few arguments"), 1);
-	if (args[2])
-		return (print_file_error("cd", "too many arguments"), 1);
-	path = args[1];
-	oldpwd = new_varpwd("OLDPWD=");
-	if (!oldpwd)
-		return (1);
-	if (chdir(path))
+	if (args[1] == NULL)
 	{
-		print_file_error2("cd", path, strerror(errno));
-		free(oldpwd);
+		print_err2("cd", "too few arguments");
 		return (1);
 	}
-	if (change_pwd(&__environ, oldpwd))
-		return (free(oldpwd), 1);
-	return (0);
+	if (args[2] != NULL)
+	{
+		print_file_error("cd", "too many arguments");
+		return (1);
+	}
+	return (change_dir(args[1]));
 }
