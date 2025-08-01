@@ -12,47 +12,50 @@
 
 #include "../include/executor.h"
 
-static char	*join_paths(int i, char **paths, char *cmd)
+static char	*join_paths(char *path, char *cmd)
 {
 	char	*cmdpath;
 	size_t	size;
 
-	size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
+	size = ft_strlen(path) + ft_strlen(cmd) + 2;
 	cmdpath = malloc(size * sizeof * cmdpath);
 	collect_malloc(cmdpath, CHECK);
 	*cmdpath = 0;
-	ft_strlcat(cmdpath, paths[i], size);
+	ft_strlcat(cmdpath, path, size);
 	ft_strlcat(cmdpath, "/", size);
 	ft_strlcat(cmdpath, cmd, size);
 	return (cmdpath);
 }
 
-int	check_access(char **path, char **paths, char *cmd)
+int	check_access(char **path, char *cmd)
 {
-	int		i;
+	char	*path_var;
+	char	*next_path;
 
-	i = 0;
-	if (!*cmd)
+	path_var = getenv("PATH");
+	if (!*cmd || !path_var)
 		return (ENOENT);
-	while (paths[i])
+	next_path = get_next_path(path_var, 0);
+	while (next_path)
 	{
-		*path = join_paths(i, paths, cmd);
-		if (!*path)
-			return (-1);
+		*path = join_paths(next_path, cmd);
 		if (!access(*path, F_OK))
 		{
 			if (!access(*path, X_OK))
+			{
+				get_next_path(path_var, 1);
 				return (0);
+			}
 			return (errno);
 		}
 		collect_malloc(*path, DELETE);
 		*path = NULL;
-		i++;
+		next_path = get_next_path(path_var, 0);
 	}
 	return (errno);
 }
 
-char	*command_path(char **paths, char *cmd)
+char	*command_path(char *cmd)
 {
 	char	*path;
 	int		c;
@@ -64,7 +67,7 @@ char	*command_path(char **paths, char *cmd)
 			return (cmd);
 		return (NULL);
 	}
-	c = check_access(&path, paths, cmd);
+	c = check_access(&path, cmd);
 	if (0 > c)
 		access_exit_code(1, WRITE);
 	if (ENOENT == c)

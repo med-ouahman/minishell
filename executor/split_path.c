@@ -12,15 +12,40 @@
 
 #include "../include/executor.h"
 
-char	**split_path(void)
+static char	*reset(char *old_val, int *offset, int *null_pos)
 {
-	char	*path;
-	char	**paths;
+	getenv("PATH")[*null_pos] = *old_val;
+	*old_val = 0;
+	*offset = 0;
+	*null_pos = 0;
+	return (0);
+}
 
-	path = getenv("PATH");
-	if (!path)
-		return (NULL);
-	paths = ft_split(path, ':');
-	collect_malloc(paths, CHECK);
-	return (paths);
+char	*get_next_path(char *path, int r)
+{
+	static char	old_val;
+	static int	offset;
+	static int	null_pos;
+	int			start;
+	int			old_offset;
+
+	if (offset < 0 || r)
+		return (reset(&old_val, &offset, &null_pos));
+	start = offset;
+	old_offset = offset;
+	if (old_val)
+		path[null_pos] = old_val;
+	while (path[start] && path[start] != ':')
+		start++;
+	if (path[start] == 0)
+	{
+		path += offset;
+		offset = -1;
+		return (path);
+	}
+	null_pos = start++;
+	old_val = path[null_pos];
+	path[null_pos] = 0;
+	offset = start;
+	return (path + old_offset);
 }

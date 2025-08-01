@@ -33,7 +33,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	args = build_argument_list(cmd->args);
 	if (!args)
 		return (1);
-	path = command_path(exec_cb->paths, args[0]);
+	path = command_path(args[0]);
 	if (!path)
 		return (access_exit_code(0, READ));
 	signal(SIGINT, SIG_IGN);

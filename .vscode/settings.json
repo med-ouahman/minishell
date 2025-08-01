@@ -16,6 +16,8 @@
         "random": "c",
         "dirent.h": "c",
         "stdio.h": "c",
-        "garbage_collector.h": "c"
+        "libft.h": "c",
+        "cstdlib": "c",
+        "wait.h": "c"
     }
 }

@@ -32,8 +32,8 @@ typedef struct s_exec_cb
 {
 	t_pipefd	*pipes;
 	pid_t		*pids;
-	int			pid_size;
-	int			curr_pid;
+	t_uint		pid_size;
+	t_uint		curr_pid;
 	t_list		*pipeline;
 	char		**paths;
 	int			stdio[2];
@@ -41,7 +41,7 @@ typedef struct s_exec_cb
 
 int			close_stdio(int stdio[]);
 int			reset_stdio(int *stdio);
-int			set_stdio(t_exec_control_block *exec_cb, int curr);
+int			set_stdio(t_exec_control_block *exec_cb, t_uint curr);
 int			restore_stdio(int *stdio);
 int			dup_stdio(int *stdio);
 int			preserve_stdio(int *old_stdio, int *stdio);
@@ -63,10 +63,10 @@ t_pipefd	*create_pipes(int count);
 int			is_executable(char *pathname);
 int			get_file_type(char *filename);
 int			is_path(char *pathname);
-char		*command_path(char **pvs, char *cmd);
-char		**split_path(void);
+char		*command_path(char *cmd);
+char		*get_next_path(char *path, int r);
 
-int			wait_children(pid_t *pids, int num_children);
+int			wait_children(pid_t *pids, t_uint num_children);
 int			exit_code(int status);
 
 #endif

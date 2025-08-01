@@ -12,24 +12,16 @@
 
 #include "../include/minishell.h"
 
-static void	get_out(void)
-{
-	rl_clear_history();
-	collect_malloc(NULL, CLEAR);
-	destroy_env(&__environ);
-	exit(EXIT_SUCCESS);
-}
-
 void	print_redirs(t_list	*redirs)
 {
-	t_redir	*rad;
+	t_redir	*radix;
 
 	printf("end commands\n");
 	printf("start redirections:\n");
 	while (redirs)
 	{
-		rad = redirs->content;
-		printf("TYPE: %d --- target: %s\n", rad->type, rad->file);
+		radix = redirs->content;
+		printf("TYPE: %d --- TARGET: %s\n", radix->type, radix->file);
 		redirs = redirs->next;
 	}
 	printf("end redirections\n");
@@ -56,17 +48,16 @@ int	main(void)
 
 	handle_signals();
 	dup_env(&__environ);
-	while (true)
+	int i = 0;
+	while (i < 10)
 	{
 		line = readline(PROMPT);
 		if (NULL == line)
-			get_out();
+			cleanup(EXIT_SUCCESS);
 		if (*line)
 			add_history(line);
 		pipeline = parser(line);
 		free(line);
-		if (!pipeline)
-			continue ;
 		executor(pipeline);
 		collect_malloc(NULL, CLEAR);
 	}

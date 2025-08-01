@@ -12,10 +12,10 @@
 
 #include "../include/executor.h"
 
-int	wait_children(pid_t *pids, int num_children)
+int	wait_children(pid_t *pids, t_uint num_children)
 {
-	int	status;
-	int	i;
+	int		status;
+	t_uint	i;
 
 	i = 0;
 	while (i < num_children)

@@ -30,7 +30,7 @@ t_pipefd	*create_pipes(int count)
 	t_pipefd	*pipes;
 	int			i;
 
-	pipes = malloc(count * sizeof * pipes);
+	pipes = malloc(count * sizeof(t_pipefd));
 	collect_malloc(pipes, CHECK);
 	i = 0;
 	while (i < count)

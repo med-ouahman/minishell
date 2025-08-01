@@ -12,7 +12,7 @@
 
 #include "../include/executor.h"
 
-int	set_stdio(t_exec_control_block *exec_cb, int curr)
+int	set_stdio(t_exec_control_block *exec_cb, t_uint curr)
 {
 	if (exec_cb->stdio[0] == STDIN_FILENO && (curr > 0))
 	{

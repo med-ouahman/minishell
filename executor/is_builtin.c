@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+#include "../include/executor.h"
 
 int	is_builtin(char *cmd)
 {
 	if (!cmd)
-		return (0);
+		return (NOT);
 	if (!ft_strcmp(cmd, "cd"))
 		return (CD);
 	else if (!ft_strcmp(cmd, "pwd"))

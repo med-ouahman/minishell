@@ -72,10 +72,7 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 					redirection_flags(redir->type), _open_mode(redir->type));
 		if (fd < 0)
 			return (-1);
-		if (redir->type == RED_INP || redir->type == RED_HERDOC)
-			stdio[0] = fd;
-		else
-			stdio[1] = fd;
+		stdio[(redir->type == RED_OUT || redir->type == RED_APPOUT)] = fd;
 		if (redirs->next)
 			close(fd);
 		redirs = redirs->next;

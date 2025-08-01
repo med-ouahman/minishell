@@ -125,4 +125,5 @@ char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
 
 int		check_valid_variable(char *str); /// add to builtins header
+
 #endif

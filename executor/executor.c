@@ -14,7 +14,6 @@
 
 static void	setup_exec_cb(t_exec_control_block *exec_cb)
 {
-	exec_cb->paths = split_path();
 	exec_cb->pids = NULL;
 	exec_cb->pipeline = NULL;
 	exec_cb->pipes = NULL;

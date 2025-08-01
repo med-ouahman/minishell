@@ -14,6 +14,9 @@
 
 int	cleanup(int code)
 {
+	/*
+		add env to the garbage collector or manually free it.
+	*/
 	rl_clear_history();
 	collect_malloc(NULL, CLEAR);
 	exit(code);

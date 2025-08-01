@@ -14,8 +14,9 @@
 
 char	**build_argument_list(t_list *lst)
 {
+	t_list	*tmp;
 	char	**args;
-	int		i;
+	t_uint	i;
 
 	if (!lst)
 		return (NULL);
@@ -25,7 +26,9 @@ char	**build_argument_list(t_list *lst)
 	while (lst)
 	{
 		args[i] = lst->content;
+		tmp = lst;
 		lst = lst->next;
+		collect_malloc(tmp, DELETE);
 		i++;
 	}
 	args[i] = NULL;
