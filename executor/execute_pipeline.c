@@ -34,6 +34,7 @@ static int
 	status = 0;
 	prepare_redirs(cmd->redir, exec_cb->stdio);
 	set_stdio(exec_cb, i);
+	cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
 	{
 		status = run_builtin_in_subshell(cmd, exec_cb);

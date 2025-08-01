@@ -72,7 +72,6 @@ static void	exit_2(char **args)
 int	exit_(char **args)
 {
 	int		exit_status;
-	char	*arg;
 
 	ft_printf_fd(2, "exit\n");
 	exit_status = 2;
@@ -80,12 +79,12 @@ int	exit_(char **args)
 		cleanup(EXIT_SUCCESS);
 	if (!args[2])
 	{
-		exit_status = exit_nbr(args[2]);
-		if (check_arg(arg))
-			print_file_error2("exit", arg, "numeric argument required");
+		exit_status = exit_nbr(args[1]);
+		if (check_arg(args[1]))
+			print_file_error2("exit", args[1], "numeric argument required");
 		else if (exit_status == -1)
 		{
-			print_file_error2("exit", arg, "numeric argument required");
+			print_file_error2("exit", args[1], "numeric argument required");
 			exit_status = 2;
 		}
 		cleanup(exit_status);

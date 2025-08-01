@@ -12,14 +12,13 @@
 
 #include "../../include/builtins.h"
 
-
 static int	is_noption(char *s)
 {
 	if (*s != '-')
 		return (0);
 	while (*s)
 	{
-		if (s != 'n')
+		if (*s != 'n')
 			return (0);
 		s++;
 	}
@@ -34,7 +33,7 @@ int	echo(char **args)
 	newline = "\n";
 	if (is_noption(args[1]))
 		newline = "";
-	i = 0;
+	i = 1;
 	while (args[i])
 	{
 		printf("%s", args[i]);

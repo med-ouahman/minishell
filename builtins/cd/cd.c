@@ -39,13 +39,24 @@ static int	change_pwd(char *new_val, char *key)
 
 static int	change_dir(char *dirname)
 {
-	if (change_pwd(getcwd(NULL, 0), "OLDPWD="))
-		return (1);
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd && ENOMEM == errno)
+	{
+		print_err2("cd", "out of memory");
+		cleanup(EXIT_FAILURE);
+	}
+	if (!cwd)
+		return (print_err2("cd", strerror(errno)), 1);
 	if (chdir(dirname))
 	{
-		print_err2("cd", strerror(errno));
+		print_err3("cd", dirname, strerror(errno));
+		free(cwd);
 		return (1);
 	}
+	if (change_pwd(cwd, "OLDPWD="))
+		return (1);
 	if (change_pwd(getcwd(NULL, 0), "PWD="))
 		return (1);
 	return (0);

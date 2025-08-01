@@ -102,22 +102,3 @@ int	expand(t_list *list_cmd)
 	}
 	return (0);
 }
-
-///////// to export 
-int	check_valid_variable(char *str)
-{
-	int		i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	if (ft_isalpha(*str) || *str == '_')
-	{
-		while (str[i] && (ft_isalnum(str[i]) || str[i] == '_') && str[i] != '=')
-			i++;
-		if (str[i] != '=' && str[i] != '\0')
-			return (0);
-		return (1);
-	}
-	return (0);
-}

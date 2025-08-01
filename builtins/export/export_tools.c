@@ -79,11 +79,11 @@ void	dup_env(char ***env)
 	i = 0;
 	size = size_env(*env);
 	new_env = malloc ((size + 1) * sizeof(char *));
-	collect_malloc(new_env, CHECK);
+	collect_malloc(new_env, ENV_CHECK);
 	while (i < size)
 	{
 		new_env[i] = ft_strdup((*env)[i]);
-		collect_malloc(new_env[i], CHECK);
+		collect_malloc(new_env[i], ENV_CHECK);
 		i++;
 	}
 	new_env[i] = NULL;

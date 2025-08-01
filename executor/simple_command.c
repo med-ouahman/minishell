@@ -18,7 +18,7 @@ static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 	dup_stdio(exec_cb->stdio);
 	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
 	execve(path, args, __environ);
-	collect_malloc(NULL, CLEAR);
+	collect_malloc(NULL, DESTROY);
 	exit(EXIT_FAILURE);
 }
 

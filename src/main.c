@@ -48,8 +48,7 @@ int	main(void)
 
 	handle_signals();
 	dup_env(&__environ);
-	int i = 0;
-	while (i < 10)
+	while (true)
 	{
 		line = readline(PROMPT);
 		if (NULL == line)
@@ -57,10 +56,9 @@ int	main(void)
 		if (*line)
 			add_history(line);
 		pipeline = parser(line);
+		free(line);
 		if (pipeline)
 			executor(pipeline);
-		free(line);
-		executor(pipeline);
 		collect_malloc(NULL, CLEAR);
 	}
 	return (0);

@@ -19,18 +19,18 @@
 
 /* builtins */
 
-int     cd(char **args);
-int     echo(char **args);
-int     exit_(char **args);
-int     pwd(void);
-int     unset(char **args);
-int     env(void);
+int		cd(char **args);
+int		echo(char **args);
+int		exit_(char **args);
+int		pwd(void);
+int		unset(char **args);
+int		env(void);
 int		export(char **args);
 
 /* buitlin utilities */
 
 void	dup_env(char ***env);
-int	    check_valid_variable(char *str);
+int		check_valid_variable(char *str);
 void	destroy_env(char ***env);
 t_uint	size_env(char **env);
 int		export_add(char **vars);

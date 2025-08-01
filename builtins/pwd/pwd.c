@@ -15,7 +15,7 @@
 int	pwd(void)
 {
 	char	*cwd;
-	
+
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{

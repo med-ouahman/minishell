@@ -37,8 +37,8 @@ static long	searsh_var(char *var)
 	{
 		if (ft_strncmp(__environ[i], var, eq) == 0)
 		{
-			if (!var[eq] &&
-				(__environ[i][eq] == '=' || !__environ[i][eq]))
+			if (!var[eq]
+				&& (__environ[i][eq] == '=' || !__environ[i][eq]))
 				return (i);
 		}
 		i++;
@@ -54,25 +54,39 @@ static int	del_from_env(char ***env, long n)
 	char	**new_env;
 
 	size = size_env(*env);
-	new_env = malloc(size * sizeof(char *));
+	new_env = malloc ((size + 1) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);
+	i = 0;
+	j = 0;
+	while ((*env)[j])
+	{
+		if (j == n)
+			j++;
+		new_env[i] = (*env)[j];
+		j++;
+		i++;
+	}
 	new_env[i] = NULL;
-	*env = new_env;
+	collect_malloc((*env)[n], ENV_DELETE);
+	collect_malloc(*env, ENV_DELETE);
+	(*env) = new_env;
 	return (0);
-}
-
-static t_uint	to_unset(char **args)
-{
-	t_uint	si;
-
-	si = 0;
 }
 
 int	unset(char **args)
 {
-	t_uint	size;
+	long	i;
 
-	size = to_unset(args);
-	
+	args++;
+	while (*args)
+	{
+		i = searsh_var(*args);
+		if (i >= 0)
+		{
+			if (del_from_env(&__environ, i))
+				return (1);
+		}
+		args++;
+	}
 	return (0);
 }

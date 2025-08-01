@@ -67,20 +67,26 @@ static void	free_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
 static void	add_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
 {
 	t_list	**to_add;
+	t_list	*node;
 
 	to_add = lst;
 	if (opt == ENV_CHECK)
 		to_add = env_list;
 	if (!ptr)
 		collect_malloc(NULL, DESTROY);
-	ft_lstadd_back(to_add, ptr);
+	node = ft_lstnew(ptr);
+	if (!node)
+	{
+		free(ptr);
+		collect_malloc(NULL, DESTROY);
+	}
+	ft_lstadd_back(to_add, node);
 }
 
 void	collect_malloc(void *ptr, int option)
 {
 	static t_list	*lst = NULL;
-	static t_list	*env_list;
-	t_list			*tmp;
+	static t_list	*env_list = NULL;
 
 	if (option == CHECK || option == ENV_CHECK)
 		add_ptr(&lst, &env_list, ptr, option);

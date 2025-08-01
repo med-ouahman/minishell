@@ -55,6 +55,7 @@ static void	heredoc_exit(pid_t pid)
 	}
 	signal(SIGINT, sigint_handler);
 }
+
 static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 {
 	*write_fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
@@ -69,7 +70,8 @@ static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 	{
 		print_err1(strerror(errno));
 		collect_malloc(NULL, CLEAR);
-		close(write_fd);
+		close(*write_fd);
+		unlink(file_name);
 		exit(EXIT_FAILURE);
 	}
 	unlink(file_name);
