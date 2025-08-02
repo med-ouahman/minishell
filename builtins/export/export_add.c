@@ -67,28 +67,50 @@ void	add_var(char ***env, char *new_var)
 	new_env[size] = dup_new;
 	new_env[size + 1] = NULL;
 	collect_malloc(*env, ENV_DELETE);
-	*env = new_env;
+	__environ = new_env;
+}
+
+static int	find_valid(char **args)
+{
+	long	i;
+
+	i = 0;
+	while (args[i])
+	{
+		if (check_valid_variable(args[i]))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+t_uint	check_valid(char **args)
+{
+	t_uint	start;
+	t_uint	i;
+	long	j;
+
+	i = 0;
+	start = 0;
+	while (args[i])
+	{
+		if (!check_valid_variable(args[i]))
+		{
+			++start;
+			print_err3("export", args[i], "not a valid identifier");
+			j = find_valid(args);
+			if (j < 0)
+				return (array_size(args));
+			swap_ptrs(args + i, args + j);
+		}
+		i++;
+	}
+	return (start);
 }
 
 int	export_add(char **argv)
 {
-	int		i;
-	int		index;
-
-	i = 1;
-	while (argv[i])
-	{
-		if (check_valid_variable(argv[i]))
-		{
-			index = check_exist_var(argv[i]);
-			if (index)
-				change_var(argv[i], index);
-			else
-				add_var(&__environ, argv[i]);
-		}
-		else
-			print_err3("export", argv[i], "not a valid identifier");
-		i++;
-	}
+	argv += check_valid(argv);
+	print_arr(argv);
 	return (0);
 }

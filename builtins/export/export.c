@@ -103,6 +103,6 @@ int	export(char **args)
 		collect_malloc(tmp_env, DELETE);
 	}
 	else
-		export_add(args);
+		export_add(args + 1);
 	return (0);
 }
