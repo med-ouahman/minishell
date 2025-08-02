@@ -34,7 +34,8 @@ static int
 	status = 0;
 	prepare_redirs(cmd->redir, exec_cb->stdio);
 	set_stdio(exec_cb, i);
-	cmd->is_builtin = is_builtin(cmd->args->content);
+	if (cmd->args)
+		cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
 	{
 		status = run_builtin_in_subshell(cmd, exec_cb);
@@ -66,7 +67,7 @@ int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 		i++;
 	}
 	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
-	if (last_exit_code)
-		return (last_exit_code);
-	return (wait_children(exec_cb->pids, exec_cb->pid_size));
+	if (!last_exit_code)
+		last_exit_code = wait_children(exec_cb->pids, exec_cb->pid_size);
+	return (last_exit_code);
 }

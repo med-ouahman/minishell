@@ -24,8 +24,7 @@ static void	create_heredoc_name(char *file_name)
 	if (fd < 0)
 	{
 		print_err1(strerror(errno));
-		collect_malloc(NULL, DESTROY);
-		exit(EXIT_FAILURE);
+		cleanup(EXIT_FAILURE);
 	}
 	i = 0;
 	while (i < LENGHT)
@@ -49,7 +48,6 @@ static void	heredoc_exit(pid_t pid)
 		if (WTERMSIG(status) == SIGINT)
 		{
 			rl_after_fork();
-			error(1, WRITE);
 			access_exit_code(130, WRITE);
 		}
 	}
@@ -62,18 +60,15 @@ static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 	if (*write_fd < 0)
 	{
 		print_err2(file_name, strerror(errno));
-		collect_malloc(NULL, CLEAR);
-		exit(EXIT_FAILURE);
+		cleanup(EXIT_FAILURE);
 	}
 	*read_fd = open(file_name, O_RDONLY);
 	if (*read_fd < 0)
 	{
 		print_err1(strerror(errno));
-		collect_malloc(NULL, CLEAR);
 		close(*write_fd);
 		unlink(file_name);
-		collect_malloc(NULL, DESTROY);
-		exit(EXIT_FAILURE);
+		cleanup(EXIT_FAILURE);
 	}
 	unlink(file_name);
 }
@@ -96,8 +91,7 @@ int	parser_heredoc(char *delim)
 		read_heredoc(delim, write_fd);
 		close(read_fd);
 		close(write_fd);
-		collect_malloc(NULL, DESTROY);
-		exit(0);
+		cleanup(EXIT_SUCCESS);
 	}
 	return (close(write_fd), heredoc_exit(pid), read_fd);
 }

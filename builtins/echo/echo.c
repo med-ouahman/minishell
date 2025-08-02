@@ -16,6 +16,7 @@ static int	is_noption(char *s)
 {
 	if (*s != '-')
 		return (0);
+	s++;
 	while (*s)
 	{
 		if (*s != 'n')
@@ -31,9 +32,12 @@ int	echo(char **args)
 	char	*newline;
 
 	newline = "\n";
-	if (is_noption(args[1]))
-		newline = "";
 	i = 1;
+	if (args[1] && is_noption(args[1]))
+	{
+		newline = "";
+		i++;
+	}
 	while (args[i])
 	{
 		printf("%s%c", args[i], " "[args[i + 1] == NULL]);

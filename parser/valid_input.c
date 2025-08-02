@@ -62,7 +62,7 @@ int	check_valid_input(t_token *token)
 			return (exit_unvalid_input(cur->str), 1);
 	}
 	if (check_close_quote(prev))
-		return (exit_unvalid_input("unclosed quote"), -1);
+		return (print_err1("error: unclosed quote"), -1);
 	if (prev->type != WORD)
 		return (exit_unvalid_input("newline"), 1);
 	return (0);

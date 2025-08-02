@@ -30,7 +30,7 @@ static char	*join_paths(char *path, char *cmd)
 int	check_access(char **path, char *cmd)
 {
 	char	*next_path;
-	
+
 	if (!*cmd)
 		return (ENOENT);
 	next_path = get_next_path(getpath(0), 0);

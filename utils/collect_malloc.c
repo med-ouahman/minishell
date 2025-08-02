@@ -29,14 +29,6 @@ static void	clear_list(t_list **lst, t_list **env_list, int opt)
 	ft_lstclear(to_clear, free);
 }
 
-void	ultimate_free(t_list **lst1, t_list **lst2)
-{
-	print_err1("memory");
-	ft_lstclear(lst1, free);
-	ft_lstclear(lst2, free);
-	exit(EXIT_FAILURE);
-}
-
 static void	free_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
 {
 	t_list	**to_remove;
@@ -73,20 +65,20 @@ static void	add_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
 	if (opt == ENV_CHECK)
 		to_add = env_list;
 	if (!ptr)
-		collect_malloc(NULL, DESTROY);
+		cleanup(EXIT_FAILURE);
 	node = ft_lstnew(ptr);
 	if (!node)
 	{
 		free(ptr);
-		collect_malloc(NULL, DESTROY);
+		cleanup(EXIT_FAILURE);
 	}
 	ft_lstadd_back(to_add, node);
 }
 
 void	collect_malloc(void *ptr, int option)
 {
-	static t_list	*lst;
-	static t_list	*env_list;
+	static t_list	*lst = NULL;
+	static t_list	*env_list = NULL;
 
 	if (option == CHECK || option == ENV_CHECK)
 		add_ptr(&lst, &env_list, ptr, option);

@@ -70,13 +70,15 @@ int	check_valid_variable(char *str)
 	return (0);
 }
 
-void	dup_env(char ***env)
+void	dup_env(void)
 {
+	char	***env;
 	char	**new_env;
 	int		size;
 	int		i;
 
 	i = 0;
+	env = &__environ;
 	size = size_env(*env);
 	new_env = malloc ((size + 1) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);

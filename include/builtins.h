@@ -29,7 +29,7 @@ int		export(char **args);
 
 /* buitlin utilities */
 
-void	dup_env(char ***env);
+void	dup_env(void);
 int		check_valid_variable(char *str);
 void	destroy_env(char ***env);
 t_uint	size_env(char **env);

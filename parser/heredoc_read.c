@@ -79,6 +79,5 @@ void	read_heredoc(char *delmiter, int fd)
 	while (true)
 		if (parser_heredoc_line(delmiter, fd, _expand))
 			break ;
-	collect_malloc(NULL, CLEAR);
-	exit(EXIT_SUCCESS);
+	cleanup(EXIT_SUCCESS);
 }

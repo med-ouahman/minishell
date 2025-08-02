@@ -22,5 +22,7 @@ void	rl_new_prompt(void);
 void	sigint_handler(int signum);
 void	rl_after_fork(void);
 void	handle_signals(void);
+void	default_signals(void);
+void	ignore_signals(void);
 
 #endif

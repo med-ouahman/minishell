@@ -14,6 +14,13 @@
 # define MINISHELL_H
 
 # define PROMPT "\033[1;32mmini@0.0.0$ \033[0m"
+# define ERROR_PROMPT "\033[31mmini@0.0.0$ \033[0m"
+# define RED_START "\033[31m"
+
+# define RED_END "\033[0m"
+
+# define GREEN_START "\033[1;32m"
+# define GREEN_END "\033[0m"
 
 # include <stdio.h>
 # include <readline/readline.h>

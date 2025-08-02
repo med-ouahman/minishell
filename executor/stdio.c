@@ -49,12 +49,20 @@ int	dup_stdio(int *stdio)
 {
 	if (STDIN_FILENO != stdio[0])
 	{
-		dup2(stdio[0], STDIN_FILENO);
+		if (dup2(stdio[0], STDIN_FILENO) < 0)
+		{
+			print_err1(strerror(errno));
+			return (-1);
+		}
 		close(stdio[0]);
 	}
 	if (STDOUT_FILENO != stdio[1])
 	{
-		dup2(stdio[1], STDOUT_FILENO);
+		if (0 > dup2(stdio[1], STDOUT_FILENO))
+		{
+			print_err1(strerror(errno));
+			return (-1);
+		}
 		close(stdio[1]);
 	}
 	return (0);

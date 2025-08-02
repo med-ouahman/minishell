@@ -76,7 +76,7 @@ int	exit_(char **args)
 	ft_printf_fd(2, "exit\n");
 	exit_status = 2;
 	if (args[1] == NULL)
-		cleanup(EXIT_SUCCESS);
+		cleanup(access_exit_code(0, READ));
 	if (!args[2])
 	{
 		exit_status = exit_nbr(args[1]);

@@ -41,8 +41,8 @@ void	change_var(char *new, int index)
 	if (!ft_strchr(new, '='))
 		return ;
 	dup_new = ft_strdup(new);
-	collect_malloc(dup_new, CHECK);
-	collect_malloc(__environ[index], DELETE);
+	collect_malloc(dup_new, ENV_CHECK);
+	collect_malloc(__environ[index], ENV_DELETE);
 	__environ[index] = dup_new;
 }
 
@@ -59,8 +59,15 @@ void	add_var(char ***env, char *new_var)
 	collect_malloc(dup_new, ENV_CHECK);
 	new_env = malloc(sizeof(char *) * (size + 2));
 	collect_malloc(new_env, ENV_CHECK);
+	while ((*env)[i])
+	{
+		new_env[i] = (*env)[i];
+		i++;
+	}
 	new_env[size] = dup_new;
 	new_env[size + 1] = NULL;
+	collect_malloc(*env, ENV_DELETE);
+	*env = new_env;
 }
 
 int	export_add(char **argv)

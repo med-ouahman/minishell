@@ -18,7 +18,6 @@ void	sigint_handler(int signum)
 	{
 		access_exit_code(130, WRITE);
 		rl_new_prompt();
-		return ;
 	}
 }
 
@@ -26,4 +25,16 @@ void	handle_signals(void)
 {
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	ignore_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	default_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

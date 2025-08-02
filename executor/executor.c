@@ -47,7 +47,7 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	if (simple_command(cmd, exec_cb))
 		return (access_exit_code(0, READ));
 	stat = wait_children(exec_cb->pids, 1);
-	signal(SIGINT, sigint_handler);
+	handle_signals();
 	return (stat);
 }
 

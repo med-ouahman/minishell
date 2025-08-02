@@ -24,5 +24,6 @@ int	wait_children(pid_t *pids, t_uint num_children)
 		i++;
 	}
 	status = exit_code(status);
+	handle_signals();
 	return (status);
 }

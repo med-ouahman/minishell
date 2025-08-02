@@ -17,6 +17,7 @@
 # include "./parser.h"
 # include <sys/wait.h>
 # include "./builtins.h"
+# include "./signal_handler.h"
 # include <sys/types.h>
 # include <fcntl.h>
 # include <sys/stat.h>

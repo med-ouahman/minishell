@@ -17,13 +17,16 @@ int	run_builtin_in_subshell(t_cmd *builtin_cmd, t_exec_control_block *exec_cb)
 	int		status;
 	pid_t	pid;
 
+	ignore_signals();
 	pid = fork();
 	if (0 > pid)
 		return (-1);
 	if (0 == pid)
 	{
+		default_signals();
 		status = execute_builtin(builtin_cmd, exec_cb->stdio);
-		exit(status);
+		close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
+		cleanup(status);
 	}
 	exec_cb->pids[exec_cb->curr_pid] = pid;
 	exec_cb->curr_pid++;
@@ -37,8 +40,8 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	int		code;
 	char	**args;
 
-	preserve_stdio(old, stdio);
-	dup_stdio(stdio);
+	if (preserve_stdio(old, stdio) || dup_stdio(stdio))
+		return (1);
 	args = build_argument_list(cmd->args);
 	if (CD == cmd->is_builtin)
 		code = (cd(args));
