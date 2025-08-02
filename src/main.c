@@ -30,8 +30,7 @@ static void	minishell(void)
 		add_history(line);
 	pipeline = parser(line);
 	free(line);
-	if (pipeline)
-		executor(pipeline);
+	executor(pipeline);
 	collect_malloc(NULL, CLEAR);
 }
 

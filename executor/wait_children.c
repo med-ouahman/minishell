@@ -20,7 +20,8 @@ int	wait_children(pid_t *pids, t_uint num_children)
 	i = 0;
 	while (i < num_children)
 	{
-		waitpid(pids[i], &status, 0);
+		if (-1 != pids[i])
+			waitpid(pids[i], &status, 0);
 		i++;
 	}
 	status = exit_code(status);

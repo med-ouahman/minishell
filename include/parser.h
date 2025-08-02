@@ -18,7 +18,6 @@
 # include <dirent.h>
 # include <wait.h>
 # include <fcntl.h>
-# include <stdio.h> /////////////////del
 
 typedef enum s_enum
 {
@@ -78,29 +77,29 @@ typedef struct s_cmd
 	t_list	*redir;
 }	t_cmd;
 
-////////////// tools.c
+/* tool functions */
+
 int		is_quote(char c);
 int		is_space(char c);
 int		is_operator(char *input, int *i, int flag);
 int		is_redirection(t_token *token);
 
-////////////// tokenizer.c
+/* tokenizing */
+
 t_token	*get_tokens(char *input);
 int		add_token(t_token **tokens, char *input, t_info info);
 void	read_token_token(char *input, t_info *info, int *i);
 void	split_token_dquote(t_token **side_tokens, char *input);
 
-////////////// parser.c
+/* parser */
+
 t_list	*parser(char *input);
 void	free_list_token(t_token *token);
-
-////////////// valid_input.c
 int		check_valid_input(t_token *token);
-
-////////////// set_commands.c
 t_list	*set_cmd(t_token *token);
 
-////////////// expand*.c
+/* expansion and quote removal */
+
 int		expand(t_list *cmd);
 void	split_after_expand(t_token *tokens);
 int		check_split(t_token *token, int i);
@@ -115,15 +114,15 @@ t_list	*join_tokens_args(t_list **arg, t_token *tokens);
 void	join_tokens_redir(t_redir *redir, t_token *tokens);
 t_token	*prepar_args(t_list	**arg, t_token *tokens);
 int		check_last_token_unexpanded(t_token *tokens);
+int		check_valid_variable(char *str);
 
-////////////// heredoc*.c
+/* heredoc */
+
 t_list	*parser(char *input);
 void	free_list_token(t_token *token);
 void	read_heredoc(char *delmiter, int fd);
 int		parser_heredoc(char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
-
-int		check_valid_variable(char *str); /// add to builtins header
 
 #endif

@@ -12,19 +12,6 @@
 
 #include "../../include/builtins.h"
 
-void	destroy_env(char ***env)
-{
-	int	i;
-
-	i = 0;
-	if (!*env)
-		return ;
-	while ((*env)[i])
-		free((*env)[i++]);
-	free((*env));
-	*env = NULL;
-}
-
 t_uint	size_env(char **env)
 {
 	int	size;

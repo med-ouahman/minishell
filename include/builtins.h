@@ -29,9 +29,8 @@ int		export(char **args);
 
 /* buitlin utilities */
 
-void	dup_env(void);
 int		check_valid_variable(char *str);
-void	destroy_env(char ***env);
+void	dup_env(void);
 t_uint	size_env(char **env);
 int		export_add(char **vars);
 void	swap_ptrs(char **p1, char **p2);
