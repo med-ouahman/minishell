@@ -19,7 +19,7 @@
 # include <fcntl.h>
 # include "./signal_handler.h"
 
-typedef enum s_enum
+typedef enum s_enum_types
 {
 	WORD = 1,
 	PIPE,
@@ -33,9 +33,9 @@ typedef enum s_enum
 	NO_QUOTE,
 	SPLIT,
 	JOIN
-}	t_enum;
+}	t_enum_types;
 
-typedef enum s_enum_buil
+typedef enum s_enum_builtins
 {
 	NOT,
 	CD,
@@ -45,7 +45,7 @@ typedef enum s_enum_buil
 	ENV,
 	EXPORT,
 	UNSET
-}	t_builtins;
+}	t_enum_builtins;
 
 typedef struct s_info
 {
