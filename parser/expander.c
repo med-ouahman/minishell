@@ -6,11 +6,32 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:55 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/31 06:55:30 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/03 06:43:35 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
+
+static void	expand_tokens(t_token *tokens)
+{
+	t_token	*tmp;
+
+	tmp = tokens;
+	while (tmp)
+	{
+		if (tmp->type != NO_QUOTE && tmp->type != S_QUOTE)
+		{
+			if (tmp->type == D_QUOTE)
+				expand_token_dqoute(tmp);
+			else if (tmp->type == AMBIGUES)
+				expand_token_var(tmp);
+		}
+		if (tmp->type == D_QUOTE || tmp->type == S_QUOTE)
+			rm_quote(tmp->str);
+		tmp = tmp->next;
+	}
+	join_var_expanded(tokens);
+}
 
 static int	expand_redir(t_list *list_redir)
 {
@@ -53,6 +74,7 @@ static int	expand_args(t_list *list_args)
 	{
 		tokens = split_token((char *)tmp->content);
 		expand_tokens(tokens);
+		check_join_split(tokens);
 		if (!export || !check_valid_variable((char *)tmp->content))
 			split_after_expand(tokens);
 		tmp = join_tokens_args(&tmp, tokens);

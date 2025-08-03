@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 11:46:34 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/03 06:25:17 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,31 @@ int	split_new_token(char *token)
 	return (0);
 }
 
-int	check_split(t_token *token, int i)
+void	check_join_split(t_token *token)
 {
-	while (token->str[i] && is_space(token->str[i]))
-		i++;
-	while (token->str[i] && !is_space(token->str[i]))
-		i++;
-	if (token->str[i] && is_space(token->str[i]))
-		return (1);
-	return (0);
+	t_token	*tmp;
+
+	if (token->type != AMBIGUES && token->next && token->next->type == AMBIGUES
+		&& token->next->str && is_space(token->next->str[0]))
+		token->join = SPLIT;
+	else
+		token->join = JOIN;
+	while (token)
+	{
+		tmp = token;
+		token = token->next;
+		if (!token)
+			break ;
+		if (tmp->type == AMBIGUES && tmp->str && token->type != AMBIGUES)
+		{
+			if (is_space(tmp->str[ft_strlen(tmp->str) - 1]))
+				token->join = SPLIT;
+			else
+				token->join = JOIN;
+		}
+		else
+			token->join = JOIN;
+	}
 }
 
 void	split_after_expand(t_token *tokens)

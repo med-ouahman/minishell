@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:15 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 11:46:48 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/03 06:06:49 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	add_token(t_token **tokens, char *input, t_info info)
 	token->str = ft_substr(input, info.start, info.end - info.start);
 	collect_malloc(token->str, CHECK);
 	token->type = info.type;
+	token->join = info.type;
 	token->next = NULL;
 	if (!(*tokens))
 		*tokens = token;

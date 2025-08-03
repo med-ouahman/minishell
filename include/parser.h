@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 09:30:05 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/03 06:44:32 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef enum s_enum_buil
 
 typedef struct s_info
 {
-	char	type;
+	int		type;
 	int		start;
 	int		end;
 	char	is_squote;
@@ -58,7 +58,8 @@ typedef struct s_info
 typedef struct s_token
 {
 	char			*str;
-	char			type;
+	int				type;
+	int				join;
 	struct s_token	*next;
 }	t_token;
 
@@ -101,11 +102,12 @@ t_list	*set_cmd(t_token *token);
 
 int		expand(t_list *cmd);
 void	split_after_expand(t_token *tokens);
-int		check_split(t_token *token, int i);
+void	check_join_split(t_token *token);
 int		split_new_token(char *token);
 t_token	*split_token(char *str);
 int		check_for_expand(char *input, int i);
-void	expand_tokens(t_token *tokens);
+void	join_var_expanded(t_token *tokens);
+void	rm_quote(char *str);
 void	expand_token_dqoute(t_token *token);
 void	expand_token_var(t_token *token);
 t_token	*new_tokens_expanded(t_token *token);
