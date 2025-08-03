@@ -35,7 +35,7 @@ typedef enum e_gb
 
 typedef unsigned int	t_uint;
 
-typedef enum s_num
+typedef enum e_bool
 {
 	false,
 	true

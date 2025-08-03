@@ -15,7 +15,7 @@
 static char	**step_copy(char **env)
 {
 	char	**new_env;
-	int		i;
+	t_uint	i;
 
 	new_env = malloc((size_env(env) + 1) * sizeof(char *));
 	collect_malloc(new_env, CHECK);
@@ -54,8 +54,8 @@ static void	sort_env(char **new_env)
 int	print_env(void)
 {
 	char	**env;
-	int		i;
-	int		j;
+	t_uint	i;
+	t_uint	j;
 
 	env = step_copy(__environ);
 	sort_env(env);
