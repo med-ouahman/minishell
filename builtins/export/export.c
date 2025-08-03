@@ -71,11 +71,14 @@ void	sort_env(char **new_env)
 	}
 }
 
-int	print_env(char **env)
+int	print_env(void)
 {
+	char	**env;
 	int		i;
 	int		j;
 
+	env = step_copy(__environ);
+	sort_env(env);
 	i = 0;
 	while (env[i] != NULL)
 	{
@@ -88,19 +91,15 @@ int	print_env(char **env)
 		printf("\n");
 		i++;
 	}
+	collect_malloc(env, DELETE);
 	return (0);
 }
 
 int	export(char **args)
 {
-	char	**tmp_env;
-
 	if (!args[1])
 	{
-		tmp_env = step_copy(__environ);
-		sort_env(tmp_env);
-		print_env(tmp_env);
-		collect_malloc(tmp_env, DELETE);
+		print_env();
 	}
 	else
 		export_add(args + 1);

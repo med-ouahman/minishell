@@ -13,8 +13,6 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "../libft/libft.h"
-# include "./utils.h"
 # include "./parser.h"
 
 /* builtins */
@@ -35,6 +33,7 @@ t_uint	size_env(char **env);
 int		export_add(char **vars);
 void	swap_ptrs(char **p1, char **p2);
 t_uint	key_size(char *s1);
+int	    update_env_args(char **args, t_uint count);
 t_uint	sort_args(char **args);
 int		add_args(char **args);
 int		update_arg(char *varname);

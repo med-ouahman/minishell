@@ -18,3 +18,12 @@ unsigned int	min(unsigned int a, unsigned int b)
 	arr[1] = b;
 	return (arr[a > b]);
 }
+
+unsigned int	max(unsigned int a, unsigned int b)
+{
+	unsigned int	arr[2];
+
+	arr[0] = a;
+	arr[1] = b;
+	return (arr[a < b]);
+}

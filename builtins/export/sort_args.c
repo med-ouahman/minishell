@@ -15,16 +15,17 @@
 int		to_add(char *key)
 {
 	t_uint	i;
-	size_t	len;
+	size_t	l1;
 
 	i = 0;
-	len = key_size(key);
-	while (__environ[i])
+	l1 = key_size(key);
+	while (__environ[i]
+		&& ft_strncmp(key, __environ[i], max(l1, key_size(__environ[i]))))
 	{
-		if (!ft_strncmp(key, __environ[i], len))
-			return (1);
 		i++;
 	}
+	if (!__environ[i])
+		return (1);
 	return (0);
 }
 
@@ -118,29 +119,37 @@ int	update_env_args(char **args, t_uint count)
 	return (0);
 }
 
-t_uint	sort_args(char **args)
+static t_uint	sort_args(char **args)
 {
-	t_uint	add_count;
 	t_uint	i;
 	long	find_index;
 
 	i = 0;
-	add_count = 0;
 	while (args[i])
 	{
 		if (to_add(args[i]))
 		{
 			find_index = find_nonexiting_var(args);
-			printf("find index: %ld\n", find_index);
 			if (find_index < 0)
 			{
-				printf("no args to update\n");
-				return (size_env(__environ));
+				printf("%s", "no args to update\n");
+				return (array_size(args));
 			}
 			swap_ptrs(args + find_index, args + i);
-			add_count++;
 		}
 		i++;
 	}
-	return (add_count);
+	return (0);
+}
+
+int	export_args(char **args)
+{
+	t_uint	count;
+
+	count = 0;
+	sort_args(args);
+	while (args[count] && to_add(args[count]))
+		count++;
+	update_env_args(args, count);
+	add_args(args + count);
 }

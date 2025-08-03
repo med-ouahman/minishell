@@ -12,6 +12,19 @@
 
 #include "../../include/minishell.h"
 
+void	remove_invalid(char **args, t_uint rem_index)
+{
+	t_uint	last;
+	
+	last = 0;
+	while (args[last + 1])
+	{
+		last++;
+	}
+	swap_ptrs(args + last, rem_index + args);
+	args[last] = NULL;
+}
+
 int	check_exist_var(char *str)
 {
 	int	i;
@@ -70,6 +83,8 @@ void	add_var(char ***env, char *new_var)
 	__environ = new_env;
 }
 
+/*
+
 static int	find_valid(char **args)
 {
 	long	i;
@@ -84,33 +99,35 @@ static int	find_valid(char **args)
 	return (-1);
 }
 
-t_uint	check_valid(char **args)
+*/
+
+int	check_valid(char **args, int *c)
 {
-	t_uint	start;
 	t_uint	i;
-	long	j;
 
 	i = 0;
-	start = 0;
 	while (args[i])
 	{
 		if (!check_valid_variable(args[i]))
 		{
-			++start;
+			*c = 1;
 			print_err3("export", args[i], "not a valid identifier");
-			j = find_valid(args);
-			if (j < 0)
-				return (array_size(args));
-			swap_ptrs(args + i, args + j);
+			remove_invalid(args, i);
+			i = 0;
+			continue;
 		}
 		i++;
 	}
-	return (start);
+	return (0);
 }
 
 int	export_add(char **argv)
 {
-	argv += check_valid(argv);
-	print_arr(argv);
-	return (0);
+	int		c;
+
+	c = 0;
+	check_valid(argv, &c);
+	sort_args(argv);
+	add_args(argv);
+	return (c);
 }

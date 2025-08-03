@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <readline/readline.h>
+
 # define READ 0
 # define WRITE 1
 
@@ -68,11 +69,13 @@ void	rl_new_prompt(void);
 
 int		access_exit_code(int new_val, int mode);
 
-t_uint	min(unsigned int a, unsigned int b);
+t_uint	min(t_uint a, t_uint b);
+t_uint	max(t_uint a, t_uint b);
 
 /* cleanup and deallocate resources and exit with 'code' */
 
 int		cleanup(int code);
 t_uint	array_size(char **arr);
 void	print_arr(char **args);
+
 #endif
