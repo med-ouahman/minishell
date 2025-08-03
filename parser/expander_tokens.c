@@ -6,13 +6,13 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:50 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 11:46:05 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/03 06:44:13 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static void	rm_quote(char *str)
+void	rm_quote(char *str)
 {
 	int		i;
 
@@ -37,7 +37,7 @@ t_token	*new_tokens_expanded(t_token *token)
 	while (token && token->str && token->str[i])
 	{
 		info.type = JOIN;
-		if (check_split(token, i))
+		if (is_space(token->str[i]))
 			info.type = SPLIT;
 		while (is_space(token->str[i]))
 			i++;
@@ -102,22 +102,22 @@ void	expand_token_dqoute(t_token *token)
 	free_list_token(side_token);
 }
 
-void	expand_tokens(t_token *tokens)
+void	join_var_expanded(t_token *tokens)
 {
 	t_token	*tmp;
+	t_token	*del;
 
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type != NO_QUOTE && tmp->type != S_QUOTE)
+		if (tmp->type == AMBIGUES && tmp->next && tmp->next->type == AMBIGUES)
 		{
-			if (tmp->type == D_QUOTE)
-				expand_token_dqoute(tmp);
-			else if (tmp->type == AMBIGUES)
-				expand_token_var(tmp);
+			del = tmp->next;
+			tmp->str = ft_join(tmp->str, 1, tmp->next->str, 1);
+			tmp->next = tmp->next->next;
+			collect_malloc(del, DELETE);
+			continue ;
 		}
-		if (tmp->type == D_QUOTE || tmp->type == S_QUOTE)
-			rm_quote(tmp->str);
 		tmp = tmp->next;
 	}
 }

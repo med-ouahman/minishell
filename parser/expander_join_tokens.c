@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/31 06:04:40 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/03 06:42:30 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,15 @@ t_token	*prepar_args(t_list	**arg, t_token *tokens)
 	new_arg = NULL;
 	while (tokens)
 	{
-		if (split && tokens && tokens->type == SPLIT)
+		new_arg = ft_join(new_arg, 1, tokens->str, 1);
+		if (!*arg && split && tokens->join == SPLIT)
 		{
-			new_arg = ft_join(new_arg, 1, tokens->str, 1);
 			tokens = tokens->next;
 			break ;
 		}
-		new_arg = ft_join(new_arg, 1, tokens->str, 1);
 		tokens = tokens->next;
+		if (split && tokens && tokens->join == SPLIT)
+			break ;
 	}
 	new = ft_lstnew(new_arg);
 	collect_malloc(new, CHECK);
