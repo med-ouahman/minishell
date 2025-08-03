@@ -12,81 +12,62 @@
 
 #include "../../include/minishell.h"
 
-static int	check_equal(char *s)
+static t_bool	to_remove(char *var, char **argv)
 {
-	int	i;
+	t_uint	l1;
 
-	i = 0;
-	while (s[i])
+	l1 = key_size(var);
+	while (*argv)
 	{
-		if (s[i] == '=')
-			return (i);
-		i++;
+		if (!ft_strncmp(var, *argv, max(l1, key_size(*argv))))
+			return (true);
+		argv++;
 	}
-	return (i);
+	return (false);
 }
 
-static long	searsh_var(char *var)
+static int	remove_vars(char **args)
 {
-	long	i;
-	int		eq;
-
-	i = 0;
-	eq = check_equal(var);
-	while (__environ[i])
-	{
-		if (ft_strncmp(__environ[i], var, eq) == 0)
-		{
-			if (!var[eq]
-				&& (__environ[i][eq] == '=' || !__environ[i][eq]))
-				return (i);
-		}
-		i++;
-	}
-	return (-1);
-}
-
-static int	del_from_env(char ***env, long n)
-{
-	long	i;
-	long	j;
-	long	size;
 	char	**new_env;
+	t_uint	size;
+	t_uint	i;
+	t_uint	j;
 
-	size = size_env(*env);
-	new_env = malloc ((size + 1) * sizeof(char *));
+	size = size_env(__environ) - array_size(args);
+	new_env = malloc((1 + size) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);
 	i = 0;
 	j = 0;
-	while ((*env)[j])
+	while (__environ[i])
 	{
-		if (j == n)
+		if (!to_remove(__environ[i], args))
+		{
+			new_env[j] = __environ[i];
 			j++;
-		new_env[i] = (*env)[j];
-		j++;
+		}
+		else
+			collect_malloc(__environ[i], ENV_DELETE);
 		i++;
 	}
-	new_env[i] = NULL;
-	collect_malloc((*env)[n], ENV_DELETE);
-	collect_malloc(*env, ENV_DELETE);
-	(*env) = new_env;
+	new_env[j] = NULL;
+	collect_malloc(__environ, ENV_DELETE);
+	__environ = new_env;
 	return (0);
 }
 
 int	unset(char **args)
 {
-	long	i;
-
 	args++;
-	while (*args)
+	if (!*args)
+		return (0);
+	check_valid(args, NULL);
+	sort_args(args);
+	while (*args && to_add(*args))
 	{
-		i = searsh_var(*args);
-		if (i >= 0)
-		{
-			if (del_from_env(&__environ, i))
-				return (1);
-		}
 		args++;
 	}
+	if (!*args)
+		return (0);
+	remove_vars(args);
 	return (0);
 }

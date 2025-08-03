@@ -30,7 +30,7 @@ int		export(char **args);
 int		check_valid_variable(char *str);
 void	dup_env(void);
 t_uint	size_env(char **env);
-int		export_add(char **vars);
+int     sort_args(char **args);
 void	swap_ptrs(char **p1, char **p2);
 t_uint	key_size(char *s1);
 int		export_args(char **args);

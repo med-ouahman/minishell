@@ -47,24 +47,19 @@ int	check_equal(char *var1, char *var2)
 
 void	sort_env(char **new_env)
 {
-	char	*swap;
-	int		j;
-	int		i;
-	int		eq;
+	t_uint	i;
+	t_uint	j;
+	t_uint	l;
 
 	i = 0;
 	while (new_env[i])
 	{
 		j = i + 1;
+		l = key_size(new_env[i]);
 		while (new_env[j])
 		{
-			eq = check_equal(new_env[i], new_env[j]);
-			if (ft_strncmp(new_env[i], new_env[j], eq) > 0)
-			{
-				swap = new_env[i];
-				new_env[i] = new_env[j];
-				new_env[j] = swap;
-			}
+			if (ft_strncmp(new_env[i], new_env[j], max(l, key_size(new_env[j]))) > 0)
+				swap_ptrs(new_env + i, new_env + j);
 			j++;
 		}
 		i++;

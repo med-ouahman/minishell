@@ -92,8 +92,11 @@ int	check_valid(char **args, int *c)
 	{
 		if (!check_valid_variable(args[i]))
 		{
-			*c = 1;
-			print_err3("export", args[i], "not a valid identifier");
+			if (c)
+			{
+				*c = 1;
+				print_err3("export", args[i], "not a valid identifier");
+			}
 			remove_invalid(args, i);
 			i = 0;
 			continue ;

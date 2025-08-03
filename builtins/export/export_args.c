@@ -12,7 +12,7 @@
 
 #include "../../include/builtins.h"
 
-static t_uint	sort_args(char **args)
+int	sort_args(char **args)
 {
 	t_uint	i;
 	long	find_index;
