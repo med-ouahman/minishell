@@ -17,6 +17,7 @@
 # include <dirent.h>
 # include <wait.h>
 # include <fcntl.h>
+# include "./signal_handler.h"
 
 typedef enum s_enum
 {

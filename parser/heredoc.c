@@ -37,21 +37,25 @@ static void	create_heredoc_name(char *file_name)
 	close(fd);
 }
 
-static void	heredoc_exit(pid_t pid)
+static int	heredoc_exit(pid_t pid)
 {
 	int	status;
 
 	status = 0;
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
+	if (WIFEXITED(status))
+		access_exit_code(WEXITSTATUS(status), WRITE);
+	else if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == SIGINT)
 		{
 			rl_after_fork();
 			access_exit_code(130, WRITE);
+			return (-1);
 		}
 	}
-	signal(SIGINT, sigint_handler);
+	handle_signals();
+	return (0);
 }
 
 static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
@@ -82,7 +86,7 @@ int	parser_heredoc(char *delim)
 
 	create_heredoc_name(file);
 	create_heredoc_file(file, &write_fd, &read_fd);
-	signal(SIGINT, SIG_IGN);
+	ignore_signals();
 	pid = fork();
 	if (pid < 0)
 		return (print_err1(strerror(errno)), -1);
@@ -93,5 +97,8 @@ int	parser_heredoc(char *delim)
 		close(write_fd);
 		cleanup(EXIT_SUCCESS);
 	}
-	return (close(write_fd), heredoc_exit(pid), read_fd);
+	close(write_fd);
+	if (heredoc_exit(pid))
+		return (-1);
+	return (read_fd);
 }

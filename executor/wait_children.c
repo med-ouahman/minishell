@@ -22,6 +22,8 @@ int	wait_children(pid_t *pids, t_uint num_children)
 	{
 		if (-1 != pids[i])
 			waitpid(pids[i], &status, 0);
+		if (WIFSIGNALED(status))
+			rl_after_fork();
 		i++;
 	}
 	status = exit_code(status);

@@ -74,7 +74,7 @@ void	read_heredoc(char *delmiter, int fd)
 {
 	int		_expand;
 
-	signal(SIGINT, SIG_DFL);
+	default_signals();
 	_expand = remove_quote(delmiter);
 	while (true)
 		if (parser_heredoc_line(delmiter, fd, _expand))

@@ -30,7 +30,7 @@ t_list	*parser(char *input)
 	t_token	*token;
 	t_list	*cmd;
 	int		valid;
-
+	
 	token = get_tokens(input);
 	if (!token)
 		return (NULL);
