@@ -33,9 +33,12 @@ t_uint	size_env(char **env);
 int		export_add(char **vars);
 void	swap_ptrs(char **p1, char **p2);
 t_uint	key_size(char *s1);
-int	    update_env_args(char **args, t_uint count);
-t_uint	sort_args(char **args);
-int		add_args(char **args);
-int		update_arg(char *varname);
+int		export_args(char **args);
+int		print_env(void);
+int		update_env_args(char **args);
+int		add_env_vars(char **args);
+long	find_nonexiting_var(char **args);
+int		to_add(char *key);
+int		check_valid(char **args, int *c);
 
 #endif

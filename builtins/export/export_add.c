@@ -15,7 +15,7 @@
 void	remove_invalid(char **args, t_uint rem_index)
 {
 	t_uint	last;
-	
+
 	last = 0;
 	while (args[last + 1])
 	{
@@ -83,24 +83,6 @@ void	add_var(char ***env, char *new_var)
 	__environ = new_env;
 }
 
-/*
-
-static int	find_valid(char **args)
-{
-	long	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (check_valid_variable(args[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-*/
-
 int	check_valid(char **args, int *c)
 {
 	t_uint	i;
@@ -114,20 +96,9 @@ int	check_valid(char **args, int *c)
 			print_err3("export", args[i], "not a valid identifier");
 			remove_invalid(args, i);
 			i = 0;
-			continue;
+			continue ;
 		}
 		i++;
 	}
 	return (0);
-}
-
-int	export_add(char **argv)
-{
-	int		c;
-
-	c = 0;
-	check_valid(argv, &c);
-	sort_args(argv);
-	add_args(argv);
-	return (c);
 }

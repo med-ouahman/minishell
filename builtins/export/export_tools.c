@@ -59,3 +59,34 @@ void	dup_env(void)
 	new_env[i] = NULL;
 	*env = new_env;
 }
+
+int	to_add(char *key)
+{
+	t_uint	i;
+	size_t	l1;
+
+	i = 0;
+	l1 = key_size(key);
+	while (__environ[i]
+		&& ft_strncmp(key, __environ[i], max(l1, key_size(__environ[i]))))
+	{
+		i++;
+	}
+	if (!__environ[i])
+		return (1);
+	return (0);
+}
+
+long	find_nonexiting_var(char **args)
+{
+	t_uint	i;
+
+	i = 0;
+	while (args[i])
+	{
+		if (!to_add(args[i]))
+			return (i);
+		i++;
+	}
+	return (-1);
+}
