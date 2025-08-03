@@ -29,23 +29,7 @@ static char	**step_copy(char **env)
 	return (new_env);
 }
 
-int	check_equal(char *var1, char *var2)
-{
-	int	eq1;
-	int	eq2;
-
-	eq1 = ft_strchr(var1, '=') - var1;
-	if (eq1 < 0)
-		eq1 = ft_strlen(var1);
-	eq2 = ft_strchr(var2, '=') - var2;
-	if (eq2 < 0)
-		eq2 = ft_strlen(var2);
-	if (eq1 > eq2)
-		return (eq2 - 1);
-	return (eq1 - 1);
-}
-
-void	sort_env(char **new_env)
+static void	sort_env(char **new_env)
 {
 	t_uint	i;
 	t_uint	j;
@@ -58,7 +42,8 @@ void	sort_env(char **new_env)
 		l = key_size(new_env[i]);
 		while (new_env[j])
 		{
-			if (ft_strncmp(new_env[i], new_env[j], max(l, key_size(new_env[j]))) > 0)
+			if (ft_strncmp(new_env[i], new_env[j],
+					max(l, key_size(new_env[j]))) > 0)
 				swap_ptrs(new_env + i, new_env + j);
 			j++;
 		}

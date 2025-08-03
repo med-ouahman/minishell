@@ -47,10 +47,8 @@ int	check_exist_var(char *str)
 
 void	change_var(char *new, int index)
 {
-	int		i;
 	char	*dup_new;
 
-	i = 0;
 	if (!ft_strchr(new, '='))
 		return ;
 	dup_new = ft_strdup(new);
