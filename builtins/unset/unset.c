@@ -31,10 +31,11 @@ static t_uint	add_nonremoved(char **new_env, char **args, t_uint i, t_uint j)
 	if (!to_remove(__environ[i], args))
 	{
 		new_env[j] = __environ[i];
+		j++;
 	}
 	else
 		collect_malloc(__environ[i], ENV_DELETE);
-	return (++j);
+	return (j);
 }
 
 static int	remove_vars(char **args)

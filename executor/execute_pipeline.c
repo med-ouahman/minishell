@@ -32,7 +32,8 @@ static int
 	int	status;
 
 	status = 0;
-	prepare_redirs(cmd->redir, exec_cb->stdio);
+	if (prepare_redirs(cmd->redir, exec_cb->stdio))
+		return (1);
 	set_stdio(exec_cb, i);
 	if (cmd->args)
 		cmd->is_builtin = is_builtin(cmd->args->content);

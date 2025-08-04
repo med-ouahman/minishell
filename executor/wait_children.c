@@ -37,3 +37,32 @@ int	wait_children(pid_t *pids, t_uint num_children)
 	handle_signals();
 	return (status);
 }
+
+/*
+#include <sys/resource.h>
+
+void	get_child_resource_usage(pid_t pid)
+{
+	struct rusage	r;
+	
+	wait4(pid, NULL, 0, &r);
+	printf("user CPU time: seconds: %ld - micro: %ld\n",
+	r.ru_utime.tv_sec, r.ru_utime.tv_usec);
+	printf("system CPU time: seconds: %ld - micor: %ld\n",
+	r.ru_stime.tv_sec, r.ru_stime.tv_usec);
+	printf("maximum resident set size: %ld\n", r.ru_maxrss);
+	printf("integral shared memory size: %ld\n", r.ru_ixrss);
+	printf("integral unshared data size: %ld\n", r.ru_idrss);
+	printf("integral unshared stack size :%ld\n", r.ru_isrss);
+	printf("page reclaims (soft page faults): %ld\n", r.ru_minflt);
+	printf("page fault (hard): %ld\n", r.ru_majflt);
+	printf("swaps: %ld\n", r.ru_nswap);
+	printf("block input operations: %ld\n", r.ru_inblock);
+	printf("block output operations: %ld\n", r.ru_oublock);
+	printf("IPC messages sent: %ld\n", r.ru_msgsnd);
+	printf("IPC messages received: %ld\n", r.ru_msgrcv);
+	printf("signals received: %ld\n", r.ru_nsignals);
+	printf("voluntary context switches: %ld\n", r.ru_nvcsw);
+	printf("involuntary context switches: %ld\n", r.ru_nivcsw);
+}
+*/

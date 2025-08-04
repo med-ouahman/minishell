@@ -41,7 +41,7 @@ typedef struct s_exec_cb
 
 /* stdio */
 
-int			close_stdio(int stdio[]);
+int			close_stdio(int *stdio);
 int			reset_stdio(int *stdio);
 int			set_stdio(t_exec_control_block *exec_cb, t_uint curr);
 int			restore_stdio(int *stdio);
@@ -54,7 +54,7 @@ char		**build_argument_list(t_list *lst);
 int			simple_command(t_cmd *cmd, t_exec_control_block *exec_cb);
 int			is_builtin(char *command);
 int			executor(t_list *pipeline);
-int			execute_builtin(t_cmd *cmd, int *stdio);
+int			execute_builtin(t_cmd *builtin_cmd, int *stdio);
 int			run_builtin_in_subshell(t_cmd *builtin_cmd,
 				t_exec_control_block *exec_cb);
 int			prepare_redirs(t_list *redirs, int *stdio);
@@ -66,7 +66,7 @@ int			execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb);
 void		close_pipes(t_pipefd *pipes, int size);
 t_pipefd	*create_pipes(int count);
 
-/* command paths */
+/* command path */
 
 int			is_executable(char *pathname);
 int			is_path(char *pathname);

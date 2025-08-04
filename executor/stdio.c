@@ -32,7 +32,7 @@ int	reset_stdio(int *stdio)
 	return (0);
 }
 
-int	close_stdio(int stdio[])
+int	close_stdio(int *stdio)
 {
 	if (stdio[0] != STDIN_FILENO)
 	{
