@@ -36,7 +36,7 @@ char	**duplicate_env(void)
 	char	**new_environ;
 	t_uint	i;
 
-	new_environ = malloc((1 + size_env(__environ)) * sizeof(char *));
+	new_environ = malloc((1 + size_env()) * sizeof(char *));
 	collect_malloc(new_environ, CHECK);
 	i = 0;
 	while (__environ[i])

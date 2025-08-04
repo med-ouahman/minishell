@@ -17,7 +17,7 @@ static char	**step_copy(char **env)
 	char	**new_env;
 	t_uint	i;
 
-	new_env = malloc((size_env(env) + 1) * sizeof(char *));
+	new_env = malloc((size_env() + 1) * sizeof(char *));
 	collect_malloc(new_env, CHECK);
 	i = 0;
 	while (env[i])

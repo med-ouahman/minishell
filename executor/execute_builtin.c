@@ -44,19 +44,19 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 		return (1);
 	args = build_argument_list(cmd->args);
 	if (CD == cmd->is_builtin)
-		code = (cd(args));
+		code = cd(args);
 	if (PWD == cmd->is_builtin)
-		code = (pwd());
+		code = pwd();
 	if (EXIT == cmd->is_builtin)
-		code = (exit_(args));
+		code = exit_(args);
 	if (ECHO == cmd->is_builtin)
-		code = (echo(args));
+		code = echo(args);
 	if (EXPORT == cmd->is_builtin)
-		code = (export(args));
+		code = export(args);
 	if (UNSET == cmd->is_builtin)
-		code = (unset(args));
+		code = unset(args);
 	if (ENV == cmd->is_builtin)
-		code = (env());
+		code = env();
 	restore_stdio(old);
 	return (code);
 }

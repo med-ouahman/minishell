@@ -29,14 +29,15 @@ t_list	*parser(char *input)
 {
 	t_token	*token;
 	t_list	*cmd;
-	int		valid;
-	
+
 	token = get_tokens(input);
 	if (!token)
 		return (NULL);
-	valid = check_valid_input(token);
-	if (valid)
+	if (check_valid_input(token))
+	{
+		access_exit_code(2, WRITE);
 		return (NULL);
+	}
 	cmd = set_cmd(token);
 	if (!cmd)
 		return (NULL);

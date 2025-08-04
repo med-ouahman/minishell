@@ -65,7 +65,7 @@ void	add_var(char ***env, char *new_var)
 	char	**new_env;
 
 	i = 0;
-	size = size_env(*env);
+	size = size_env();
 	dup_new = ft_strdup(new_var);
 	collect_malloc(dup_new, ENV_CHECK);
 	new_env = malloc(sizeof(char *) * (size + 2));

@@ -21,7 +21,7 @@ int	is_path(char *cmd)
 	return (0);
 }
 
-int	get_file_type(char *__file_path)
+static mode_t	get_file_type(char *__file_path)
 {
 	struct stat	buf;
 	int			c;
@@ -29,7 +29,8 @@ int	get_file_type(char *__file_path)
 	c = stat(__file_path, &buf);
 	if (0 > c)
 	{
-		return (-1);
+		access_exit_code(1, WRITE);
+		print_err1(strerror(errno));
 	}
 	return (buf.st_mode);
 }
@@ -41,6 +42,8 @@ int	is_executable(char *__pathname)
 	if (!access(__pathname, F_OK))
 	{
 		file_type = get_file_type(__pathname);
+		if (access_exit_code(0, READ))
+			return (-1);
 		if (S_ISDIR(file_type))
 		{
 			print_err2(__pathname, "Is a directory");

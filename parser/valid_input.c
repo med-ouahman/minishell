@@ -59,11 +59,11 @@ int	check_valid_input(t_token *token)
 			break ;
 		if ((is_redirection(prev) && cur->type != WORD)
 			|| (prev->type == PIPE && cur->type == PIPE))
-			return (exit_unvalid_input(cur->str), 1);
+			return (exit_unvalid_input(cur->str), -1);
 	}
 	if (check_close_quote(prev))
 		return (print_err1("error: unclosed quote"), -1);
 	if (prev->type != WORD)
-		return (exit_unvalid_input("newline"), 1);
+		return (exit_unvalid_input("newline"), -1);
 	return (0);
 }

@@ -12,19 +12,19 @@
 
 #include "../../include/builtins.h"
 
-t_uint	size_env(char **env)
+t_uint	size_env(void)
 {
-	int	size;
+	t_uint	size;
 
 	size = 0;
-	while (env[size])
+	while (__environ[size])
 		size++;
 	return (size);
 }
 
 int	check_valid_variable(char *str)
 {
-	int		i;
+	t_uint	i;
 
 	i = 0;
 	if (ft_isalpha(*str) || *str == '_')
@@ -40,24 +40,22 @@ int	check_valid_variable(char *str)
 
 void	dup_env(void)
 {
-	char	***env;
 	char	**new_env;
-	int		size;
-	int		i;
+	t_uint	size;
+	t_uint	i;
 
 	i = 0;
-	env = &__environ;
-	size = size_env(*env);
+	size = size_env();
 	new_env = malloc ((size + 1) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);
 	while (i < size)
 	{
-		new_env[i] = ft_strdup((*env)[i]);
+		new_env[i] = ft_strdup(__environ[i]);
 		collect_malloc(new_env[i], ENV_CHECK);
 		i++;
 	}
 	new_env[i] = NULL;
-	*env = new_env;
+	__environ = new_env;
 }
 
 int	to_add(char *key)

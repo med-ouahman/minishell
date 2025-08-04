@@ -14,7 +14,7 @@
 
 static int	check(char *s)
 {
-	unsigned int	i;
+	t_uint	i;
 
 	i = 0;
 	while (s[i])
@@ -28,7 +28,7 @@ static int	check(char *s)
 
 int	env(void)
 {
-	unsigned int	i;
+	t_uint	i;
 
 	i = 0;
 	while (__environ[i])

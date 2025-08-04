@@ -35,7 +35,7 @@ int	add_env_vars(char **args)
 	t_uint	i;
 
 	env = &__environ;
-	size = size_env(__environ) + size_env(args);
+	size = size_env() + array_size(args);
 	new_env = malloc((size + 1) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);
 	i = 0;

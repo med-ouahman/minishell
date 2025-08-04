@@ -26,27 +26,34 @@ static t_bool	to_remove(char *var, char **argv)
 	return (false);
 }
 
+static t_uint	add_nonremoved(char **new_env, char **args, t_uint i, t_uint j)
+{
+	if (!to_remove(__environ[i], args))
+	{
+		new_env[j] = __environ[i];
+	}
+	else
+		collect_malloc(__environ[i], ENV_DELETE);
+	return (++j);
+}
+
 static int	remove_vars(char **args)
 {
 	char	**new_env;
-	t_uint	size;
+	long	size;
 	t_uint	i;
 	t_uint	j;
 
-	size = size_env(__environ) - array_size(args);
+	size = size_env() - array_size(args);
+	if (size < 0)
+		return (0);
 	new_env = malloc((1 + size) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);
 	i = 0;
 	j = 0;
 	while (__environ[i])
 	{
-		if (!to_remove(__environ[i], args))
-		{
-			new_env[j] = __environ[i];
-			j++;
-		}
-		else
-			collect_malloc(__environ[i], ENV_DELETE);
+		j = add_nonremoved(new_env, args, i, j);
 		i++;
 	}
 	new_env[j] = NULL;

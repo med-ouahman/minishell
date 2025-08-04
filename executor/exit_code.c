@@ -20,10 +20,7 @@ int	exit_code(int status)
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 	{
-		printf("null]n\n");
 		signum = WTERMSIG(status);
-		if (SIGINT == signum)
-			rl_after_fork();
 		return (signum + 128);
 	}
 	return (0);

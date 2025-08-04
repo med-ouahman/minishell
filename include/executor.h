@@ -36,7 +36,6 @@ typedef struct s_exec_cb
 	t_uint		pid_size;
 	t_uint		curr_pid;
 	t_list		*pipeline;
-	char		**paths;
 	int			stdio[2];
 }	t_exec_control_block;
 
@@ -70,7 +69,6 @@ t_pipefd	*create_pipes(int count);
 /* command paths */
 
 int			is_executable(char *pathname);
-int			get_file_type(char *filename);
 int			is_path(char *pathname);
 char		*command_path(char *cmd);
 char		*get_next_path(char *path, int r);

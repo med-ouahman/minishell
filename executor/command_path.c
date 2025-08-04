@@ -27,7 +27,7 @@ static char	*join_paths(char *path, char *cmd)
 	return (cmdpath);
 }
 
-int	check_access(char **path, char *cmd)
+static int	check_access(char **path, char *cmd)
 {
 	char	*next_path;
 
