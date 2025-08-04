@@ -73,7 +73,6 @@ int	exit_(char **args)
 {
 	int		exit_status;
 
-	ft_printf_fd(2, "exit\n");
 	exit_status = 2;
 	if (args[1] == NULL)
 		cleanup(access_exit_code(0, READ));

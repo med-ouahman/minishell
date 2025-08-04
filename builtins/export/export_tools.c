@@ -12,19 +12,9 @@
 
 #include "../../include/builtins.h"
 
-t_uint	size_env(void)
-{
-	t_uint	size;
-
-	size = 0;
-	while (__environ[size])
-		size++;
-	return (size);
-}
-
 int	check_valid_variable(char *str)
 {
-	t_uint	i;
+	int		i;
 
 	i = 0;
 	if (ft_isalpha(*str) || *str == '_')
@@ -46,7 +36,7 @@ void	dup_env(void)
 
 	i = 0;
 	size = size_env();
-	new_env = malloc ((size + 1) * sizeof(char *));
+	new_env = malloc((size + 1) * sizeof(char *));
 	collect_malloc(new_env, ENV_CHECK);
 	while (i < size)
 	{
@@ -56,35 +46,4 @@ void	dup_env(void)
 	}
 	new_env[i] = NULL;
 	__environ = new_env;
-}
-
-int	to_add(char *key)
-{
-	t_uint	i;
-	size_t	l1;
-
-	i = 0;
-	l1 = key_size(key);
-	while (__environ[i]
-		&& ft_strncmp(key, __environ[i], max(l1, key_size(__environ[i]))))
-	{
-		i++;
-	}
-	if (!__environ[i])
-		return (1);
-	return (0);
-}
-
-long	find_nonexiting_var(char **args)
-{
-	t_uint	i;
-
-	i = 0;
-	while (args[i])
-	{
-		if (!to_add(args[i]))
-			return (i);
-		i++;
-	}
-	return (-1);
 }

@@ -42,7 +42,11 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 		return (0);
 	cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
+	{
+		if (cmd->is_builtin == EXIT)
+			ft_printf_fd(2, "exit\n");
 		return (execute_builtin(cmd, exec_cb->stdio));
+	}
 	exec_cb->pids = &pid;
 	if (simple_command(cmd, exec_cb))
 		return (access_exit_code(0, READ));

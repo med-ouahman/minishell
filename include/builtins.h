@@ -30,15 +30,8 @@ int		export(char **args);
 int		check_valid_variable(char *str);
 void	dup_env(void);
 t_uint	size_env(void);
-int		sort_args(char **args);
 void	swap_ptrs(char **p1, char **p2);
 t_uint	key_size(char *s1);
-int		export_args(char **args);
-int		print_env(void);
-int		update_env_args(char **args);
-int		add_env_vars(char **args);
-long	find_nonexiting_var(char **args);
-int		to_add(char *key);
-int		check_valid(char **args, int *c);
+int		export_add(char **argv);
 
 #endif

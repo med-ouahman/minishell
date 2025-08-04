@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/builtins.h"
 
-void	remove_invalid(char **args, t_uint rem_index)
+t_uint	size_env(void)
 {
-	t_uint	last;
+	t_uint	size;
 
-	last = 0;
-	while (args[last + 1])
+	size = 0;
+	while (__environ[size])
 	{
-		last++;
+		size++;
 	}
-	swap_ptrs(args + last, rem_index + args);
-	args[last] = NULL;
+	return (size);
 }
 
 int	check_exist_var(char *str)
@@ -45,11 +44,22 @@ int	check_exist_var(char *str)
 	return (0);
 }
 
-void	change_var(char *new, int index)
+void	change_var(char *new)
 {
+	t_uint	index;
+	t_uint	l1;
+	int		i;
 	char	*dup_new;
 
+	i = 0;
 	if (!ft_strchr(new, '='))
+		return ;
+	l1 = key_size(new);
+	index = 0;
+	while (__environ[index]
+		&& ft_strncmp(__environ[index], new, max(l1, key_size(new))))
+		index++;
+	if (!__environ[index])
 		return ;
 	dup_new = ft_strdup(new);
 	collect_malloc(dup_new, ENV_CHECK);
@@ -57,7 +67,7 @@ void	change_var(char *new, int index)
 	__environ[index] = dup_new;
 }
 
-void	add_var(char ***env, char *new_var)
+void	add_var(char *new_var)
 {
 	int		i;
 	int		size;
@@ -70,35 +80,35 @@ void	add_var(char ***env, char *new_var)
 	collect_malloc(dup_new, ENV_CHECK);
 	new_env = malloc(sizeof(char *) * (size + 2));
 	collect_malloc(new_env, ENV_CHECK);
-	while ((*env)[i])
+	while (__environ[i])
 	{
-		new_env[i] = (*env)[i];
+		new_env[i] = __environ[i];
 		i++;
 	}
 	new_env[size] = dup_new;
 	new_env[size + 1] = NULL;
-	collect_malloc(*env, ENV_DELETE);
+	collect_malloc(__environ, ENV_DELETE);
 	__environ = new_env;
 }
 
-int	check_valid(char **args, int *c)
+int	export_add(char **argv)
 {
-	t_uint	i;
+	int		i;
+	int		index;
 
 	i = 0;
-	while (args[i])
+	while (argv[i])
 	{
-		if (!check_valid_variable(args[i]))
+		if (check_valid_variable(argv[i]))
 		{
-			if (c)
-			{
-				*c = 1;
-				print_err3("export", args[i], "not a valid identifier");
-			}
-			remove_invalid(args, i);
-			i = 0;
-			continue ;
+			index = check_exist_var(argv[i]);
+			if (index)
+				change_var(argv[i]);
+			else
+				add_var(argv[i]);
 		}
+		else
+			print_err3("export", argv[i], "not a valid identifier");
 		i++;
 	}
 	return (0);
