@@ -41,7 +41,6 @@ static t_bool	check_equal(char *var1, char *var2, t_uint l1)
 
 void	sort_env(char **new_env)
 {
-	char	*swap;
 	t_iter	i;
 	t_iter	j;
 	t_uint	l1;

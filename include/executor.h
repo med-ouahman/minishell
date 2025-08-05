@@ -73,6 +73,7 @@ int			is_path(char *pathname);
 char		*command_path(char *cmd);
 char		*get_next_path(char *path, int r);
 char		*getpath(int init);
+mode_t		get_file_type(char *__file_path);
 
 /* child process termination and exit status */
 

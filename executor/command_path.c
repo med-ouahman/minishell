@@ -33,6 +33,8 @@ static int	check_access(char **path, char *cmd)
 
 	if (!*cmd)
 		return (ENOENT);
+	if (!access(cmd, F_OK) && !S_ISREG(get_file_type(cmd)))
+		return (ENOENT);
 	next_path = get_next_path(getpath(0), 0);
 	while (next_path)
 	{
@@ -71,12 +73,12 @@ char	*command_path(char *cmd)
 	if (ENOENT == c)
 	{
 		access_exit_code(127, WRITE);
-		printf("minishell: %s: command not found\n", cmd);
+		print_err2(cmd, "command not found");
 	}
 	else if (EACCES == c)
 	{
 		access_exit_code(126, WRITE);
-		printf("minishell: %s: Permission denied\n", path);
+		print_err2(cmd, strerror(errno));
 	}
 	return (path);
 }

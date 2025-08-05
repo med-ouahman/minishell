@@ -23,7 +23,11 @@ char	*getpath(int init)
 
 static char	*reset(char *old_val, int *offset, int *null_pos)
 {
-	getpath(1)[*null_pos] = *old_val;
+	char	*path;
+
+	path = getpath(1);
+	if (path)
+		path[*null_pos] = *old_val;
 	*old_val = 0;
 	*offset = 0;
 	*null_pos = 0;
@@ -38,7 +42,7 @@ char	*get_next_path(char *path, int r)
 	int			start;
 	int			old_offset;
 
-	if (offset < 0 || r)
+	if (offset < 0 || r || !path)
 		return (reset(&old_val, &offset, &null_pos));
 	start = offset;
 	old_offset = offset;

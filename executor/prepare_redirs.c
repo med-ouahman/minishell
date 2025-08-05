@@ -71,7 +71,7 @@ static int	open_red(t_redir *redir)
 	return (fd);
 }
 
-static t_uint	sss(int *stdio, int fd, t_uint count, int pos)
+static t_uint	set_end(int *stdio, int fd, t_uint count, int pos)
 {
 	stdio[pos] = fd;
 	count--;
@@ -97,12 +97,12 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 			return (-1);
 		if ((redir->type == RED_INP || redir->type == RED_HERDOC) && in_count)
 		{
-			in_count = sss(stdio, fd, in_count, 0);
+			in_count = set_end(stdio, fd, in_count, 0);
 		}
 		else if ((redir->type == RED_OUT || redir->type == RED_APPOUT)
 			&& out_count)
 		{
-			out_count = sss(stdio, fd, out_count, 1);
+			out_count = set_end(stdio, fd, out_count, 1);
 		}
 		redirs = redirs->next;
 	}

@@ -22,22 +22,16 @@ static void	setup_exec_cb(t_exec_control_block *exec_cb)
 	reset_stdio(exec_cb->stdio);
 }
 
-void	reset_exec_cb(t_exec_control_block *exec_cb)
-{
-	free(exec_cb->pids);
-	exec_cb->pids = NULL;
-	exec_cb->curr_pid = 0;
-	exec_cb->pid_size = 0;
-	reset_stdio(exec_cb->stdio);
-}
-
 int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 {
 	int		pid;
 	int		stat;
 
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
+	{
+		close_stdio(exec_cb->stdio);
 		return (1);
+	}
 	if (!cmd->args)
 		return (0);
 	cmd->is_builtin = is_builtin(cmd->args->content);

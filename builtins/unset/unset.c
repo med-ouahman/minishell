@@ -15,12 +15,16 @@
 static t_bool	tobe_removed(char *var, char **argv)
 {
 	t_uint	l1;
+	t_uint	len;
 
 	l1 = key_size(var);
 	while (*argv)
 	{
-		if (!ft_strncmp(var, *argv, max(l1, key_size(*argv))))
+		len = ft_strlen(*argv);
+		if (!ft_strncmp(var, *argv, max(l1, len)) && len == l1)
+		{
 			return (true);
+		}
 		argv++;
 	}
 	return (false);
@@ -45,6 +49,7 @@ static void	realloc_env(t_uint size, t_uint rm_count)
 		}		
 		i++;
 	}
+	new_env[j] = NULL;
 	collect_malloc(__environ, ENV_DELETE);
 	__environ = new_env;
 }

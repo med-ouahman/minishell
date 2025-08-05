@@ -21,12 +21,13 @@ int	is_path(char *cmd)
 	return (0);
 }
 
-static mode_t	get_file_type(char *__file_path)
+mode_t	get_file_type(char *__file_path)
 {
 	struct stat	buf;
 	int			c;
 
 	c = stat(__file_path, &buf);
+	access_exit_code(0, WRITE);
 	if (0 > c)
 	{
 		access_exit_code(1, WRITE);
@@ -52,7 +53,7 @@ int	is_executable(char *__pathname)
 		}
 		else if (access(__pathname, X_OK))
 		{
-			print_err2(__pathname, "Permission denied");
+			print_err2(__pathname, strerror(errno));
 			access_exit_code(126, WRITE);
 			return (-1);
 		}
