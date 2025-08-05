@@ -93,8 +93,7 @@ int	export(char **args)
 		sort_env(tmp_env);
 		print_env(tmp_env);
 		collect_malloc(tmp_env, DELETE);
+		return (0);
 	}
-	else
-		export_add(args + 1);
-	return (0);
+	return (export_add(args + 1));
 }

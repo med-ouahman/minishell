@@ -23,6 +23,8 @@
 # include <sys/stat.h>
 
 # define OPEN_MODE 0644
+# define PERMISSION_DENIED 126
+# define NOT_FOUND 127
 
 typedef struct s_pipefd
 {

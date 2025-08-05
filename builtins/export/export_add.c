@@ -95,8 +95,10 @@ int	export_add(char **argv)
 {
 	int		i;
 	int		index;
+	int		c;
 
 	i = 0;
+	c = 0;
 	while (argv[i])
 	{
 		if (check_valid_variable(argv[i]))
@@ -108,8 +110,11 @@ int	export_add(char **argv)
 				add_var(argv[i]);
 		}
 		else
+		{
+			c = 1;
 			print_err3("export", argv[i], "not a valid identifier");
+		}
 		i++;
 	}
-	return (0);
+	return (c);
 }

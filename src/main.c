@@ -12,6 +12,14 @@
 
 #include "../include/minishell.h"
 
+static char	*get_prompt(void)
+{
+	if (access_exit_code(0, READ))
+	{
+		return (ERROR_PROMPT);
+	}
+	return (PROMPT);
+}
 static void	init(void)
 {
 	handle_signals();
@@ -23,7 +31,7 @@ static void	minishell(void)
 	char	*line;
 	t_list	*pipeline;
 
-	line = readline(PROMPT);
+	line = readline(get_prompt());
 	if (NULL == line)
 		cleanup(EXIT_SUCCESS);
 	if (*line)

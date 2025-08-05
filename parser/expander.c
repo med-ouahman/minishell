@@ -104,6 +104,7 @@ static void	remove_null_args(t_cmd *cmd)
 		{
 			tmp->next = args->next;
 			collect_malloc(args, DELETE);
+			args = tmp->next;
 		}
 	}
 }

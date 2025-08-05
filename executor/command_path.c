@@ -31,9 +31,8 @@ static int	check_access(char **path, char *cmd)
 {
 	char	*next_path;
 
-	if (!*cmd)
-		return (ENOENT);
-	if (!access(cmd, F_OK) && !S_ISREG(get_file_type(cmd)))
+	*path = NULL;
+	if (!*cmd || (!access(cmd, F_OK) && !S_ISREG(get_file_type(cmd))))
 		return (ENOENT);
 	next_path = get_next_path(getpath(0), 0);
 	while (next_path)
@@ -55,12 +54,36 @@ static int	check_access(char **path, char *cmd)
 	return (errno);
 }
 
+static	char	*is_path_unset(char *cmd)
+{
+	char	*path;
+
+	if (access(cmd, F_OK | X_OK) == 0)
+	{
+		path = ft_strjoin("./", cmd);
+		collect_malloc(cmd, DELETE);
+		collect_malloc(path, CHECK);
+		return (path);
+	}
+	else
+	{
+		if (errno == EACCES)
+			access_exit_code(NOT_FOUND, WRITE);
+		else if (errno == ENOENT)
+			access_exit_code(PERMISSION_DENIED, WRITE);
+		print_err2(cmd, strerror(errno));
+		return (NULL);
+	}
+	return (path);
+}
+
 char	*command_path(char *cmd)
 {
 	char	*path;
 	int		c;
 
-	path = NULL;
+	if (getenv("PATH") == NULL)
+		return (is_path_unset(cmd));
 	if (is_path(cmd))
 	{
 		if (!is_executable(cmd))
@@ -69,16 +92,16 @@ char	*command_path(char *cmd)
 	}
 	c = check_access(&path, cmd);
 	if (0 > c)
-		access_exit_code(1, WRITE);
+		access_exit_code(EXIT_FAILURE, WRITE);
 	if (ENOENT == c)
 	{
-		access_exit_code(127, WRITE);
+		access_exit_code(NOT_FOUND, WRITE);
 		print_err2(cmd, "command not found");
 	}
 	else if (EACCES == c)
 	{
-		access_exit_code(126, WRITE);
-		print_err2(cmd, strerror(errno));
+		access_exit_code(PERMISSION_DENIED, WRITE);
+		print_err2(path, strerror(errno));
 	}
 	return (path);
 }
