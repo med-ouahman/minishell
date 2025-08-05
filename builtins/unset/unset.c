@@ -26,44 +26,43 @@ static t_bool	tobe_removed(char *var, char **argv)
 	return (false);
 }
 
-static int	remove_vars(char **args, t_uint rm_count)
+static void	realloc_env(t_uint size, t_uint rm_count)
 {
 	char	**new_env;
-	t_uint	size;
-	t_uint	i;
-	t_uint	j;
+	t_iter	i;
+	t_iter	j;
 
-	size = size_env() - rm_count;
-	if (size < 0)
-		return (-1);
-	new_env = malloc((1 + size) * sizeof * new_env);
-	collect_malloc(new_env, ENV_CHECK);
 	i = 0;
 	j = 0;
-	while (__environ[i])
+	new_env = malloc((size - rm_count + 1) * sizeof * new_env);
+	collect_malloc(new_env, ENV_CHECK);
+	while (i < size)
 	{
-		if (!tobe_removed(__environ[i], args))
-			new_env[j++] = __environ[i];
-		else
-			collect_malloc(__environ[i], ENV_DELETE);
+		if (__environ[i])
+		{
+			new_env[j] = __environ[i];
+			j++;
+		}		
 		i++;
 	}
-	return (0);
+	collect_malloc(__environ, ENV_DELETE);
+	__environ = new_env;
 }
 
-static t_uint	remove_invalid(char **args)
+static t_uint	remove_invalid(char **args, t_uint env_size)
 {
-	t_uint	rm_count;
 	t_uint	i;
+	t_uint	rm_count;
 
 	i = 0;
 	rm_count = 0;
-	while (args[i])
+	while (i < env_size)
 	{
-		if (!check_valid_variable(args[i]) || !getenv(args[i]))
+		if (tobe_removed(__environ[i], args))
 		{
 			rm_count++;
-			args[i] = NULL;
+			collect_malloc(__environ[i], ENV_DELETE);
+			__environ[i] = NULL;
 		}
 		i++;
 	}
@@ -72,14 +71,16 @@ static t_uint	remove_invalid(char **args)
 
 int	unset(char **args)
 {
-	t_uint	count;
+	t_uint	env_size;
 	t_uint	rm_count;
 
 	args++;
 	if (!*args)
 		return (0);
-	count = array_size(args);
-	rm_count = remove_invalid(args);
-	remove_vars(args, rm_count);
+	env_size = size_env();
+	rm_count = remove_invalid(args, env_size);
+	if (rm_count == 0 || rm_count > env_size)
+		return (0);
+	realloc_env(env_size, rm_count);
 	return (0);
 }

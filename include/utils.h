@@ -33,6 +33,8 @@ typedef enum e_gb
 	DESTROY
 }	t_gb;
 
+typedef size_t			t_iter;
+
 typedef unsigned int	t_uint;
 
 typedef enum e_bool

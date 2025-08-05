@@ -29,42 +29,32 @@ static char	**step_copy(char **env)
 	return (new_env);
 }
 
-int	check_equal(char *var1, char *var2)
+static t_bool	check_equal(char *var1, char *var2, t_uint l1)
 {
-	int	eq1;
-	int	eq2;
+	t_uint	l2;
 
-	eq1 = ft_strchr(var1, '=') - var1;
-	if (eq1 < 0)
-		eq1 = ft_strlen(var1);
-	eq2 = ft_strchr(var2, '=') - var2;
-	if (eq2 < 0)
-		eq2 = ft_strlen(var2);
-	if (eq1 > eq2)
-		return (eq2 - 1);
-	return (eq1 - 1);
+	l2 = key_size(var2);
+	if (ft_strncmp(var1, var2, max(l1, l2)) > 0)
+		return (true);
+	return (false);
 }
 
 void	sort_env(char **new_env)
 {
 	char	*swap;
-	int		j;
-	int		i;
-	int		eq;
+	t_iter	i;
+	t_iter	j;
+	t_uint	l1;
 
 	i = 0;
 	while (new_env[i])
 	{
+		l1 = key_size(new_env[i]);
 		j = i + 1;
 		while (new_env[j])
 		{
-			eq = check_equal(new_env[i], new_env[j]);
-			if (ft_strncmp(new_env[i], new_env[j], eq) > 0)
-			{
-				swap = new_env[i];
-				new_env[i] = new_env[j];
-				new_env[j] = swap;
-			}
+			if (check_equal(new_env[i], new_env[j], l1))
+				swap_ptrs(new_env + i, new_env + j);
 			j++;
 		}
 		i++;
