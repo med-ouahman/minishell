@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 21:21:18 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 09:43:47 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:40:51 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*reset(char *old_val, int *offset, int *null_pos)
 
 char	*get_next_path(char *path, int r)
 {
-	static char	old_val;
+	static char	old_val; 
 	static int	offset;
 	static int	null_pos;
 	int			start;

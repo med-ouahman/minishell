@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 09:59:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/02 10:17:53 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:09:30 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,15 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	char	**args;
 
 	if (preserve_stdio(old, stdio) || dup_stdio(stdio))
-		return (1);
+		return (close_stdio(old), 1);
 	args = build_argument_list(cmd->args);
+	if (EXIT == cmd->is_builtin)
+		code = exit_(args);
+	access_exit_code(0, WRITE);
 	if (CD == cmd->is_builtin)
 		code = cd(args);
 	if (PWD == cmd->is_builtin)
 		code = pwd();
-	if (EXIT == cmd->is_builtin)
-		code = exit_(args);
 	if (ECHO == cmd->is_builtin)
 		code = echo(args);
 	if (EXPORT == cmd->is_builtin)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 02:17:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/06 02:17:17 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:29:35 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,5 @@ int	red_flags(int redir_type)
 {
 	if (redir_type == RED_OUT)
 		return (O_CREAT | O_WRONLY | O_TRUNC);
-	if (redir_type == RED_APPOUT)
-		return (O_CREAT | O_WRONLY | O_APPEND);
-	return (-1);
+	return (O_CREAT | O_WRONLY | O_APPEND);
 }
