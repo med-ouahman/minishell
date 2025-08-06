@@ -28,12 +28,12 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	int		stat;
 
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
+		return (1);
+	if (!cmd->args)
 	{
 		close_stdio(exec_cb->stdio);
-		return (1);
-	}
-	if (!cmd->args)
 		return (0);
+	}
 	cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
 	{

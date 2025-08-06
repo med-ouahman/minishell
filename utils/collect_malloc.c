@@ -65,7 +65,10 @@ static void	add_ptr(t_list **lst, t_list **env_list, void *ptr, int opt)
 	if (opt == ENV_CHECK)
 		to_add = env_list;
 	if (!ptr)
+	{
+		print_err1("out of memory!");
 		cleanup(EXIT_FAILURE);
+	}
 	node = ft_lstnew(ptr);
 	if (!node)
 	{

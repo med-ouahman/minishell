@@ -13,7 +13,7 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "./parser.h"
+# include "./utils.h"
 
 /* builtins */
 
@@ -27,6 +27,7 @@ int		export(char **args);
 
 /* buitlin utilities */
 
+void	change_var(char *new_var);
 int		check_valid_variable(char *str);
 void	dup_env(void);
 t_uint	size_env(void);

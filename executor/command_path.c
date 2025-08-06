@@ -82,14 +82,14 @@ char	*command_path(char *cmd)
 	char	*path;
 	int		c;
 
-	if (getenv("PATH") == NULL)
-		return (is_path_unset(cmd));
 	if (is_path(cmd))
 	{
 		if (!is_executable(cmd))
 			return (cmd);
 		return (NULL);
 	}
+	if (!getenv("PATH"))
+		return (is_path_unset(cmd));
 	c = check_access(&path, cmd);
 	if (0 > c)
 		access_exit_code(EXIT_FAILURE, WRITE);

@@ -17,9 +17,14 @@ int	pwd(void)
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
+	if (!cwd && errno == ENOMEM)
+	{
+		collect_malloc(NULL, DESTROY);
+		return (1);
+	}
 	if (!cwd)
 	{
-		print_file_error("pwd", strerror(errno));
+		print_err2("pwd", strerror(errno));
 		return (1);
 	}
 	printf("%s\n", cwd);

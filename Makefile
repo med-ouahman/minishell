@@ -2,6 +2,10 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
 
+RM = rm -f
+
+NAME = minishell
+
 # Define the directories for the different components of the project
 
 SRCS = src
@@ -57,12 +61,7 @@ PARSER_OBJS = $(PARSER_SRC:.c=.o)
 UTILS_OBJS = $(UTILS_SRC:.c=.o)
 WILDCARD_OBJS = $(WILDCARD_SRC:.c=.o)
 
-
 OBJS = $(SRCS_OBJS) $(BUILTINS_OBJS) $(EXECUTOR_OBJS) $(SIGNALS_OBJS) $(PARSER_OBJS) $(UTILS_OBJS) $(WILDCARD_OBJS)
-
-RM = rm -f
-
-NAME = minishell
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -70,15 +69,19 @@ NAME = minishell
 all: $(NAME)
 
 $(LIBFT):
+	@echo "compiling libft..."
 	@$(MAKE) -C $(LIBFT_DIR)
+	@echo "libft done!"
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(INCLUDE) -lreadline -o $(NAME)
 
 clean:
+	@$(MAKE) -C $(LIBFT_DIR) clean
 	@$(RM) $(OBJS)
 
 fclean: clean
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@$(RM) $(NAME)
 
 re: fclean all

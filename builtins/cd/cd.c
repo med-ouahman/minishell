@@ -44,7 +44,7 @@ static int	change_dir(char *dirname)
 	cwd = getcwd(NULL, 0);
 	if (!cwd && ENOMEM == errno)
 	{
-		print_err2("cd", "out of memory");
+		print_err2("cd", strerror(errno));
 		cleanup(EXIT_FAILURE);
 	}
 	if (!cwd)
@@ -71,7 +71,7 @@ int	cd(char **args)
 	}
 	if (args[2] != NULL)
 	{
-		print_file_error("cd", "too many arguments");
+		print_err2("cd", "too many arguments");
 		return (1);
 	}
 	return (change_dir(args[1]));

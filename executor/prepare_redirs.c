@@ -12,98 +12,42 @@
 
 #include "../include/executor.h"
 
-static t_uint	get_red_count(t_list *redirs, int opt)
+static void	get_last_red(t_list *redirs, t_redir **last_in, t_redir **last_out)
 {
-	t_uint	in_count;
-	t_uint	out_count;
-	int		type;
+	t_redir	*redir;
 
-	in_count = 0;
-	out_count = 0;
+	*last_in = NULL;
+	*last_out = NULL;
 	while (redirs)
 	{
-		type = ((t_redir *)redirs->content)->type;
-		if (type == RED_INP || type == RED_HERDOC)
-			in_count++;
-		else if (type == RED_OUT || type == RED_APPOUT)
-			out_count++;
+		redir = redirs->content;
+		if (redir->type == RED_INP || redir->type == RED_HERDOC)
+			*last_in = redir;
+		else if (redir->type == RED_OUT || redir->type == RED_APPOUT)
+			*last_out = redir;
 		redirs = redirs->next;
 	}
-	if (opt)
-		return (out_count);
-	return (in_count);
-}
-
-/*
- Do not confuse this function with Red flags. red is short for redirection.
-*/
-
-static int	red_flags(int redir_type)
-{
-	if (redir_type == RED_OUT)
-		return (O_CREAT | O_WRONLY | O_TRUNC);
-	if (redir_type == RED_APPOUT)
-		return (O_CREAT | O_WRONLY | O_APPEND);
-	return (-1);
-}
-
-static int	open_red(t_redir *redir)
-{
-	int	fd;
-
-	fd = 0;
-	if (AMBIGUES == redir->type)
-	{
-		print_err2(redir->file, "ambiguous redirect");
-		return (-1);
-	}
-	if (redir->type == RED_HERDOC)
-		return (redir->heredoc_fd);
-	else if (redir->type == RED_INP)
-		fd = open(redir->file, O_RDONLY);
-	else if (redir->type == RED_OUT || redir->type == RED_APPOUT)
-		fd = open(redir->file, red_flags(redir->type), OPEN_MODE);
-	if (fd < 0)
-	{
-		print_err2(redir->file, strerror(errno));
-		return (-1);
-	}
-	return (fd);
-}
-
-static t_uint	set_end(int *stdio, int fd, t_uint count, int pos)
-{
-	stdio[pos] = fd;
-	count--;
-	if (count)
-		close(fd);
-	return (count);
 }
 
 int	prepare_redirs(t_list *redirs, int *stdio)
 {
 	t_redir	*redir;
+	t_redir	*last_in;
+	t_redir	*last_out;
 	int		fd;
-	t_uint	in_count;
-	t_uint	out_count;
 
-	in_count = get_red_count(redirs, 0);
-	out_count = get_red_count(redirs, 1);
+	get_last_red(redirs, &last_in, &last_out);
 	while (redirs)
 	{
-		redir = (t_redir *)redirs->content;
+		redir = redirs->content;
 		fd = open_red(redir);
 		if (fd < 0)
 			return (-1);
-		if ((redir->type == RED_INP || redir->type == RED_HERDOC) && in_count)
-		{
-			in_count = set_end(stdio, fd, in_count, 0);
-		}
-		else if ((redir->type == RED_OUT || redir->type == RED_APPOUT)
-			&& out_count)
-		{
-			out_count = set_end(stdio, fd, out_count, 1);
-		}
+		stdio[(redir->type == RED_OUT || redir->type == RED_APPOUT)] = fd;
+		if (is_redin(redir->type) && redir != last_in)
+			close(fd);
+		else if (is_redout(redir->type) && redir != last_out)
+			close(fd);
 		redirs = redirs->next;
 	}
 	return (0);

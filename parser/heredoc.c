@@ -92,8 +92,8 @@ int	parser_heredoc(char *delim)
 		return (print_err1(strerror(errno)), -1);
 	if (!pid)
 	{
-		read_heredoc(delim, write_fd);
 		close(read_fd);
+		read_heredoc(delim, write_fd);
 		close(write_fd);
 		cleanup(EXIT_SUCCESS);
 	}

@@ -49,8 +49,6 @@ void	print_err_syntax(char *msg);
 void	print_err1(char *msg);
 void	print_err2(char *cmd, char *msg);
 void	print_err3(char *cmd, char *arg, char *msg);
-void	print_file_error(char *filename, char *__err_msg);
-void	print_file_error2(char *filename, char *__err_msg, char *sda);
 void	print_list(t_list *list);
 
 /* garbage collection */

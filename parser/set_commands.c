@@ -52,7 +52,7 @@ static t_list	*add_next_cmd(t_list **cmd, t_token *token)
 
 	new_cmd = ft_calloc(1, sizeof(t_cmd));
 	collect_malloc(new_cmd, CHECK);
-	new_cmd->is_builtin = NOT;
+	new_cmd->is_builtin = 0;
 	new_noued = ft_lstnew(new_cmd);
 	collect_malloc(new_noued, CHECK);
 	if (!(*cmd))

@@ -12,6 +12,25 @@
 
 #include "../include/executor.h"
 
+int	is_builtin(char *command)
+{
+	if (!ft_strcmp("cd", command))
+		return (CD);
+	else if (!ft_strcmp("echo", command))
+		return (ECHO);
+	else if (!ft_strcmp("exit", command))
+		return (EXIT);
+	else if (!ft_strcmp("export", command))
+		return (EXPORT);
+	else if (!ft_strcmp("env", command))
+		return (ENV);
+	else if (!ft_strcmp("pwd", command))
+		return (PWD);
+	else if (!ft_strcmp("unset", command))
+		return (UNSET);
+	return (NOT);
+}
+
 int	run_builtin_in_subshell(t_cmd *builtin_cmd, t_exec_control_block *exec_cb)
 {
 	int		status;

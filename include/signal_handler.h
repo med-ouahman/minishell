@@ -15,8 +15,7 @@
 
 # include <signal.h>
 # include <readline/readline.h>
-# include "../include/parser.h"
-# include <unistd.h>
+# include "./utils.h"
 
 void	rl_new_prompt(void);
 void	sigint_handler(int signum);

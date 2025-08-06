@@ -13,7 +13,7 @@
 #ifndef PARSER_H
 # define PARSER_H
 
-# include "utils.h"
+# include "./utils.h"
 # include <dirent.h>
 # include <wait.h>
 # include <fcntl.h>
@@ -34,18 +34,6 @@ typedef enum s_enum_types
 	SPLIT,
 	JOIN
 }	t_enum_types;
-
-typedef enum s_enum_builtins
-{
-	NOT,
-	CD,
-	ECHO,
-	EXIT,
-	PWD,
-	ENV,
-	EXPORT,
-	UNSET
-}	t_enum_builtins;
 
 typedef struct s_info
 {

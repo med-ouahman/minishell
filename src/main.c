@@ -14,12 +14,13 @@
 
 static char	*get_prompt(void)
 {
-	if (access_exit_code(0, READ))
+	if (access_exit_code(0, READ) && access_exit_code(0, READ) != 130)
 	{
 		return (ERROR_PROMPT);
 	}
 	return (PROMPT);
 }
+
 static void	init(void)
 {
 	handle_signals();
@@ -33,7 +34,7 @@ static void	minishell(void)
 
 	line = readline(get_prompt());
 	if (NULL == line)
-		cleanup(EXIT_SUCCESS);
+		cleanup(access_exit_code(0, READ));
 	if (*line)
 		add_history(line);
 	pipeline = parser(line);
@@ -45,6 +46,7 @@ static void	minishell(void)
 int	main(void)
 {
 	init();
+	change_var("SHELL=minishell");
 	while (true)
 	{
 		minishell();

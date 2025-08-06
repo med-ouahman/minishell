@@ -62,11 +62,11 @@ static void	exit_2(char **args)
 	arg = args[1];
 	if (check_arg(arg))
 	{
-		print_file_error2("exit", arg, "numeric argument required");
+		print_err3("exit", arg, "numeric argument required");
 		cleanup(2);
 	}
 	else
-		print_file_error("exit", "too may arguments");
+		print_err2("exit", "too may arguments");
 }
 
 int	exit_(char **args)

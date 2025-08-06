@@ -22,18 +22,18 @@ AR = ar rcs
 RM = rm -f
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(SRC_OBJS)
-	$(AR) $(NAME) $(SRC_OBJS)
+	@$(AR) $(NAME) $(SRC_OBJS)
 
 all: $(NAME)
 	
 clean:
-	$(RM) $(SRC_OBJS)
+	@$(RM) $(SRC_OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 

@@ -13,7 +13,6 @@
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
-# include "./utils.h"
 # include "./parser.h"
 # include <sys/wait.h>
 # include "./builtins.h"
@@ -41,6 +40,18 @@ typedef struct s_exec_cb
 	int			stdio[2];
 }	t_exec_control_block;
 
+typedef enum s_enum_builtins
+{
+	NOT,
+	CD,
+	ECHO,
+	EXIT,
+	PWD,
+	ENV,
+	EXPORT,
+	UNSET
+}	t_enum_builtins;
+
 /* stdio */
 
 int			close_stdio(int *stdio);
@@ -62,6 +73,10 @@ int			run_builtin_in_subshell(t_cmd *builtin_cmd,
 int			prepare_redirs(t_list *redirs, int *stdio);
 int			execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb);
 int			execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb);
+int			is_redout(int type);
+int			is_redin(int type);
+int			open_red(t_redir *redir);
+int			red_flags(int redir_type);
 
 /* pipes */
 
