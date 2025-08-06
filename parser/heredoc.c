@@ -14,7 +14,7 @@
 
 #define LENGHT 20
 
-static void	create_heredoc_name(char *file_name)
+static int	create_heredoc_name(char *file_name)
 {
 	char	random_c[LENGHT + 1];
 	int		i;
@@ -24,17 +24,20 @@ static void	create_heredoc_name(char *file_name)
 	if (fd < 0)
 	{
 		print_err1(strerror(errno));
-		cleanup(EXIT_FAILURE);
+		return (-1);
 	}
 	i = 0;
 	while (i < LENGHT)
 	{
-		read (fd, random_c, LENGHT);
+		read(fd, random_c, LENGHT);
+		if ('/' == random_c[i])
+			continue ;
 		file_name[i] = random_c[i];
 		i++;
 	}
 	file_name[i] = '\0';
 	close(fd);
+	return (0);
 }
 
 static int	heredoc_exit(pid_t pid)
@@ -58,13 +61,13 @@ static int	heredoc_exit(pid_t pid)
 	return (0);
 }
 
-static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
+static int	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 {
 	*write_fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
 	if (*write_fd < 0)
 	{
 		print_err2(file_name, strerror(errno));
-		cleanup(EXIT_FAILURE);
+		return (-1);
 	}
 	*read_fd = open(file_name, O_RDONLY);
 	if (*read_fd < 0)
@@ -72,9 +75,10 @@ static void	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 		print_err1(strerror(errno));
 		close(*write_fd);
 		unlink(file_name);
-		cleanup(EXIT_FAILURE);
+		return (-1);
 	}
 	unlink(file_name);
+	return (0);
 }
 
 int	parser_heredoc(char *delim)
@@ -84,8 +88,10 @@ int	parser_heredoc(char *delim)
 	int		write_fd;
 	int		read_fd;
 
-	create_heredoc_name(file);
-	create_heredoc_file(file, &write_fd, &read_fd);
+	if (create_heredoc_name(file))
+		return (-1);
+	if (create_heredoc_file(file, &write_fd, &read_fd))
+		return (-1);
 	ignore_signals();
 	pid = fork();
 	if (pid < 0)
