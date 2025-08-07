@@ -49,13 +49,14 @@ static int	exit_nbr(const char *nptr)
 		nb = nb * 10 + (nptr[i] - 48);
 		if (nb > (size_t)LONG_MAX + 1)
 			return (-1);
+		printf("%zu\n", nb);
 		i++;
 	}
 	nb = (nb * sign) % 256;
 	return (nb);
 }
 
-static void	exit_2(char **args)
+static int	exit_2(char **args)
 {
 	char	*arg;
 
@@ -66,7 +67,11 @@ static void	exit_2(char **args)
 		cleanup(2);
 	}
 	else
+	{
 		print_err2("exit", "too may arguments");
+		return (1);
+	}
+	return (0);
 }
 
 int	exit_(char **args)
@@ -88,6 +93,5 @@ int	exit_(char **args)
 		}
 		cleanup(exit_status);
 	}
-	exit_2(args);
-	return (0);
+	return (exit_2(args));
 }
