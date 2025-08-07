@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 14:22:40 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:00:06 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	init(void)
 {
 	handle_signals();
 	dup_env();
+	change_var("SHELL=minishell");
 }
 
 static void	minishell(void)
@@ -46,7 +47,6 @@ static void	minishell(void)
 int	main(void)
 {
 	init();
-	change_var("SHELL=minishell");
 	while (true)
 	{
 		minishell();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_redirs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 20:48:34 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 11:06:51 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:37:19 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	prepare_redirs(t_list *redirs, int *stdio)
 		fd = open_red(redir);
 		if (fd < 0)
 			return (-1);
-		stdio[(redir->type == RED_OUT || redir->type == RED_APPOUT)] = fd;
+		stdio[is_redout(redir->type)] = fd;
 		if (is_redin(redir->type) && redir != last_in)
 			close(fd);
 		else if (is_redout(redir->type) && redir != last_out)

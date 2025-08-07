@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stdio.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:05:38 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/01 21:03:41 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:54:32 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	reset_stdio(int *stdio)
 
 int	close_stdio(int *stdio)
 {
-	if (stdio[0] != STDIN_FILENO)
+	if (stdio[0] != STDIN_FILENO && stdio[0] != -1)
 	{
 		close(stdio[0]);
 	}
-	if (stdio[1] != STDOUT_FILENO)
+	if (stdio[1] != STDOUT_FILENO && stdio[1] != -1)
 	{
 		close(stdio[1]);
 	}
@@ -60,6 +60,7 @@ int	dup_stdio(int *stdio)
 	{
 		if (0 > dup2(stdio[1], STDOUT_FILENO))
 		{
+			close(stdio[0]);
 			print_err1(strerror(errno));
 			return (-1);
 		}

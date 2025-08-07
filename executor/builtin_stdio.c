@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_stdio.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:07:58 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/01 12:12:42 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 09:52:40 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	preserve_stdio(int *old_stdio, int *stdio)
 		old_stdio[1] = dup(STDOUT_FILENO);
 		if (old_stdio[1] < 0)
 		{
+			close(old_stdio[0]);
 			print_err1(strerror(errno));
 			return (-1);
 		}

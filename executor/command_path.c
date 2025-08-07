@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/06 15:15:21 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 10:55:05 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	check_access(char **path, char *cmd)
 		{
 			if (!access(*path, X_OK))
 			{
-				get_next_path(getpath(1), 1);
+				get_next_path(NULL, 1);
 				return (0);
 			}
 			return (errno);
@@ -60,17 +60,15 @@ static	char	*is_path_unset(char *cmd)
 
 	if (access(cmd, F_OK | X_OK) == 0)
 	{
-		path = ft_strjoin("./", cmd);
-		collect_malloc(cmd, DELETE);
-		collect_malloc(path, CHECK);
+		path = ft_join("./", 0, cmd, 1);
 		return (path);
 	}
 	else
 	{
 		if (errno == EACCES)
-			access_exit_code(NOT_FOUND, WRITE);
-		else if (errno == ENOENT)
 			access_exit_code(PERMISSION_DENIED, WRITE);
+		else if (errno == ENOENT)
+			access_exit_code(NOT_FOUND, WRITE);
 		print_err2(cmd, strerror(errno));
 		return (NULL);
 	}

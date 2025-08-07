@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_path2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 02:55:16 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/31 02:55:19 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/06 11:04:20 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int	is_path(char *cmd)
 {
 	if (!ft_strncmp(cmd, "./", 2) || ft_strchr(cmd, '/'))
-		return (1);
-	if (*cmd == '/')
 		return (1);
 	return (0);
 }
@@ -27,7 +25,6 @@ mode_t	get_file_type(char *__file_path)
 	int			c;
 
 	c = stat(__file_path, &buf);
-	access_exit_code(0, WRITE);
 	if (0 > c)
 	{
 		access_exit_code(1, WRITE);
