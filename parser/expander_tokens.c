@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:50 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/03 06:44:13 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:02:28 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rm_quote(char *str)
 {
-	int		i;
+	t_ttt	i;
 
 	i = 0;
 	while (str[i + 2])
@@ -29,7 +29,7 @@ t_token	*new_tokens_expanded(t_token *token)
 {
 	t_token	*token_split;
 	t_info	info;
-	int		i;
+	t_ttt	i;
 
 	i = 0;
 	token_split = NULL;

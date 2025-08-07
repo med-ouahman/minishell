@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/05 14:35:31 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 14:44:13 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:07:36 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		echo(char **args);
 int		exit_(char **args);
 int		pwd(void);
 int		unset(char **args);
-int		env(void);
+int	    env(char **args);
 int		export(char **args);
 
 /* buitlin utilities */

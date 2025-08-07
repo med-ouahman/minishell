@@ -6,19 +6,19 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/03 06:25:17 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:01:10 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-int	check_for_expand(char *input, int i)
+t_ttt	check_for_expand(char *input, t_ttt i)
 {
 	if (input[i] != '$')
 		return (0);
 	i++;
 	if (input[i] == '?')
-		return (2);
+		return (i + 1);
 	if (!ft_isalpha(input[i]) && input[i] != '_')
 		return (0);
 	while (ft_isalnum(input[i]) || input[i] == '_')
@@ -28,7 +28,7 @@ int	check_for_expand(char *input, int i)
 
 t_token	*split_token(char *str)
 {
-	int		i;
+	t_ttt	i;
 	t_token	*tokens;
 	t_info	info;
 
@@ -38,38 +38,14 @@ t_token	*split_token(char *str)
 	{
 		read_token_token(str, &info, &i);
 		add_token(&tokens, str, info);
-		if (info.type == AMBIGUES)
-			i = check_for_expand(str, info.start);
-		else if (info.type != NO_QUOTE)
-			i = info.end;
+		i = info.end;
 	}
 	return (tokens);
 }
 
-int	split_new_token(char *token)
-{
-	t_info	info;
-	int		i;
-
-	i = 0;
-	ft_memset(&info, 0, sizeof(t_info));
-	while (token[i])
-	{
-		if (token[i] == '"')
-			info.is_dquote = !info.is_dquote;
-		else if (is_space(token[i]) && !info.is_dquote)
-		{
-			while (is_space(token[i]))
-				i++;
-			if (token[i])
-				return (1);
-			else
-				return (0);
-		}
-		i++;
-	}
-	return (0);
-}
+		// if (info.type == AMBIGUES)
+		// 	i = check_for_expand(str, info.start);
+		// else if (info.type != NO_QUOTE)
 
 void	check_join_split(t_token *token)
 {

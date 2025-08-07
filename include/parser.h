@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/03 06:44:32 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:01:17 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ typedef enum s_enum_types
 	JOIN
 }	t_enum_types;
 
+typedef size_t	t_ttt;
+
 typedef struct s_info
 {
 	int		type;
-	int		start;
-	int		end;
+	t_ttt	start;
+	t_ttt	end;
 	char	is_squote;
 	char	is_dquote;
 }	t_info;
@@ -70,14 +72,14 @@ typedef struct s_cmd
 
 int		is_quote(char c);
 int		is_space(char c);
-int		is_operator(char *input, int *i, int flag);
+int		is_operator(char *input, t_ttt *i, int flag);
 int		is_redirection(t_token *token);
 
 /* tokenizing */
 
 t_token	*get_tokens(char *input);
 int		add_token(t_token **tokens, char *input, t_info info);
-void	read_token_token(char *input, t_info *info, int *i);
+void	read_token_token(char *input, t_info *info, t_ttt *i);
 void	split_token_dquote(t_token **side_tokens, char *input);
 
 /* parser */
@@ -92,9 +94,8 @@ t_list	*set_cmd(t_token *token);
 int		expand(t_list *cmd);
 void	split_after_expand(t_token *tokens);
 void	check_join_split(t_token *token);
-int		split_new_token(char *token);
 t_token	*split_token(char *str);
-int		check_for_expand(char *input, int i);
+t_ttt	check_for_expand(char *input, t_ttt i);
 void	join_var_expanded(t_token *tokens);
 void	rm_quote(char *str);
 void	expand_token_dqoute(t_token *token);

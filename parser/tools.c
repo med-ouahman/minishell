@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:30 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 11:49:09 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:17:12 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	is_space(char c)
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-int	is_operator(char *input, int *i, int flag)
+int	is_operator(char *input, t_ttt *i, int flag)
 {
 	static char	oper[6][3] = {"|", ">>", "<<", ">", "<"};
 	static int	type[6] = {PIPE, RED_APPOUT, RED_HERDOC, RED_OUT, RED_INP};

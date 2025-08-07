@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:51:06 by mouahman          #+#    #+#             */
-/*   Updated: 2025/06/27 13:30:12 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:28:40 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ static int	change_dir(char *dirname)
 		cleanup(EXIT_FAILURE);
 	}
 	if (!cwd)
-		return (print_err2("cd", strerror(errno)), 1);
+	{
+		print_err3("cd", "getcwd: cannot access parent directories",
+			strerror(errno));
+		return (1);
+	}///////////////////////
 	if (chdir(dirname))
 	{
 		print_err3("cd", dirname, strerror(errno));

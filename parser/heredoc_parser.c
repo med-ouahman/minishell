@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:01 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/31 06:01:56 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:14:49 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	update_content(char **content, char *input, t_info info)
 	collect_malloc(str1, DELETE);
 }
 
-static void	jobe_while(char *input, char **content, int *i, t_info *info)
+static void	jobe_while(char *input, char **content, t_ttt*i, t_info *info)
 {
 	char	*tmp;
 
@@ -66,7 +66,7 @@ char	*ft_join(char *str1, int free1, char *str2, int free2)
 
 char	*parser_line(char *input, int _expand)
 {
-	int		i;
+	t_ttt	i;
 	char	*content;
 	char	*tmp;
 	t_info	info;

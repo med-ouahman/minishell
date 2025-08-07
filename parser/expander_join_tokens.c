@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/03 06:42:30 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:14:46 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_ambiguous(t_redir *redir, t_token *token)
 
 int	check_last_token_unexpanded(t_token *tokens)
 {
-	int	i;
+	t_ttt	i;
 
 	while (tokens->next)
 		tokens = tokens->next;

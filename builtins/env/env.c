@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:23:34 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/05 16:28:56 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:07:11 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,16 @@ static int	check(char *s)
 	return (0);
 }
 
-int	env(void)
+int	env(char **args)
 {
 	t_uint	i;
 
 	i = 0;
+	if (args[1])
+	{
+		print_err2("env", "too many arguments");
+		return (1);
+	}
 	while (__environ[i])
 	{
 		if (check(__environ[i]))

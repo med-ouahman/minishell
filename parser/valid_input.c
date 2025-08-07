@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:34 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 11:48:39 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:14:51 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_close_quote(t_token *token)
 {
-	int		i;
+	t_ttt	i;
 	char	is_squote;
 	char	is_dquote;
 

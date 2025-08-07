@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 09:59:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/06 11:09:30 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 05:08:23 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	if (UNSET == cmd->is_builtin)
 		code = unset(args);
 	if (ENV == cmd->is_builtin)
-		code = env();
+		code = env(args);
 	restore_stdio(old);
 	return (code);
 }

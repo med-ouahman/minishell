@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:15 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/03 06:06:49 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:18:43 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	add_token(t_token **tokens, char *input, t_info info)
 	return (0);
 }
 
-static void	read_token_input(char *input, t_info *info, int *i)
+static void	read_token_input(char *input, t_info *info, t_ttt*i)
 {
 	info->start = *i;
 	info->type = WORD;
@@ -66,7 +66,7 @@ static void	read_token_input(char *input, t_info *info, int *i)
 
 void	split_token_dquote(t_token **side_tokens, char *input)
 {
-	int		i;
+	t_ttt	i;
 	t_info	info;
 
 	i = 0;
@@ -93,7 +93,7 @@ void	split_token_dquote(t_token **side_tokens, char *input)
 	add_token(side_tokens, input, info);
 }
 
-void	read_token_token(char *input, t_info *info, int *i)
+void	read_token_token(char *input, t_info *info, t_ttt *i)
 {
 	info->start = *i;
 	if (input[*i] == '\'')
@@ -122,7 +122,7 @@ t_token	*get_tokens(char *input)
 {
 	t_token	*tokens;
 	t_info	info;
-	int		i;
+	t_ttt	i;
 
 	i = 0;
 	tokens = NULL;

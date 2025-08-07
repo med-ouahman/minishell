@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:04 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 06:32:53 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/07 04:14:50 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	remove_quote(char *str)
 {
 	int		count;
-	int		i;
+	t_ttt	i;
 	char	quote;
 
 	i = 0;
