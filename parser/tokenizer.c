@@ -38,7 +38,7 @@ int	add_token(t_token **tokens, char *input, t_info info)
 	return (0);
 }
 
-static void	read_token_input(char *input, t_info *info, t_ttt*i)
+static void	read_token_input(char *input, t_info *info, size_t*i)
 {
 	info->start = *i;
 	info->type = WORD;
@@ -66,7 +66,7 @@ static void	read_token_input(char *input, t_info *info, t_ttt*i)
 
 void	split_token_dquote(t_token **side_tokens, char *input)
 {
-	t_ttt	i;
+	size_t	i;
 	t_info	info;
 
 	i = 0;
@@ -93,7 +93,7 @@ void	split_token_dquote(t_token **side_tokens, char *input)
 	add_token(side_tokens, input, info);
 }
 
-void	read_token_token(char *input, t_info *info, t_ttt *i)
+void	read_token_token(char *input, t_info *info, size_t *i)
 {
 	info->start = *i;
 	if (input[*i] == '\'')
@@ -122,7 +122,7 @@ t_token	*get_tokens(char *input)
 {
 	t_token	*tokens;
 	t_info	info;
-	t_ttt	i;
+	size_t	i;
 
 	i = 0;
 	tokens = NULL;

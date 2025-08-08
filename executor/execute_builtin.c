@@ -50,8 +50,7 @@ int	run_builtin_in_subshell(t_cmd *builtin_cmd, t_exec_control_block *exec_cb)
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 		cleanup(status);
 	}
-	exec_cb->pids[exec_cb->curr_pid] = pid;
-	exec_cb->curr_pid++;
+	exec_cb->pids[exec_cb->curr_pid++] = pid;
 	close_stdio(exec_cb->stdio);
 	return (0);
 }

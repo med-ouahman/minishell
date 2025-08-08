@@ -39,7 +39,7 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
 		return (close_stdio(exec_cb->stdio), 1);
 	if (!cmd->args)
-		return (close_stdio(exec_cb->stdio));
+		return (close_stdio(exec_cb->stdio), 0);
 	cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
 	{
@@ -47,6 +47,7 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 			write(2, "exit\n", 5);
 		return (execute_builtin(cmd, exec_cb->stdio));
 	}
+	exec_cb->pids = &pid;
 	if (simple_command(cmd, exec_cb))
 		return (access_exit_code(0, READ));
 	stat = wait_children(exec_cb->pids, 1);

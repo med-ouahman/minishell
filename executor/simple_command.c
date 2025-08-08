@@ -14,6 +14,8 @@
 
 static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 {
+	if (!path)
+		cleanup(access_exit_code(0, READ));
 	default_signals();
 	if (dup_stdio(exec_cb->stdio))
 		cleanup(EXIT_FAILURE);
@@ -33,8 +35,6 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 		return (0);
 	args = build_argument_list(cmd->args);
 	path = command_path(args[0]);
-	if (!path)
-		return (access_exit_code(0, READ));
 	ignore_signals();
 	pid = fork();
 	if (0 > pid)

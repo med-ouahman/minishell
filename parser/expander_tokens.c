@@ -14,7 +14,7 @@
 
 void	rm_quote(char *str)
 {
-	t_ttt	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i + 2])
@@ -29,7 +29,7 @@ t_token	*new_tokens_expanded(t_token *token)
 {
 	t_token	*token_split;
 	t_info	info;
-	t_ttt	i;
+	size_t	i;
 
 	i = 0;
 	token_split = NULL;

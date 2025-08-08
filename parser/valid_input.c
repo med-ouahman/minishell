@@ -14,7 +14,7 @@
 
 static int	check_close_quote(t_token *token)
 {
-	t_ttt	i;
+	size_t	i;
 	char	is_squote;
 	char	is_dquote;
 

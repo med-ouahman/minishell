@@ -22,7 +22,7 @@ int	is_space(char c)
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-int	is_operator(char *input, t_ttt *i, int flag)
+int	is_operator(char *input, size_t *i, int flag)
 {
 	static char	oper[6][3] = {"|", ">>", "<<", ">", "<"};
 	static int	type[6] = {PIPE, RED_APPOUT, RED_HERDOC, RED_OUT, RED_INP};

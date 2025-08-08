@@ -21,6 +21,8 @@
         "wait.h": "c",
         "a.out.h": "c",
         "unistd.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "fcntl.h": "c",
+        "limits.h": "c"
     }
 }

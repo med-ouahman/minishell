@@ -1,0 +1,157 @@
+execve("/usr/bin/bash", ["bash", "-c", "nonexistent_command"], 0x7fffea32d978 /* 49 vars */) = 0
+brk(NULL)                               = 0x55f50226f000
+arch_prctl(0x3001 /* ARCH_??? */, 0x7ffd58234660) = -1 EINVAL (Invalid argument)
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7cfd3bdf6000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=87988, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 87988, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7cfd3bde0000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libtinfo.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\0\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0\0\0\0\0\0\0\0\0"..., 832) = 832
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=200136, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 203040, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7cfd3bdae000
+mmap(0x7cfd3bdbc000, 69632, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0xe000) = 0x7cfd3bdbc000
+mmap(0x7cfd3bdcd000, 57344, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1f000) = 0x7cfd3bdcd000
+mmap(0x7cfd3bddb000, 20480, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x2c000) = 0x7cfd3bddb000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
+read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0P\237\2\0\0\0\0\0"..., 832) = 832
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+pread64(3, "\4\0\0\0 \0\0\0\5\0\0\0GNU\0\2\0\0\300\4\0\0\0\3\0\0\0\0\0\0\0"..., 48, 848) = 48
+pread64(3, "\4\0\0\0\24\0\0\0\3\0\0\0GNU\0\325\31p\226\367\t\200\30)\261\30\257\33|\366c"..., 68, 896) = 68
+newfstatat(3, "", {st_mode=S_IFREG|0755, st_size=2220400, ...}, AT_EMPTY_PATH) = 0
+pread64(3, "\6\0\0\0\4\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0@\0\0\0\0\0\0\0"..., 784, 64) = 784
+mmap(NULL, 2264656, PROT_READ, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = 0x7cfd3ba00000
+mprotect(0x7cfd3ba28000, 2023424, PROT_NONE) = 0
+mmap(0x7cfd3ba28000, 1658880, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x28000) = 0x7cfd3ba28000
+mmap(0x7cfd3bbbd000, 360448, PROT_READ, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1bd000) = 0x7cfd3bbbd000
+mmap(0x7cfd3bc16000, 24576, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x215000) = 0x7cfd3bc16000
+mmap(0x7cfd3bc1c000, 52816, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7cfd3bc1c000
+close(3)                                = 0
+mmap(NULL, 12288, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x7cfd3bdab000
+arch_prctl(ARCH_SET_FS, 0x7cfd3bdab740) = 0
+set_tid_address(0x7cfd3bdaba10)         = 461822
+set_robust_list(0x7cfd3bdaba20, 24)     = 0
+rseq(0x7cfd3bdac0e0, 0x20, 0, 0x53053053) = 0
+mprotect(0x7cfd3bc16000, 16384, PROT_READ) = 0
+mprotect(0x7cfd3bddb000, 16384, PROT_READ) = 0
+mprotect(0x55f4e2818000, 16384, PROT_READ) = 0
+mprotect(0x7cfd3be30000, 8192, PROT_READ) = 0
+prlimit64(0, RLIMIT_STACK, NULL, {rlim_cur=8192*1024, rlim_max=RLIM64_INFINITY}) = 0
+munmap(0x7cfd3bde0000, 87988)           = 0
+openat(AT_FDCWD, "/dev/tty", O_RDWR|O_NONBLOCK) = 3
+close(3)                                = 0
+getrandom("\xd9\xc9\xcc\x78\x37\x3b\xce\x6e", 8, GRND_NONBLOCK) = 8
+brk(NULL)                               = 0x55f50226f000
+brk(0x55f502290000)                     = 0x55f502290000
+openat(AT_FDCWD, "/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=5475184, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 5475184, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7cfd3b400000
+close(3)                                = 0
+openat(AT_FDCWD, "/usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache", O_RDONLY) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=27002, ...}, AT_EMPTY_PATH) = 0
+mmap(NULL, 27002, PROT_READ, MAP_SHARED, 3, 0) = 0x7cfd3bdef000
+close(3)                                = 0
+futex(0x7cfd3bc1ba6c, FUTEX_WAKE_PRIVATE, 2147483647) = 0
+getuid()                                = 101046
+getgid()                                = 4224
+geteuid()                               = 101046
+getegid()                               = 4224
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+ioctl(-1, TIOCGPGRP, 0x7ffd58234554)    = -1 EBADF (Bad file descriptor)
+sysinfo({uptime=146291, loads=[9792, 21888, 15680], totalram=16435818496, freeram=4006678528, sharedram=912138240, bufferram=40251392, totalswap=4294963200, freeswap=4294963200, procs=2110, totalhigh=0, freehigh=0, mem_unit=1}) = 0
+rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGTSTP, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGTTIN, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=0}, 8) = 0
+rt_sigaction(SIGTTOU, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+uname({sysname="Linux", nodename="c1r3p14.1337.ma", ...}) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/Desktop/minishell/parser", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman", {st_mode=S_IFDIR|0700, st_size=53248, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/Desktop", {st_mode=S_IFDIR|0755, st_size=65, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/Desktop/minishell", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/Desktop/minishell/parser", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/Desktop/minishell", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+getpid()                                = 461822
+getppid()                               = 461819
+newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/.cargo/bin/bash", 0x7ffd58234190, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/local/sbin/bash", 0x7ffd58234190, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/local/bin/bash", 0x7ffd58234190, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/sbin/bash", 0x7ffd58234190, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/bin/bash", {st_mode=S_IFREG|0755, st_size=1396520, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/usr/bin/bash", {st_mode=S_IFREG|0755, st_size=1396520, ...}, 0) = 0
+geteuid()                               = 101046
+getegid()                               = 4224
+getuid()                                = 101046
+getgid()                                = 4224
+access("/usr/bin/bash", X_OK)           = 0
+newfstatat(AT_FDCWD, "/usr/bin/bash", {st_mode=S_IFREG|0755, st_size=1396520, ...}, 0) = 0
+geteuid()                               = 101046
+getegid()                               = 4224
+getuid()                                = 101046
+getgid()                                = 4224
+access("/usr/bin/bash", R_OK)           = 0
+newfstatat(AT_FDCWD, "/usr/bin/bash", {st_mode=S_IFREG|0755, st_size=1396520, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/usr/bin/bash", {st_mode=S_IFREG|0755, st_size=1396520, ...}, 0) = 0
+geteuid()                               = 101046
+getegid()                               = 4224
+getuid()                                = 101046
+getgid()                                = 4224
+access("/usr/bin/bash", X_OK)           = 0
+newfstatat(AT_FDCWD, "/usr/bin/bash", {st_mode=S_IFREG|0755, st_size=1396520, ...}, 0) = 0
+geteuid()                               = 101046
+getegid()                               = 4224
+getuid()                                = 101046
+getgid()                                = 4224
+access("/usr/bin/bash", R_OK)           = 0
+getpid()                                = 461822
+getppid()                               = 461819
+getpid()                                = 461822
+getppid()                               = 461819
+getpgrp()                               = 461819
+ioctl(2, TIOCGPGRP, 0x7ffd582343f4)     = -1 ENOTTY (Inappropriate ioctl for device)
+rt_sigaction(SIGCHLD, {sa_handler=0x55f4e272dd70, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, 8) = 0
+ioctl(2, TIOCGPGRP, 0x7ffd582343c4)     = -1 ENOTTY (Inappropriate ioctl for device)
+prlimit64(0, RLIMIT_NPROC, NULL, {rlim_cur=62006, rlim_max=62006}) = 0
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+getpeername(0, 0x7ffd58234560, [16])    = -1 ENOTSOCK (Socket operation on non-socket)
+rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0
+newfstatat(AT_FDCWD, ".", {st_mode=S_IFDIR|0755, st_size=4096, ...}, 0) = 0
+newfstatat(AT_FDCWD, "/home/mouahman/.cargo/bin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/local/sbin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/local/bin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/sbin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/bin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/sbin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/bin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/games/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/usr/local/games/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+newfstatat(AT_FDCWD, "/snap/bin/nonexistent_command", 0x7ffd58233f50, 0) = -1 ENOENT (No such file or directory)
+rt_sigaction(SIGINT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGQUIT, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, {sa_handler=SIG_IGN, sa_mask=[], sa_flags=SA_RESTORER, sa_restorer=0x7cfd3ba42520}, 8) = 0
+rt_sigaction(SIGCHLD, {sa_handler=SIG_DFL, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, {sa_handler=0x55f4e272dd70, sa_mask=[], sa_flags=SA_RESTORER|SA_RESTART, sa_restorer=0x7cfd3ba42520}, 8) = 0
+openat(AT_FDCWD, "/usr/share/locale/locale.alias", O_RDONLY|O_CLOEXEC) = 3
+newfstatat(3, "", {st_mode=S_IFREG|0644, st_size=2996, ...}, AT_EMPTY_PATH) = 0
+read(3, "# Locale name alias data base.\n#"..., 4096) = 2996
+read(3, "", 4096)                       = 0
+close(3)                                = 0
+openat(AT_FDCWD, "/usr/share/locale/en/LC_MESSAGES/bash.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/usr/share/locale-langpack/en/LC_MESSAGES/bash.mo", O_RDONLY) = -1 ENOENT (No such file or directory)
+newfstatat(2, "", {st_mode=S_IFREG|0644, st_size=13266, ...}, AT_EMPTY_PATH) = 0
+write(2, "bash: line 1: nonexistent_comman"..., 53bash: line 1: nonexistent_command: command not found
+) = 53
+exit_group(127)                         = ?
++++ exited with 127 +++

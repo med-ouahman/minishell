@@ -91,6 +91,7 @@ char		*command_path(char *cmd);
 char		*get_next_path(char *path, int r);
 char		*getpath(int init);
 int			get_file_type(char *__file_path, mode_t *file_type);
+int			is_dir(char *name, mode_t f_type);
 
 /* child process termination and exit status */
 

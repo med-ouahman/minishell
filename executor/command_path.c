@@ -69,9 +69,14 @@ static int	check_access(char **path, char *cmd)
 static	char	*is_path_unset(char *cmd)
 {
 	char	*path;
+	mode_t	ftype;
 
 	if (access(cmd, F_OK | X_OK) == 0)
 	{
+		if (get_file_type(cmd, &ftype))
+			return (NULL);
+		if (is_dir(cmd, ftype))
+			return (NULL);
 		path = ft_join("./", 0, cmd, 1);
 		return (path);
 	}

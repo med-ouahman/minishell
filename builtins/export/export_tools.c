@@ -32,7 +32,7 @@ void	dup_env(void)
 {
 	char	**new_env;
 	t_uint	size;
-	t_uint	i;
+	size_t	i;
 
 	i = 0;
 	size = size_env();

@@ -12,7 +12,7 @@
 
 #include "../include/executor.h"
 
-static int	is_dir(char *name, mode_t f_type)
+int	is_dir(char *name, mode_t f_type)
 {
 	if (S_ISDIR(f_type))
 	{
@@ -40,7 +40,7 @@ int	get_file_type(char *__file_path, mode_t *file_type)
 	if (0 > c)
 	{
 		access_exit_code(1, WRITE);
-		print_err1(strerror(errno));
+		perror("stat");
 		return (-1);
 	}
 	*file_type = buf.st_mode;

@@ -28,7 +28,7 @@ int	check_ambiguous(t_redir *redir, t_token *token)
 
 int	check_last_token_unexpanded(t_token *tokens)
 {
-	t_ttt	i;
+	size_t	i;
 
 	while (tokens->next)
 		tokens = tokens->next;
