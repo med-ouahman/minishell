@@ -22,7 +22,7 @@ int		echo(char **args);
 int		exit_(char **args);
 int		pwd(void);
 int		unset(char **args);
-int	    env(char **args);
+int		env(char **args);
 int		export(char **args);
 
 /* buitlin utilities */

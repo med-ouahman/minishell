@@ -15,7 +15,7 @@
 static int	remove_quote(char *str)
 {
 	int		count;
-	t_ttt	i;
+	size_t	i;
 	char	quote;
 
 	i = 0;

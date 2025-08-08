@@ -1,3 +1,5 @@
+#!/bin/bash
+
 track_fds="yes"
 trace_children="yes"
 track_origins="yes"

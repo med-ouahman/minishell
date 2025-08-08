@@ -32,7 +32,7 @@ void	dup_env(void)
 {
 	char	**new_env;
 	t_uint	size;
-	t_uint	i;
+	size_t	i;
 
 	i = 0;
 	size = size_env();
@@ -46,4 +46,23 @@ void	dup_env(void)
 	}
 	new_env[i] = NULL;
 	__environ = new_env;
+}
+
+unsigned int	key_size(char *s1)
+{
+	unsigned int	l1;
+
+	l1 = 0;
+	while (s1[l1] && s1[l1] != '=')
+		l1++;
+	return (l1);
+}
+
+void	swap_ptrs(char **p1, char **p2)
+{
+	char	*tmp;
+
+	tmp = *p1;
+	*p1 = *p2;
+	*p2 = tmp;
 }

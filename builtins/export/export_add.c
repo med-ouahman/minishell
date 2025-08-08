@@ -24,21 +24,19 @@ t_uint	size_env(void)
 	return (size);
 }
 
-int	check_exist_var(char *str)
+int	var_exists(char *varname)
 {
-	int	i;
-	int	eq;
+	t_uint	l1;
+	t_iter	i;
 
-	eq = (int)(ft_strchr(str, '=') - str);
-	if (eq < 0)
-		eq = ft_strlen(str);
-	else
-		eq--;
+	l1 = key_size(varname);
 	i = 0;
 	while (__environ[i])
 	{
-		if (ft_strncmp(__environ[i], str, eq) == 0)
+		if (!ft_strncmp(__environ[i], varname, max(l1, key_size(__environ[i]))))
+		{
 			return (1);
+		}
 		i++;
 	}
 	return (0);
@@ -103,7 +101,7 @@ int	export_add(char **argv)
 	{
 		if (check_valid_variable(argv[i]))
 		{
-			index = check_exist_var(argv[i]);
+			index = var_exists(argv[i]);
 			if (index)
 				change_var(argv[i]);
 			else

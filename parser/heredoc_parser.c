@@ -26,7 +26,7 @@ static void	update_content(char **content, char *input, t_info info)
 	collect_malloc(str1, DELETE);
 }
 
-static void	jobe_while(char *input, char **content, t_ttt*i, t_info *info)
+static void	jobe_while(char *input, char **content, size_t*i, t_info *info)
 {
 	char	*tmp;
 
@@ -66,7 +66,7 @@ char	*ft_join(char *str1, int free1, char *str2, int free2)
 
 char	*parser_line(char *input, int _expand)
 {
-	t_ttt	i;
+	size_t	i;
 	char	*content;
 	char	*tmp;
 	t_info	info;

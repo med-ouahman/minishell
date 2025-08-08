@@ -23,6 +23,4 @@
 # include "./signal_handler.h"
 # include "./executor.h"
 
-
-
 #endif

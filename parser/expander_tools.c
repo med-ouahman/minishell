@@ -12,7 +12,7 @@
 
 #include "../include/parser.h"
 
-t_ttt	check_for_expand(char *input, t_ttt i)
+size_t	check_for_expand(char *input, size_t i)
 {
 	if (input[i] != '$')
 		return (0);
@@ -28,7 +28,7 @@ t_ttt	check_for_expand(char *input, t_ttt i)
 
 t_token	*split_token(char *str)
 {
-	t_ttt	i;
+	size_t	i;
 	t_token	*tokens;
 	t_info	info;
 
