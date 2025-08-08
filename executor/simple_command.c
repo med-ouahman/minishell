@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/06 12:06:39 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:10:26 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 {
+	// signal(SIGQUIT, sigquit_handler);
 	default_signals();
 	if (dup_stdio(exec_cb->stdio))
 		cleanup(EXIT_FAILURE);

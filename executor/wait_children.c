@@ -6,11 +6,27 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 14:16:38 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/06 12:05:11 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:23:17 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/executor.h"
+
+static void	if_signaled(int status, int *first)
+{
+	access_exit_code(WTERMSIG(status) + 128, WRITE);
+	if (WTERMSIG(status) == SIGINT && *first == 0)
+	{
+		*first = 1;
+		rl_after_fork();
+	}
+	else if (WTERMSIG(status) == SIGQUIT && *first == 0)
+	{
+		*first = 1;
+		printf("Quit");
+		rl_after_fork();
+	}
+}
 
 int	wait_children(pid_t *pids, t_uint num_children)
 {
@@ -19,16 +35,15 @@ int	wait_children(pid_t *pids, t_uint num_children)
 	t_uint	i;
 
 	i = 0;
-	first = 1;
+	first = 0;
 	while (i < num_children)
 	{
 		if (-1 != pids[i])
 		{
 			waitpid(pids[i], &status, 0);
-			if (WIFSIGNALED(pids[i]) && WTERMSIG(status) == SIGINT && first)
+			if (WIFSIGNALED(status))
 			{
-				first = 0;
-				rl_after_fork();
+				if_signaled(status, &first);
 			}
 		}
 		i++;

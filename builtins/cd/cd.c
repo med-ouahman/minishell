@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:51:06 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/07 05:28:40 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/08 11:56:54 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,27 @@ static int	change_dir(char *dirname)
 	return (0);
 }
 
+static char	*dup_getenv(char *key_var)
+{
+	char	*new_pwd;
+	char	*pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+	{
+		print_err2("cd", strerror(errno));
+		return (NULL);
+	}
+	new_pwd = ft_strjoin(key_var, new_pwd);
+	collect_malloc(new_pwd, ENV_CHECK);
+	return (NULL);
+}
+
 int	cd(char **args)
 {
+	char	*path;
+	char	*new_oldpwd;
+
 	if (args[1] == NULL)
 	{
 		print_err2("cd", "too few arguments");
@@ -78,5 +97,10 @@ int	cd(char **args)
 		print_err2("cd", "too many arguments");
 		return (1);
 	}
+	path = args[1];
+	new_oldpwd = dup_getenv("OLDPWD=");
 	return (change_dir(args[1]));
+	// if (chdir(args[1]))
+	// 	print_err1(strerror(errno));
+	return (0);
 }

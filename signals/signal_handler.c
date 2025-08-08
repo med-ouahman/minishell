@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:53:12 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/03 15:44:29 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/08 12:12:40 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ void	sigint_handler(int signum)
 	}
 }
 
+void	sigquit_handler(int signum)
+{
+	printf("sig\n");
+	// if (SIGQUIT == signum)
+	// {
+		write(2, "Quit (core dumped)\n", 19);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	(void)signum;
+	// }
+}
 void	handle_signals(void)
 {
 	signal(SIGINT, sigint_handler);
