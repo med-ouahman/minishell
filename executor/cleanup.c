@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_tools2.c                                    :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/02 05:19:06 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/02 05:19:07 by mouahman         ###   ########.fr       */
+/*   Created: 2025/08/07 13:02:04 by mouahman          #+#    #+#             */
+/*   Updated: 2025/08/07 13:02:38 by mouahman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-unsigned int	key_size(char *s1)
+#include "../include/executor.h"
+
+int	cleanup(int code)
 {
-	unsigned int	l1;
-
-	l1 = 0;
-	while (s1[l1] && s1[l1] != '=')
-		l1++;
-	return (l1);
-}
-
-void	swap_ptrs(char **p1, char **p2)
-{
-	char	*tmp;
-
-	tmp = *p1;
-	*p1 = *p2;
-	*p2 = tmp;
+	rl_clear_history();
+	collect_malloc(NULL, DESTROY);
+	exit(code);
+	return (code);
 }

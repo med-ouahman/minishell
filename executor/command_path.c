@@ -12,6 +12,17 @@
 
 #include "../include/executor.h"
 
+static int	is_regular(char *cmd)
+{
+	mode_t	file_type;
+
+	if (get_file_type(cmd, &file_type))
+		return (0);
+	if (S_ISREG(file_type))
+		return (1);
+	return (0);
+}
+
 static char	*join_paths(char *path, char *cmd)
 {
 	char	*cmdpath;
@@ -32,7 +43,7 @@ static int	check_access(char **path, char *cmd)
 	char	*next_path;
 
 	*path = NULL;
-	if (!*cmd || (!access(cmd, F_OK) && !S_ISREG(get_file_type(cmd))))
+	if (!*cmd || (access(cmd, F_OK) == 0 && !is_regular(cmd)))
 		return (ENOENT);
 	next_path = get_next_path(getpath(0), 0);
 	while (next_path)
@@ -45,6 +56,7 @@ static int	check_access(char **path, char *cmd)
 				get_next_path(NULL, 1);
 				return (0);
 			}
+			get_next_path(NULL, 1);
 			return (errno);
 		}
 		collect_malloc(*path, DELETE);
@@ -81,16 +93,12 @@ char	*command_path(char *cmd)
 	int		c;
 
 	if (is_path(cmd))
-	{
-		if (!is_executable(cmd))
-			return (cmd);
-		return (NULL);
-	}
+		return (is_executable(cmd));
 	if (!getenv("PATH"))
 		return (is_path_unset(cmd));
 	c = check_access(&path, cmd);
 	if (0 > c)
-		access_exit_code(EXIT_FAILURE, WRITE);
+		access_exit_code(1, WRITE);
 	if (ENOENT == c)
 	{
 		access_exit_code(NOT_FOUND, WRITE);
@@ -100,6 +108,7 @@ char	*command_path(char *cmd)
 	{
 		access_exit_code(PERMISSION_DENIED, WRITE);
 		print_err2(path, strerror(errno));
+		return (NULL);
 	}
 	return (path);
 }

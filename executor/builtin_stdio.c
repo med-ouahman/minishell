@@ -21,7 +21,7 @@ int	preserve_stdio(int *old_stdio, int *stdio)
 		old_stdio[0] = dup(STDIN_FILENO);
 		if (old_stdio[0] < 0)
 		{
-			print_err1(strerror(errno));
+			perror("dup");
 			return (-1);
 		}
 	}
@@ -31,7 +31,7 @@ int	preserve_stdio(int *old_stdio, int *stdio)
 		if (old_stdio[1] < 0)
 		{
 			close(old_stdio[0]);
-			print_err1(strerror(errno));
+			perror("dup");
 			return (-1);
 		}
 	}
@@ -44,7 +44,7 @@ int	restore_stdio(int *old)
 	{
 		if (0 > dup2(old[0], STDIN_FILENO))
 		{
-			print_err1(strerror(errno));
+			perror("dup2");
 			return (-1);
 		}
 		close(old[0]);
@@ -53,7 +53,7 @@ int	restore_stdio(int *old)
 	{
 		if (0 > dup2(old[1], STDOUT_FILENO))
 		{
-			print_err1(strerror(errno));
+			perror("dup2");
 			return (-1);
 		}
 		close(old[1]);

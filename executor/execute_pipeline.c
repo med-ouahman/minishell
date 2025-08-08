@@ -17,13 +17,13 @@ static int	num_pipes(t_exec_control_block *exec_cb)
 	t_list	*pipeline;
 
 	pipeline = exec_cb->pipeline;
-	exec_cb->pid_size = 0;
+	exec_cb->num_commands = 0;
 	while (pipeline)
 	{
-		exec_cb->pid_size++;
+		exec_cb->num_commands++;
 		pipeline = pipeline->next;
 	}
-	return (-1 + exec_cb->pid_size);
+	return (-1 + exec_cb->num_commands);
 }
 
 static int
@@ -58,9 +58,9 @@ int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 	exec_cb->pipes = create_pipes(num_pipes(exec_cb));
 	if (!exec_cb->pipes)
 		return (1);
-	exec_cb->pids = malloc(exec_cb->pid_size * sizeof * exec_cb->pids);
+	exec_cb->pids = malloc(exec_cb->num_commands * sizeof(pid_t));
 	collect_malloc(exec_cb->pids, CHECK);
-	ft_memset(exec_cb->pids, -1, exec_cb->pid_size * 4);
+	ft_memset(exec_cb->pids, -1, exec_cb->num_commands * 4);
 	i = 0;
 	while (pipeline)
 	{
@@ -68,8 +68,9 @@ int	execute_pipeline(t_list *pipeline, t_exec_control_block *exec_cb)
 		pipeline = pipeline->next;
 		i++;
 	}
-	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
+	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	if (!last_exit_code)
-		last_exit_code = wait_children(exec_cb->pids, exec_cb->pid_size);
+		last_exit_code = wait_children(exec_cb->pids, exec_cb->num_commands);
+	handle_signals();
 	return (last_exit_code);
 }

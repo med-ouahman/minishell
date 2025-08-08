@@ -12,13 +12,6 @@
 
 #include "../include/utils.h"
 
-int	cleanup(int code)
-{
-	rl_clear_history();
-	collect_malloc(NULL, DESTROY);
-	exit(code);
-}
-
 static void	clear_list(t_list **lst, t_list **env_list, int opt)
 {
 	t_list	**to_clear;

@@ -39,12 +39,15 @@ int	run_builtin_in_subshell(t_cmd *builtin_cmd, t_exec_control_block *exec_cb)
 	ignore_signals();
 	pid = fork();
 	if (0 > pid)
+	{
+		perror("fork");
 		return (-1);
+	}
 	if (0 == pid)
 	{
 		default_signals();
 		status = execute_builtin(builtin_cmd, exec_cb->stdio);
-		close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
+		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 		cleanup(status);
 	}
 	exec_cb->pids[exec_cb->curr_pid] = pid;
@@ -64,18 +67,17 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	args = build_argument_list(cmd->args);
 	if (EXIT == cmd->is_builtin)
 		code = exit_(args);
-	access_exit_code(0, WRITE);
 	if (CD == cmd->is_builtin)
 		code = cd(args);
-	if (PWD == cmd->is_builtin)
+	else if (PWD == cmd->is_builtin)
 		code = pwd();
-	if (ECHO == cmd->is_builtin)
+	else if (ECHO == cmd->is_builtin)
 		code = echo(args);
-	if (EXPORT == cmd->is_builtin)
+	else if (EXPORT == cmd->is_builtin)
 		code = export(args);
-	if (UNSET == cmd->is_builtin)
+	else if (UNSET == cmd->is_builtin)
 		code = unset(args);
-	if (ENV == cmd->is_builtin)
+	else if (ENV == cmd->is_builtin)
 		code = env(args);
 	restore_stdio(old);
 	return (code);

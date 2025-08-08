@@ -28,19 +28,22 @@ static void	init(void)
 	change_var("SHELL=minishell");
 }
 
-void *r_line()
+void	*r_line(void)
 {
-	char *line;
-	char *rline = NULL;
-	if(isatty(STDIN_FILENO))
+	char	*line;
+	char	*rline;
+
+	rline = NULL;
+	if (isatty(STDIN_FILENO))
 		rline = readline(get_prompt());
-	else{
+	else
+	{
 		line = get_next_line(STDIN_FILENO);
-		if(line)
-			rline= ft_strtrim(line, "\n");
+		if (line)
+			rline = ft_strtrim(line, "\n");
 		free(line);
 	}
-	return rline;
+	return (rline);
 }
 
 static void	minishell(void)
@@ -48,10 +51,10 @@ static void	minishell(void)
 	char	*line;
 	t_list	*pipeline;
 
-	line = r_line();//readline(get_prompt());
+	line = readline(get_prompt());
 	if (NULL == line)
 	{
-		if(isatty(STDIN_FILENO))
+		if (isatty(STDIN_FILENO))
 			ft_printf_fd(2, "exit\n");
 		cleanup(access_exit_code(0, READ));
 	}
@@ -65,6 +68,7 @@ static void	minishell(void)
 
 int	main(void)
 {
+	access_exit_code(0, WRITE);
 	init();
 	while (true)
 	{

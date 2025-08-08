@@ -18,7 +18,8 @@ int	set_stdio(t_exec_control_block *exec_cb, t_uint curr)
 	{
 		exec_cb->stdio[0] = exec_cb->pipes[curr - 1].pipefds[0];
 	}
-	if (exec_cb->stdio[1] == STDOUT_FILENO && (curr < exec_cb->pid_size - 1))
+	if (exec_cb->stdio[1] == STDOUT_FILENO
+		&& (curr < exec_cb->num_commands - 1))
 	{
 		exec_cb->stdio[1] = exec_cb->pipes[curr].pipefds[1];
 	}
@@ -51,7 +52,7 @@ int	dup_stdio(int *stdio)
 	{
 		if (dup2(stdio[0], STDIN_FILENO) < 0)
 		{
-			print_err1(strerror(errno));
+			perror("dup2");
 			return (-1);
 		}
 		close(stdio[0]);
@@ -61,7 +62,7 @@ int	dup_stdio(int *stdio)
 		if (0 > dup2(stdio[1], STDOUT_FILENO))
 		{
 			close(stdio[0]);
-			print_err1(strerror(errno));
+			perror("dup2");
 			return (-1);
 		}
 		close(stdio[1]);

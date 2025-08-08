@@ -37,23 +37,20 @@ static int	exit_nbr(const char *nptr)
 	nb = 0;
 	while (ft_isspace(nptr[i]))
 		i++;
-	if (nptr[i] == '-')
-	{
+	if (!nptr[i])
+		return (-1);
+	if (nptr[i] == '-' && i++)
 		sign = -1;
-		i++;
-	}
 	else if (nptr[i] == '+')
 		i++;
 	while (ft_isdigit(nptr[i]))
 	{
 		nb = nb * 10 + (nptr[i] - 48);
-		if (nb > (size_t)LONG_MAX + 1)
+		if (nb > (size_t)LONG_MAX + (sign == -1))
 			return (-1);
-		printf("%zu\n", nb);
 		i++;
 	}
-	nb = (nb * sign) % 256;
-	return (nb);
+	return ((nb * sign) % 256);
 }
 
 static int	exit_2(char **args)

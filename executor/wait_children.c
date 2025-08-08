@@ -20,6 +20,7 @@ int	wait_children(pid_t *pids, t_uint num_children)
 
 	i = 0;
 	first = 1;
+	status = 0;
 	while (i < num_children)
 	{
 		if (-1 != pids[i])
@@ -33,12 +34,11 @@ int	wait_children(pid_t *pids, t_uint num_children)
 		}
 		i++;
 	}
-	status = exit_code(status);
-	handle_signals();
-	return (status);
+	return (exit_code(status));
 }
 
 /*
+
 #include <sys/resource.h>
 
 void	get_child_resource_usage(pid_t pid)
@@ -65,4 +65,5 @@ void	get_child_resource_usage(pid_t pid)
 	printf("voluntary context switches: %ld\n", r.ru_nvcsw);
 	printf("involuntary context switches: %ld\n", r.ru_nivcsw);
 }
+
 */

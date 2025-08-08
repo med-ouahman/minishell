@@ -34,7 +34,7 @@ typedef struct s_exec_cb
 {
 	t_pipefd	*pipes;
 	pid_t		*pids;
-	t_uint		pid_size;
+	t_uint		num_commands;
 	t_uint		curr_pid;
 	t_list		*pipeline;
 	int			stdio[2];
@@ -85,12 +85,12 @@ t_pipefd	*create_pipes(int count);
 
 /* command path */
 
-int			is_executable(char *pathname);
+char		*is_executable(char *pathname);
 int			is_path(char *pathname);
 char		*command_path(char *cmd);
 char		*get_next_path(char *path, int r);
 char		*getpath(int init);
-mode_t		get_file_type(char *__file_path);
+int			get_file_type(char *__file_path, mode_t *file_type);
 
 /* child process termination and exit status */
 

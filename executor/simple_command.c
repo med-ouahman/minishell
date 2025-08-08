@@ -17,8 +17,9 @@ static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 	default_signals();
 	if (dup_stdio(exec_cb->stdio))
 		cleanup(EXIT_FAILURE);
-	close_pipes(exec_cb->pipes, exec_cb->pid_size - 1);
+	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	execve(path, args, __environ);
+	perror("execve");
 	cleanup(EXIT_FAILURE);
 }
 
@@ -29,9 +30,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	pid_t	pid;
 
 	if (!cmd->args)
-	{
 		return (0);
-	}
 	args = build_argument_list(cmd->args);
 	path = command_path(args[0]);
 	if (!path)
@@ -40,7 +39,7 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	pid = fork();
 	if (0 > pid)
 	{
-		print_err1(strerror(errno));
+		perror("fork");
 		return (1);
 	}
 	if (0 == pid)

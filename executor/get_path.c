@@ -36,7 +36,7 @@ static char	*reset(char *old_val, int *offset, int *null_pos)
 
 char	*get_next_path(char *path, int r)
 {
-	static char	old_val; 
+	static char	old_val;
 	static int	offset;
 	static int	null_pos;
 	int			start;
