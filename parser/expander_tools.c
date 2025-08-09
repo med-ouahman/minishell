@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 05:01:10 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:38:45 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ t_token	*split_token(char *str)
 	}
 	return (tokens);
 }
-
-		// if (info.type == AMBIGUES)
-		// 	i = check_for_expand(str, info.start);
-		// else if (info.type != NO_QUOTE)
 
 void	check_join_split(t_token *token)
 {
@@ -91,6 +87,7 @@ void	split_after_expand(t_token *tokens)
 			collect_malloc(tmp->str, DELETE);
 			tmp->str = news->str;
 			tmp->type = news->type;
+			tmp->join = news->join;
 			tmp2 = tmp->next;
 			tmp->next = news->next;
 			collect_malloc(news, DELETE);

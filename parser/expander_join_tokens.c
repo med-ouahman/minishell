@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 04:14:46 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:42:19 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ t_token	*prepar_args(t_list	**arg, t_token *tokens)
 	while (tokens)
 	{
 		new_arg = ft_join(new_arg, 1, tokens->str, 1);
-		if (!*arg && split && tokens->join == SPLIT)
-		{
-			tokens = tokens->next;
-			break ;
-		}
+		// if (*arg && split && tokens->join == SPLIT)
+		// {
+		// 	tokens = tokens->next;
+		// 	break ;
+		// }
 		tokens = tokens->next;
 		if (split && tokens && tokens->join == SPLIT)
 			break ;

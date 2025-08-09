@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 13:16:20 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/06 16:43:38 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/09 11:59:23 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	export_add(char **argv)
 
 	i = 0;
 	c = 0;
+	
 	while (argv[i])
 	{
 		if (check_valid_variable(argv[i]))

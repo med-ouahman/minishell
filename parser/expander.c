@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:55 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 02:35:04 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:51:16 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,16 @@ static int	expand_args(t_list *list_args)
 	{
 		tokens = split_token((char *)tmp->content);
 		expand_tokens(tokens);
-		check_join_split(tokens);
 		if (!export || !check_valid_variable((char *)tmp->content))
+		{
+			check_join_split(tokens);
 			split_after_expand(tokens);
+		}
 		tmp = join_tokens_args(&tmp, tokens);
 		free_list_token(tokens);
 		tmp = tmp->next;
 	}
+	//print_list(list_args);
 	return (0);
 }
 
