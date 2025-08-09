@@ -1,5 +1,7 @@
 #include "./include/executor.h"
+
 int write_sig = 0;
+
 void child(int *pfds, int id) {
     char buff[101];
     if (id == 0) {
@@ -46,3 +48,4 @@ int main(void) {
     close(pfds[1]);
     return 0;
 }
+

@@ -34,6 +34,7 @@ int	wait_children(pid_t *pids, t_uint num_children)
 
 	i = 0;
 	first = 0;
+	status = 0;
 	while (i < num_children)
 	{
 		if (-1 != pids[i])

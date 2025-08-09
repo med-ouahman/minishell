@@ -14,6 +14,8 @@
 
 int	is_builtin(char *command)
 {
+	if (!command)
+		return (0);
 	if (!ft_strcmp("cd", command))
 		return (CD);
 	else if (!ft_strcmp("echo", command))
@@ -48,6 +50,7 @@ int	run_builtin_in_subshell(t_cmd *builtin_cmd, t_exec_control_block *exec_cb)
 		default_signals();
 		status = execute_builtin(builtin_cmd, exec_cb->stdio);
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
+		close_stdio(exec_cb->stdio);
 		cleanup(status);
 	}
 	exec_cb->pids[exec_cb->curr_pid++] = pid;

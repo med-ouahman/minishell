@@ -33,7 +33,10 @@ static int
 
 	status = 0;
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
+	{
+		close_stdio(exec_cb->stdio);
 		return (1);
+	}
 	set_stdio(exec_cb, i);
 	if (cmd->args)
 		cmd->is_builtin = is_builtin(cmd->args->content);

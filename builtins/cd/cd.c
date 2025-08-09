@@ -12,28 +12,8 @@
 
 #include "../../include/builtins.h"
 
-// static int	set_env(char *key_var)
-// {
-// 	char	*new_pwd;
-// 	char	*cwd;
-
-// 	cwd = getcwd(NULL, 0);
-// 	if (!cwd)
-// 	{
-// 		print_err2("cd", strerror(errno));
-// 		return (1);
-// 	}
-// 	new_pwd = ft_strjoin(key_var, cwd);
-// 	free(cwd);
-// 	collect_malloc(new_pwd, ENV_CHECK);
-// 	change_var(new_pwd);
-// 	return (0);
-// }
-
 static int	change_dir(char *dirname)
 {
-	char	*pwd_var;
-	char	*oldpwd;
 	char	*cwd;
 
 	if (chdir(dirname))
@@ -49,15 +29,6 @@ static int	change_dir(char *dirname)
 	}
 	collect_malloc(cwd, ENV_CHECK);
 	pwd(cwd);
-	pwd_var = getenv("PWD");
-	oldpwd = ft_strjoin("OLDPWD=", pwd_var);
-	collect_malloc(oldpwd, CHECK);
-	change_var(oldpwd);
-	collect_malloc(oldpwd, DELETE);
-	pwd_var = ft_strjoin("PWD=", cwd);
-	collect_malloc(pwd_var, CHECK);
-	change_var(pwd_var);
-	collect_malloc(pwd_var, DELETE);
 	return (0);
 }
 
