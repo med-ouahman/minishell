@@ -18,6 +18,8 @@ char	**build_argument_list(t_list *lst)
 	char	**args;
 	t_uint	i;
 
+	if (!lst)
+		return (NULL);
 	args = malloc((1 + ft_lstsize(lst)) * sizeof(char *));
 	collect_malloc(args, CHECK);
 	i = 0;

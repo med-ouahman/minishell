@@ -14,14 +14,22 @@
 
 static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 {
+	int	code;
+
+	code = -1;
 	default_signals();
-	if (!path)
+	if (!args)
+		code = EXIT_SUCCESS;
+	else if (!path)
+		code = access_exit_code(0, READ);
+	else if (dup_stdio(exec_cb->stdio))
+		code = EXIT_FAILURE;
+	if (code != -1)
 	{
+		close_stdio(exec_cb->stdio);
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
-		cleanup(access_exit_code(0, READ));
+		cleanup(code);
 	}
-	if (dup_stdio(exec_cb->stdio))
-		cleanup(EXIT_FAILURE);
 	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	execve(path, args, __environ);
 	perror("execve");
@@ -34,10 +42,10 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	char	*path;
 	pid_t	pid;
 
-	if (!cmd->args)
-		return (0);
+	path = NULL;
 	args = build_argument_list(cmd->args);
-	path = command_path(args[0]);
+	if (args)
+		path = command_path(args[0]);
 	ignore_signals();
 	pid = fork();
 	if (0 > pid)

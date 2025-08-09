@@ -20,7 +20,7 @@ static int	create_heredoc_name(char *file_name)
 	int		i;
 	int		fd;
 
-	fd = open("/dev/urandom", O_RDONLY);
+	fd = open("/dev/random", O_RDONLY);
 	if (fd < 0)
 	{
 		print_err1(strerror(errno));
@@ -30,7 +30,7 @@ static int	create_heredoc_name(char *file_name)
 	while (i < LENGTH)
 	{
 		read(fd, random_c, LENGTH);
-		if ('/' == random_c[i])
+		if ('/' == random_c[i] || !ft_isprint(random_c[i]))
 			continue ;
 		file_name[i] = random_c[i];
 		i++;

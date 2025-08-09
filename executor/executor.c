@@ -38,14 +38,13 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
 		return (close_stdio(exec_cb->stdio), 1);
-	if (!cmd->args)
-		return (close_stdio(exec_cb->stdio), 0);
-	cmd->is_builtin = is_builtin(cmd->args->content);
-	if (cmd->is_builtin)
+	if (cmd->args)
 	{
+		cmd->is_builtin = is_builtin(cmd->args->content);
 		if (cmd->is_builtin == EXIT)
 			write(2, "exit\n", 5);
-		return (execute_builtin(cmd, exec_cb->stdio));
+		if (cmd->is_builtin)
+			return (execute_builtin(cmd, exec_cb->stdio));
 	}
 	exec_cb->pids = &pid;
 	if (simple_command(cmd, exec_cb))
