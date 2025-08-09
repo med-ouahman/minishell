@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 11:02:54 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/06 10:55:05 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:18:58 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static int	check_access(char **path, char *cmd)
 				get_next_path(NULL, 1);
 				return (0);
 			}
-			get_next_path(NULL, 1);
-			return (errno);
 		}
 		collect_malloc(*path, DELETE);
 		*path = NULL;

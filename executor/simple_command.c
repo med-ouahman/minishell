@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/08 12:10:26 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/09 14:13:29 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	pid_t	pid;
 
 	path = NULL;
+	if (!cmd->args)
+		return (0);
 	args = build_argument_list(cmd->args);
 	if (args)
 		path = command_path(args[0]);
