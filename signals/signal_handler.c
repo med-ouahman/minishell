@@ -21,18 +21,6 @@ void	sigint_handler(int signum)
 	}
 }
 
-void	sigquit_handler(int signum)
-{
-	printf("sig\n");
-	// if (SIGQUIT == signum)
-	// {
-		write(2, "Quit (core dumped)\n", 19);
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	(void)signum;
-	// }
-}
 void	handle_signals(void)
 {
 	signal(SIGINT, sigint_handler);

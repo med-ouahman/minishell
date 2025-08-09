@@ -14,17 +14,15 @@
 
 static void	if_signaled(int status, int *first)
 {
-	access_exit_code(WTERMSIG(status) + 128, WRITE);
 	if (WTERMSIG(status) == SIGINT && *first == 0)
 	{
 		*first = 1;
-		rl_after_fork();
+		printf("\n");
 	}
 	else if (WTERMSIG(status) == SIGQUIT && *first == 0)
 	{
 		*first = 1;
-		printf("Quit");
-		rl_after_fork();
+		printf("Quit\n");
 	}
 }
 
@@ -42,9 +40,7 @@ int	wait_children(pid_t *pids, t_uint num_children)
 		{
 			waitpid(pids[i], &status, 0);
 			if (WIFSIGNALED(status))
-			{
 				if_signaled(status, &first);
-			}
 		}
 		i++;
 	}

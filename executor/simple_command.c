@@ -14,13 +14,12 @@
 
 static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 {
-<<<<<<< HEAD
-	// signal(SIGQUIT, sigquit_handler);
-=======
-	if (!path)
-		cleanup(access_exit_code(0, READ));
->>>>>>> 13e40b46b5afd41c9e1b122e286977cba160baee
 	default_signals();
+	if (!path)
+	{
+		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
+		cleanup(access_exit_code(0, READ));
+	}
 	if (dup_stdio(exec_cb->stdio))
 		cleanup(EXIT_FAILURE);
 	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);

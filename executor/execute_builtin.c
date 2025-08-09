@@ -69,7 +69,7 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	if (CD == cmd->is_builtin)
 		code = cd(args);
 	else if (PWD == cmd->is_builtin)
-		code = pwd();
+		code = pwd(NULL);
 	else if (ECHO == cmd->is_builtin)
 		code = echo(args);
 	else if (EXPORT == cmd->is_builtin)

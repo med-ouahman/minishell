@@ -39,7 +39,7 @@ static int	exit_nbr(const char *nptr)
 		i++;
 	if (!nptr[i])
 		return (-1);
-	if (nptr[i] == '-' && i++)
+	if (nptr[i] == '-' && ++i)
 		sign = -1;
 	else if (nptr[i] == '+')
 		i++;

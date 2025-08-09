@@ -12,55 +12,57 @@
 
 #include "../../include/builtins.h"
 
-static int	set_env(char *key_var)
-{
-	char	*new_pwd;
-	char	*cwd;
+// static int	set_env(char *key_var)
+// {
+// 	char	*new_pwd;
+// 	char	*cwd;
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		print_err2("cd", strerror(errno));
-		return (1);
-	}
-	new_pwd = ft_strjoin(key_var, cwd);
-	free(cwd);
-	collect_malloc(new_pwd, ENV_CHECK);
-	change_var(new_pwd);
-	return (0);
-}
+// 	cwd = getcwd(NULL, 0);
+// 	if (!cwd)
+// 	{
+// 		print_err2("cd", strerror(errno));
+// 		return (1);
+// 	}
+// 	new_pwd = ft_strjoin(key_var, cwd);
+// 	free(cwd);
+// 	collect_malloc(new_pwd, ENV_CHECK);
+// 	change_var(new_pwd);
+// 	return (0);
+// }
 
 static int	change_dir(char *dirname)
 {
+	char	*pwd_var;
+	char	*oldpwd;
+	char	*cwd;
+
 	if (chdir(dirname))
 	{
 		print_err3("cd", dirname, strerror(errno));
 		return (1);
 	}
-	return (0);
-}
-
-static char	*dup_getenv(char *key_var)
-{
-	char	*new_pwd;
-	char	*pwd;
-
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
 	{
 		print_err2("cd", strerror(errno));
-		return (NULL);
+		return (-1);
 	}
-	new_pwd = ft_strjoin(key_var, new_pwd);
-	collect_malloc(new_pwd, ENV_CHECK);
-	return (NULL);
+	collect_malloc(cwd, ENV_CHECK);
+	pwd(cwd);
+	pwd_var = getenv("PWD");
+	oldpwd = ft_strjoin("OLDPWD=", pwd_var);
+	collect_malloc(oldpwd, CHECK);
+	change_var(oldpwd);
+	collect_malloc(oldpwd, DELETE);
+	pwd_var = ft_strjoin("PWD=", cwd);
+	collect_malloc(pwd_var, CHECK);
+	change_var(pwd_var);
+	collect_malloc(pwd_var, DELETE);
+	return (0);
 }
 
 int	cd(char **args)
 {
-	char	*path;
-	char	*new_oldpwd;
-
 	if (args[1] == NULL)
 	{
 		print_err2("cd", "too few arguments");
@@ -71,15 +73,6 @@ int	cd(char **args)
 		print_err2("cd", "too many arguments");
 		return (1);
 	}
-<<<<<<< HEAD
-	path = args[1];
-	new_oldpwd = dup_getenv("OLDPWD=");
-	return (change_dir(args[1]));
-	// if (chdir(args[1]))
-	// 	print_err1(strerror(errno));
-=======
-	if (set_env("OLDPWD=") || change_dir(args[1]) || set_env("PWD="))
-		return (1);
->>>>>>> 13e40b46b5afd41c9e1b122e286977cba160baee
+	change_dir(args[1]);
 	return (0);
 }

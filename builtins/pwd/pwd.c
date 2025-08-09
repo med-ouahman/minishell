@@ -10,24 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "../../include/builtins.h"
 
-int	pwd(void)
+int	pwd(char *oldpwd)
 {
-	char	*cwd;
+	static char	*cwd;
 
-	cwd = getcwd(NULL, 0);
-	if (!cwd && errno == ENOMEM)
-	{
-		collect_malloc(NULL, DESTROY);
-		return (1);
-	}
 	if (!cwd)
 	{
-		print_err2("pwd", strerror(errno));
-		return (1);
+		cwd = getcwd(NULL, 0);
+		collect_malloc(cwd, ENV_CHECK);
+	}
+	if (oldpwd)
+	{
+		collect_malloc(cwd, ENV_DELETE);
+		cwd = oldpwd;
+		return (0);
 	}
 	printf("%s\n", cwd);
-	free(cwd);
 	return (0);
 }

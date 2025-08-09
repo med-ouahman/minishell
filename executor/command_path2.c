@@ -25,7 +25,7 @@ int	is_dir(char *name, mode_t f_type)
 
 int	is_path(char *cmd)
 {
-	if (!ft_strncmp(cmd, "./", 2) || ft_strchr(cmd, '/'))
+	if (ft_strchr(cmd, '/'))
 		return (1);
 	return (0);
 }

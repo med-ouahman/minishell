@@ -1,6 +1,6 @@
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -D PIPE_BUF=100
+CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -f
 

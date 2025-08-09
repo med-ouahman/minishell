@@ -20,7 +20,7 @@
 int		cd(char **args);
 int		echo(char **args);
 int		exit_(char **args);
-int		pwd(void);
+int		pwd(char *oldpwd);
 int		unset(char **args);
 int		env(char **args);
 int		export(char **args);

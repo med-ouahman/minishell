@@ -19,10 +19,3 @@ void	rl_new_prompt(void)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
-void	rl_after_fork(void)
-{
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-}

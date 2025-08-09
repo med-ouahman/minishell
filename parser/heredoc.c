@@ -12,11 +12,11 @@
 
 #include "../include/parser.h"
 
-#define LENGHT 20
+#define LENGTH 20
 
 static int	create_heredoc_name(char *file_name)
 {
-	char	random_c[LENGHT + 1];
+	char	random_c[LENGTH + 1];
 	int		i;
 	int		fd;
 
@@ -27,9 +27,9 @@ static int	create_heredoc_name(char *file_name)
 		return (-1);
 	}
 	i = 0;
-	while (i < LENGHT)
+	while (i < LENGTH)
 	{
-		read(fd, random_c, LENGHT);
+		read(fd, random_c, LENGTH);
 		if ('/' == random_c[i])
 			continue ;
 		file_name[i] = random_c[i];
@@ -52,7 +52,7 @@ static int	heredoc_exit(pid_t pid)
 	{
 		if (WTERMSIG(status) == SIGINT)
 		{
-			rl_after_fork();
+			printf("\n");
 			access_exit_code(130, WRITE);
 			return (-1);
 		}
@@ -83,7 +83,7 @@ static int	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 
 int	parser_heredoc(char *delim)
 {
-	char	file[LENGHT + 1];
+	char	file[LENGTH + 1];
 	pid_t	pid;
 	int		write_fd;
 	int		read_fd;
