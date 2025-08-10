@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/09 13:42:19 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:22:39 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,15 @@ int	check_last_token_unexpanded(t_token *tokens)
 	return (1);
 }
 
-t_token	*prepar_args(t_list	**arg, t_token *tokens)
+t_token	*prepar_args(t_list	**arg, t_token *tokens, int split)
 {
 	t_list	*new;
 	char	*new_arg;
-	int		split;
 
-	split = check_last_token_unexpanded(tokens);
 	new_arg = NULL;
 	while (tokens)
 	{
 		new_arg = ft_join(new_arg, 1, tokens->str, 1);
-		// if (*arg && split && tokens->join == SPLIT)
-		// {
-		// 	tokens = tokens->next;
-		// 	break ;
-		// }
 		tokens = tokens->next;
 		if (split && tokens && tokens->join == SPLIT)
 			break ;
@@ -97,7 +90,7 @@ void	join_tokens_redir(t_redir *redir, t_token *tokens)
 	redir->file = new_token;
 }
 
-t_list	*join_tokens_args(t_list **arg, t_token *tokens)
+t_list	*join_tokens_args(t_list **arg, t_token *tokens, int split)
 {
 	t_list	*new_arg;
 	t_list	*tmp_arg;
@@ -107,7 +100,7 @@ t_list	*join_tokens_args(t_list **arg, t_token *tokens)
 	tmp = tokens;
 	new_arg = NULL;
 	while (tmp)
-		tmp = prepar_args(&new_arg, tmp);
+		tmp = prepar_args(&new_arg, tmp, split);
 	collect_malloc((*arg)->content, DELETE);
 	(*arg)->content = new_arg->content;
 	tmp_arg = (*arg)->next;
@@ -121,6 +114,7 @@ t_list	*join_tokens_args(t_list **arg, t_token *tokens)
 		collect_malloc(tmp_free, DELETE);
 		return (new_arg);
 	}
+	print_list(*arg);
 	collect_malloc(tmp_free, DELETE);
 	return (*arg);
 }

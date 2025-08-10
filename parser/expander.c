@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:55 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/09 13:51:16 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:20:24 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	expand_args(t_list *list_args)
 	t_list	*tmp;
 	t_token	*tokens;
 	int		export;
+	int		split;
 
 	tmp = list_args;
 	tokens = NULL;
@@ -73,13 +74,14 @@ static int	expand_args(t_list *list_args)
 	while (tmp)
 	{
 		tokens = split_token((char *)tmp->content);
+		split = check_last_token_unexpanded(tokens);
 		expand_tokens(tokens);
 		if (!export || !check_valid_variable((char *)tmp->content))
 		{
 			check_join_split(tokens);
 			split_after_expand(tokens);
 		}
-		tmp = join_tokens_args(&tmp, tokens);
+		tmp = join_tokens_args(&tmp, tokens, split);
 		free_list_token(tokens);
 		tmp = tmp->next;
 	}

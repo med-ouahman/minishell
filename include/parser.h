@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 05:01:17 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/10 14:23:16 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,9 @@ void	rm_quote(char *str);
 void	expand_token_dqoute(t_token *token);
 void	expand_token_var(t_token *token);
 t_token	*new_tokens_expanded(t_token *token);
-t_list	*join_tokens_args(t_list **arg, t_token *tokens);
+t_list	*join_tokens_args(t_list **arg, t_token *tokens, int split);
 void	join_tokens_redir(t_redir *redir, t_token *tokens);
-t_token	*prepar_args(t_list	**arg, t_token *tokens);
+t_token	*prepar_args(t_list	**arg, t_token *tokens, int split);
 int		check_last_token_unexpanded(t_token *tokens);
 int		check_valid_variable(char *str);
 
