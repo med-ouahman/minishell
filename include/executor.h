@@ -92,7 +92,9 @@ char		*get_next_path(char *path, int r);
 char		*getpath(int init);
 int			get_file_type(char *__file_path, mode_t *file_type);
 int			is_dir(char *name, mode_t f_type);
-
+int			access_denied(char *save, char **path);
+int			fill_path(char **path, char *try_path, char *cmd);
+void		save_path(char **save, char *path);
 /* child process termination and exit status */
 
 int			wait_children(pid_t *pids, t_uint num_children);

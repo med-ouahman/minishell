@@ -107,10 +107,11 @@ int		check_valid_variable(char *str);
 
 /* heredoc */
 
+int		close_heredocs(t_list *redirs);
 t_list	*parser(char *input);
 void	free_list_token(t_token *token);
 void	read_heredoc(char *delmiter, int fd);
-int		parser_heredoc(char *delim);
+int		parser_heredoc(t_list *redirs, char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
 

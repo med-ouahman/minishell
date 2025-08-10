@@ -33,7 +33,7 @@ static int	add_to_redirection(t_list **redir, t_token *token)
 	tmp->heredoc_fd = -1;
 	if (tmp->type == RED_HERDOC)
 	{
-		tmp->heredoc_fd = parser_heredoc(tmp->file);
+		tmp->heredoc_fd = parser_heredoc(*redir, tmp->file);
 		if (tmp->heredoc_fd < 0)
 			return (1);
 	}

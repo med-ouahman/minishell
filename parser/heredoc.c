@@ -81,7 +81,7 @@ static int	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 	return (0);
 }
 
-int	parser_heredoc(char *delim)
+int	parser_heredoc(t_list *redirs, char *delim)
 {
 	char	file[LENGTH + 1];
 	pid_t	pid;
@@ -98,6 +98,7 @@ int	parser_heredoc(char *delim)
 		return (print_err1(strerror(errno)), -1);
 	if (!pid)
 	{
+		close_heredocs(redirs);
 		close(read_fd);
 		read_heredoc(delim, write_fd);
 		close(write_fd);

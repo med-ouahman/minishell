@@ -56,11 +56,6 @@ t_token	*prepar_args(t_list	**arg, t_token *tokens)
 	while (tokens)
 	{
 		new_arg = ft_join(new_arg, 1, tokens->str, 1);
-		// if (*arg && split && tokens->join == SPLIT)
-		// {
-		// 	tokens = tokens->next;
-		// 	break ;
-		// }
 		tokens = tokens->next;
 		if (split && tokens && tokens->join == SPLIT)
 			break ;

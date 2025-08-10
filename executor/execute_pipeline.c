@@ -38,16 +38,13 @@ static int
 		return (1);
 	}
 	set_stdio(exec_cb, i);
-	if (cmd->args)
-		cmd->is_builtin = is_builtin(cmd->args->content);
+	if (!cmd->args)
+		return (close_stdio(exec_cb->stdio) * 0);
+	cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
-	{
 		status = run_builtin_in_subshell(cmd, exec_cb);
-	}
 	else
-	{
 		status = simple_command(cmd, exec_cb);
-	}
 	reset_stdio(exec_cb->stdio);
 	return (status);
 }

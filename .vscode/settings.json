@@ -23,7 +23,10 @@
     "unistd.h": "c",
     "stdlib.h": "c",
     "fcntl.h": "c",
-    "limits.h": "c"
+    "limits.h": "c",
+    "chrono": "c",
+    "variant": "c",
+    "semaphore.h": "c"
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

@@ -83,7 +83,6 @@ static int	expand_args(t_list *list_args)
 		free_list_token(tokens);
 		tmp = tmp->next;
 	}
-	//print_list(list_args);
 	return (0);
 }
 
