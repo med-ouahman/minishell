@@ -46,10 +46,8 @@ void	change_var(char *new)
 {
 	t_uint	index;
 	t_uint	l1;
-	int		i;
 	char	*dup_new;
 
-	i = 0;
 	if (!ft_strchr(new, '='))
 		return ;
 	l1 = key_size(new);
@@ -91,29 +89,24 @@ void	add_var(char *new_var)
 
 int	export_add(char **argv)
 {
-	int		i;
-	int		index;
 	int		c;
 
-	i = 0;
 	c = 0;
-	
-	while (argv[i])
+	while (*argv)
 	{
-		if (check_valid_variable(argv[i]))
+		if (check_valid_variable(*argv))
 		{
-			index = var_exists(argv[i]);
-			if (index)
-				change_var(argv[i]);
+			if (var_exists(*argv))
+				change_var(*argv);
 			else
-				add_var(argv[i]);
+				add_var(*argv);
 		}
 		else
 		{
 			c = 1;
-			print_err3("export", argv[i], "not a valid identifier");
+			print_err3("export", *argv, "not a valid identifier");
 		}
-		i++;
+		argv++;
 	}
 	return (c);
 }

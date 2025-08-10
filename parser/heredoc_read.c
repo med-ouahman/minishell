@@ -12,6 +12,25 @@
 
 #include "../include/parser.h"
 
+int	close_heredocs(t_list *redirs)
+{
+	t_redir	*redir;
+
+	while (redirs)
+	{
+		redir = redirs->content;
+		if (redir->type == RED_HERDOC)
+		{
+			if (redir->heredoc_fd)
+			{
+				close(redir->heredoc_fd);
+			}
+		}
+		redirs = redirs->next;
+	}
+	return (0);
+}
+
 static int	remove_quote(char *str)
 {
 	int		count;
