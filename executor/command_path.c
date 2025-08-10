@@ -41,8 +41,10 @@ static char	*join_paths(char *path, char *cmd)
 static int	check_access(char **path, char *cmd)
 {
 	char	*next_path;
+	int		access_denied;
 
 	*path = NULL;
+	access_denied = 0;
 	if (!*cmd || (access(cmd, F_OK) == 0 && !is_regular(cmd)))
 		return (ENOENT);
 	next_path = get_next_path(getpath(0), 0);
@@ -56,11 +58,15 @@ static int	check_access(char **path, char *cmd)
 				get_next_path(NULL, 1);
 				return (0);
 			}
+			access_denied = EACCES;
 		}
 		collect_malloc(*path, DELETE);
 		*path = NULL;
 		next_path = get_next_path(getpath(1), 0);
 	}
+	get_next_path(NULL, 1);
+	if (access_denied)
+		return (access_denied);
 	return (errno);
 }
 
@@ -110,7 +116,7 @@ char	*command_path(char *cmd)
 	else if (EACCES == c)
 	{
 		access_exit_code(PERMISSION_DENIED, WRITE);
-		print_err2(path, strerror(errno));
+		print_err2(cmd, strerror(errno));
 		return (NULL);
 	}
 	return (path);

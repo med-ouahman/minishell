@@ -46,10 +46,8 @@ void	change_var(char *new)
 {
 	t_uint	index;
 	t_uint	l1;
-	int		i;
 	char	*dup_new;
 
-	i = 0;
 	if (!ft_strchr(new, '='))
 		return ;
 	l1 = key_size(new);

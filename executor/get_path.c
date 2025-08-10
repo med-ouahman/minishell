@@ -26,7 +26,7 @@ static char	*reset(char *old_val, int *offset, int *null_pos)
 	char	*path;
 
 	path = getpath(1);
-	if (path)
+	if (path && *null_pos && *old_val)
 		path[*null_pos] = *old_val;
 	*old_val = 0;
 	*offset = 0;
