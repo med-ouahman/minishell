@@ -6,11 +6,40 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:01 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 04:14:49 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 09:58:04 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
+
+void helper_herdoc(t_list *lst)
+{
+	static t_list	*lst_cmds = NULL;
+	t_list			*cmd_redir;
+	t_redir			*redir;
+
+	if (lst)
+	{
+		lst_cmds = lst;
+		return ;
+	}
+	lst = lst_cmds;
+	while (lst)
+	{
+		cmd_redir = (t_list *)((t_cmd *)lst->content)->redir;
+		while (cmd_redir)
+		{
+			redir = ((t_redir *)cmd_redir->content);
+			if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
+			{printf("%s   %d\n", redir->file, redir->heredoc_fd);
+				close (redir->heredoc_fd);
+				redir->heredoc_fd = -1;
+			}
+			cmd_redir = cmd_redir->next;
+		}
+		lst = lst->next;
+	}
+}
 
 static void	update_content(char **content, char *input, t_info info)
 {

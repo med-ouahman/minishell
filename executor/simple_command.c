@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 11:11:30 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/09 14:13:29 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 09:48:17 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 		code = EXIT_FAILURE;
 	if (code != -1)
 	{
+		helper_herdoc(NULL);
 		close_stdio(exec_cb->stdio);
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 		cleanup(code);
 	}
-	close_heredocs(exec_cb->current->redir);
+	helper_herdoc(NULL);
 	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	execve(path, args, __environ);
 	perror("execve");

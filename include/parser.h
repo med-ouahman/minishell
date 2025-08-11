@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/10 14:23:16 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 09:34:36 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,10 @@ int		close_heredocs(t_list *redirs);
 t_list	*parser(char *input);
 void	free_list_token(t_token *token);
 void	read_heredoc(char *delmiter, int fd);
-int		parser_heredoc(t_list *redirs, char *delim);
+int		parser_heredoc(char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
 
+
+void helper_herdoc(t_list *lst);
 #endif

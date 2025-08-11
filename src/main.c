@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/11 06:59:15 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 09:59:04 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,24 +28,6 @@ static void	init(void)
 	change_var("SHELL=minishell");
 }
 
-void	*r_line(void)
-{
-	char	*line;
-	char	*rline;
-
-	rline = NULL;
-	if (isatty(STDIN_FILENO))
-		rline = readline(get_prompt());
-	else
-	{
-		line = get_next_line(STDIN_FILENO);
-		if (line)
-			rline = ft_strtrim(line, "\n");
-		free(line);
-	}
-	return (rline);
-}
-
 static void	minishell(void)
 {
 	char	*line;
@@ -54,8 +36,7 @@ static void	minishell(void)
 	line = readline(get_prompt());
 	if (NULL == line)
 	{
-		if (isatty(STDIN_FILENO))
-			ft_printf_fd(2, "exit\n");
+		ft_printf_fd(2, "exit\n");
 		cleanup(access_exit_code(0, READ));
 	}
 	if (*line)

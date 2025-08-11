@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:07 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 06:37:07 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 09:34:16 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
 	return (0);
 }
 
-int	parser_heredoc(t_list *redirs, char *delim)
+int	parser_heredoc(char *delim)
 {
 	char	file[LENGTH + 1];
 	pid_t	pid;
@@ -98,7 +98,7 @@ int	parser_heredoc(t_list *redirs, char *delim)
 		return (print_err1(strerror(errno)), -1);
 	if (!pid)
 	{
-		close_heredocs(redirs);
+		helper_herdoc(NULL);
 		close(read_fd);
 		read_heredoc(delim, write_fd);
 		close(write_fd);

@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:12 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 06:08:01 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 09:35:18 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	add_to_redirection(t_list **redir, t_token *token)
 	tmp->heredoc_fd = -1;
 	if (tmp->type == RED_HERDOC)
 	{
-		tmp->heredoc_fd = parser_heredoc(*redir, tmp->file);
+		tmp->heredoc_fd = parser_heredoc(tmp->file);
 		if (tmp->heredoc_fd < 0)
 			return (1);
 	}
@@ -75,6 +75,7 @@ t_list	*set_cmd(t_token *token)
 
 	cmd = NULL;
 	tmp = add_next_cmd(&cmd, token);
+	helper_herdoc(cmd);
 	while (token)
 	{
 		if (token->type == WORD)
