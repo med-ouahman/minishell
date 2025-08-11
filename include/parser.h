@@ -114,7 +114,6 @@ void	read_heredoc(char *delmiter, int fd);
 int		parser_heredoc(char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
+void	helper_herdoc(t_list *lst);
 
-
-void helper_herdoc(t_list *lst);
 #endif

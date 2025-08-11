@@ -63,7 +63,7 @@ static	char	*is_path_unset(char *cmd)
 			return (NULL);
 		if (is_dir(cmd, ftype))
 			return (NULL);
-		path = ft_join("./", 0, cmd, 1);
+		path = ft_join("./", 0, cmd, 0);
 		return (path);
 	}
 	else
@@ -72,6 +72,7 @@ static	char	*is_path_unset(char *cmd)
 			access_exit_code(PERMISSION_DENIED, WRITE);
 		else if (errno == ENOENT)
 			access_exit_code(NOT_FOUND, WRITE);
+		print_err2(cmd, strerror(errno));
 		return (NULL);
 	}
 	return (path);

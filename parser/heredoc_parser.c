@@ -12,7 +12,7 @@
 
 #include "../include/parser.h"
 
-void helper_herdoc(t_list *lst)
+void	helper_herdoc(t_list *lst)
 {
 	static t_list	*lst_cmds = NULL;
 	t_list			*cmd_redir;
@@ -31,7 +31,7 @@ void helper_herdoc(t_list *lst)
 		{
 			redir = ((t_redir *)cmd_redir->content);
 			if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
-			{printf("%s   %d\n", redir->file, redir->heredoc_fd);
+			{
 				close (redir->heredoc_fd);
 				redir->heredoc_fd = -1;
 			}
@@ -86,9 +86,9 @@ char	*ft_join(char *str1, int free1, char *str2, int free2)
 		str2 = "";
 	new = ft_strjoin(str1, str2);
 	collect_malloc(new, CHECK);
-	if (free1 && str1)
+	if (free1)
 		collect_malloc(str1, DELETE);
-	if (free2 && str2)
+	if (free2)
 		collect_malloc(str2, DELETE);
 	return (new);
 }

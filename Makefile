@@ -32,14 +32,12 @@ SRCS =  parser/expander.c parser/expander_tools.c parser/heredoc_read.c parser/t
 OBJS = $(SRCS:.c=.o)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
 $(LIBFT):
-	echo "compiling libft..."
-	$(MAKE) -C $(LIBFT_DIR)
-	echo "libft done!"
+	@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(LIBFT) $(OBJS) 
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -I$(INCLUDE) -lreadline -o $(NAME)

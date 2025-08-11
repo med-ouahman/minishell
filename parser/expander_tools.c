@@ -60,7 +60,7 @@ void	check_join_split(t_token *token)
 			break ;
 		if (tmp->type == AMBIGUES && tmp->str && token->type != AMBIGUES)
 		{
-			if (is_space(tmp->str[ft_strlen(tmp->str) - 1]))
+			if (tmp->str[0] && is_space(tmp->str[ft_strlen(tmp->str) - 1]))
 				token->join = SPLIT;
 			else
 				token->join = JOIN;
