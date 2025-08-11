@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:19:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/09 11:43:03 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/10 09:20:03 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	minishell(void)
 	char	*line;
 	t_list	*pipeline;
 
-	line = readline(get_prompt());
+	line = r_line();//readline(get_prompt());
 	if (NULL == line)
 	{
 		if (isatty(STDIN_FILENO))
