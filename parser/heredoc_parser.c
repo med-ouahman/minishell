@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:01 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 09:58:04 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 11:49:21 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void helper_herdoc(t_list *lst)
 		{
 			redir = ((t_redir *)cmd_redir->content);
 			if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
-			{printf("%s   %d\n", redir->file, redir->heredoc_fd);
+			{
 				close (redir->heredoc_fd);
 				redir->heredoc_fd = -1;
 			}
