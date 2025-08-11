@@ -32,15 +32,15 @@ static int
 	int	status;
 
 	status = 0;
+	exec_cb->current = cmd;
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
 	{
 		close_stdio(exec_cb->stdio);
 		return (1);
 	}
 	set_stdio(exec_cb, i);
-	if (!cmd->args)
-		return (close_stdio(exec_cb->stdio) * 0);
-	cmd->is_builtin = is_builtin(cmd->args->content);
+	if (cmd->args)
+		cmd->is_builtin = is_builtin(cmd->args->content);
 	if (cmd->is_builtin)
 		status = run_builtin_in_subshell(cmd, exec_cb);
 	else

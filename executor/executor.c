@@ -36,6 +36,7 @@ int	execute_single_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	int		pid;
 	int		stat;
 
+	exec_cb->current = cmd;
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
 		return (close_stdio(exec_cb->stdio), 1);
 	if (!cmd->args)

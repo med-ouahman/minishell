@@ -32,6 +32,7 @@ typedef struct s_pipefd
 
 typedef struct s_exec_cb
 {
+	t_cmd		*current;
 	t_pipefd	*pipes;
 	pid_t		*pids;
 	t_uint		num_commands;

@@ -30,6 +30,7 @@ static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 		cleanup(code);
 	}
+	close_heredocs(exec_cb->current->redir);
 	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	execve(path, args, __environ);
 	perror("execve");
@@ -43,8 +44,6 @@ int	simple_command(t_cmd *cmd, t_exec_control_block *exec_cb)
 	pid_t	pid;
 
 	path = NULL;
-	if (!cmd->args)
-		return (0);
 	args = build_argument_list(cmd->args);
 	if (args)
 		path = command_path(args[0]);
