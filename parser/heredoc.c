@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:07 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 06:25:51 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 06:37:07 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,6 @@ int	parser_heredoc(t_list *redirs, char *delim)
 	}
 	close(write_fd);
 	if (heredoc_exit(pid))
-		return (-1);
+		return (close(read_fd), -1);
 	return (read_fd);
 }

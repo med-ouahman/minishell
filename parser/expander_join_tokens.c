@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/10 14:22:39 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/11 06:33:25 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ t_list	*join_tokens_args(t_list **arg, t_token *tokens, int split)
 		collect_malloc(tmp_free, DELETE);
 		return (new_arg);
 	}
-	print_list(*arg);
 	collect_malloc(tmp_free, DELETE);
 	return (*arg);
 }
