@@ -22,7 +22,6 @@ void	rl_new_prompt(void)
 
 void	exit_heredoc(int signum)
 {
-	printf("\n");
 	access_exit_code(128 + signum, WRITE);
 	close(heredoc_read_fd(0, READ));
 	cleanup(access_exit_code(128 + signum, WRITE));
