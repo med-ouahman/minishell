@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 09:34:36 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/12 04:05:29 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		check_valid_variable(char *str);
 
 /* heredoc */
 
-int		close_heredocs(t_list *redirs);
+int		heredoc_read_fd(int new_fd, int mode);
 t_list	*parser(char *input);
 void	free_list_token(t_token *token);
 void	read_heredoc(char *delmiter, int fd);

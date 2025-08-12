@@ -6,30 +6,11 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:04 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 04:14:50 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/12 04:17:47 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
-
-int	close_heredocs(t_list *redirs)
-{
-	t_redir	*redir;
-
-	while (redirs)
-	{
-		redir = redirs->content;
-		if (redir->type == RED_HERDOC)
-		{
-			if (redir->heredoc_fd)
-			{
-				close(redir->heredoc_fd);
-			}
-		}
-		redirs = redirs->next;
-	}
-	return (0);
-}
 
 static int	remove_quote(char *str)
 {
@@ -89,15 +70,29 @@ static int	parser_heredoc_line(char *delmiter, int fd, int expand)
 	return (0);
 }
 
+int	heredoc_read_fd(int new_fd, int mode)
+{
+	static int	fd;
+
+	if (mode == READ)
+		return (fd);
+	fd = new_fd;
+	return (fd);
+}
+
 void	read_heredoc(char *delmiter, int fd)
 {
 	int		_expand;
 
-	signal(SIGINT, sigint_handler);
+	heredoc_read_fd(fd, WRITE);
+	heredoc_signals();
+	helper_herdoc(NULL);
 	_expand = remove_quote(delmiter);
 	while (true)
 	{
 		if (parser_heredoc_line(delmiter, fd, _expand))
 			break ;
 	}
+	close(fd);
+	cleanup(EXIT_SUCCESS);
 }

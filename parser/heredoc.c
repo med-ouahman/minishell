@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:07 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 09:34:16 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/12 04:20:00 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,24 @@ static int	create_heredoc_name(char *file_name)
 	return (0);
 }
 
-static int	heredoc_exit(pid_t pid)
+static int	heredoc_exit(pid_t pid, int read_fd)
 {
 	int	status;
 
 	status = 0;
 	waitpid(pid, &status, 0);
+	handle_signals();
 	if (WIFEXITED(status))
-		access_exit_code(WEXITSTATUS(status), WRITE);
-	else if (WIFSIGNALED(status))
 	{
-		if (WTERMSIG(status) == SIGINT)
+		if (WEXITSTATUS(status) == 130)
 		{
 			printf("\n");
+			helper_herdoc(NULL);
+			close(read_fd);
 			access_exit_code(130, WRITE);
 			return (-1);
 		}
 	}
-	handle_signals();
 	return (0);
 }
 
@@ -98,14 +98,11 @@ int	parser_heredoc(char *delim)
 		return (print_err1(strerror(errno)), -1);
 	if (!pid)
 	{
-		helper_herdoc(NULL);
 		close(read_fd);
 		read_heredoc(delim, write_fd);
-		close(write_fd);
-		cleanup(EXIT_SUCCESS);
 	}
 	close(write_fd);
-	if (heredoc_exit(pid))
-		return (close(read_fd), -1);
+	if (heredoc_exit(pid, read_fd))
+		return (-1);
 	return (read_fd);
 }
