@@ -1,5 +1,10 @@
-*.o
-minishell
-fds.sh
-r.supp
-run.bash
+# Ignore everything
+*
+
+# But keep .c and .h files
+!*.c
+!*.h
+
+# Keep Makefile (in any directory)
+!Makefile
+
