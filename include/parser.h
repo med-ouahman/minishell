@@ -18,6 +18,7 @@
 # include <wait.h>
 # include <fcntl.h>
 # include "./signal_handler.h"
+# include <termios.h>
 
 typedef enum s_enum_types
 {
@@ -115,5 +116,7 @@ int		parser_heredoc(char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
 void	helper_herdoc(t_list *lst);
+int		parse_heredoc2(char *eof);
+char	*get_prompt(void);
 
 #endif

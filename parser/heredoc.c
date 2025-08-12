@@ -12,6 +12,8 @@
 
 #include "../include/parser.h"
 
+int	heredoc_sig;
+
 #define LENGTH 20
 
 static int	create_heredoc_name(char *file_name)

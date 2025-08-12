@@ -45,7 +45,7 @@ typedef enum s_enum_builtins
 {
 	NOT,
 	CD,
-	ECHO,
+	ECHOF,
 	EXIT,
 	PWD,
 	ENV,

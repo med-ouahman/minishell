@@ -12,15 +12,6 @@
 
 #include "../include/minishell.h"
 
-static char	*get_prompt(void)
-{
-	if (access_exit_code(0, READ) && access_exit_code(0, READ) != 130)
-	{
-		return (ERROR_PROMPT);
-	}
-	return (PROMPT);
-}
-
 static void	init(void)
 {
 	handle_signals();
