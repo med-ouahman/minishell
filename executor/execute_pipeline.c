@@ -33,6 +33,7 @@ static int
 
 	status = 0;
 	exec_cb->current = cmd;
+	reset_stdio(exec_cb->stdio);
 	if (prepare_redirs(cmd->redir, exec_cb->stdio))
 	{
 		close_stdio(exec_cb->stdio);

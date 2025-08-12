@@ -26,11 +26,11 @@ static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 		code = EXIT_FAILURE;
 	if (code != -1)
 	{
+		helper_herdoc(NULL);
 		close_stdio(exec_cb->stdio);
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 		cleanup(code);
 	}
-	close_heredocs(exec_cb->current->redir);
 	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	execve(path, args, __environ);
 	perror("execve");

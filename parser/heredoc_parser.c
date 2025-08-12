@@ -12,7 +12,7 @@
 
 #include "../include/parser.h"
 
-void helper_herdoc(t_list *lst)
+void	helper_herdoc(t_list *lst)
 {
 	static t_list	*lst_cmds = NULL;
 	t_list			*cmd_redir;
@@ -31,8 +31,8 @@ void helper_herdoc(t_list *lst)
 		{
 			redir = ((t_redir *)cmd_redir->content);
 			if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
-			{printf("%s   %d\n", redir->file, redir->heredoc_fd);
-				close (redir->heredoc_fd);
+			{
+				close(redir->heredoc_fd);
 				redir->heredoc_fd = -1;
 			}
 			cmd_redir = cmd_redir->next;

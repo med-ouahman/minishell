@@ -62,7 +62,7 @@ int	dup_stdio(int *stdio)
 		if (0 > dup2(stdio[1], STDOUT_FILENO))
 		{
 			close(stdio[0]);
-			perror("dup2");
+			perror("dup3");
 			return (-1);
 		}
 		close(stdio[1]);

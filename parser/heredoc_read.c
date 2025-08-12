@@ -93,7 +93,7 @@ void	read_heredoc(char *delmiter, int fd)
 {
 	int		_expand;
 
-	default_signals();
+	signal(SIGINT, sigint_handler);
 	_expand = remove_quote(delmiter);
 	while (true)
 	{
