@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/12 04:05:29 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:17:44 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,16 +110,11 @@ int		check_valid_variable(char *str);
 
 /* heredoc */
 
-int		heredoc_read_fd(int new_fd, int mode);
 t_list	*parser(char *input);
 void	free_list_token(t_token *token);
-void	read_heredoc(char *delmiter, int fd);
 int		parser_heredoc(char *delim);
-char	*ft_join(char *str1, int free1, char *str2, int free2);
-char	*parser_line(char *input, int _expand);
 void	helper_heredoc(t_list *lst);
 char	*get_prompt(void);
-int		get_filename(char *file_name);
-int		open_heredoc(char *file_name, int *write_fd, int *read_fd);
-int		write_heredoc(char *line, int writer, char *eof);
+int		remove_quote(char *str);
+int		write_heredoc(char *line, int writer, char *eof, int exp);
 #endif

@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.h                                   :+:      :+:    :+:   */
+/*   ft_join.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 16:01:57 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/13 13:50:04 by aid-bray         ###   ########.fr       */
+/*   Created: 2025/08/13 12:57:49 by aid-bray          #+#    #+#             */
+/*   Updated: 2025/08/13 12:58:31 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNAL_HANDLER_H
-# define SIGNAL_HANDLER_H
+#include "../include/utils.h"
 
-# include <signal.h>
-# include <readline/readline.h>
-# include "./utils.h"
-# include "./parser.h"
+char	*ft_join(char *str1, int free1, char *str2, int free2)
+{
+	char	*new;
 
-void	rl_new_prompt(void);
-void	sigint_handler(int signum);
-void	handle_signals(void);
-void	default_signals(void);
-void	ignore_signals(void);
-
-#endif
+	if (!str1 && !str2)
+		return (NULL);
+	if (!str1 && str2)
+		str1 = "";
+	if (str1 && !str2)
+		str2 = "";
+	new = ft_strjoin(str1, str2);
+	collect_malloc(new, CHECK);
+	if (free1 && str1)
+		collect_malloc(str1, DELETE);
+	if (free2 && str2)
+		collect_malloc(str2, DELETE);
+	return (new);
+}

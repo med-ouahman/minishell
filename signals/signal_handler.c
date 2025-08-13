@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 15:53:12 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/12 04:20:17 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:50:09 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,4 @@ void	default_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-}
-
-void	heredoc_signals(void)
-{
-	signal(SIGINT, exit_heredoc);
-	signal(SIGQUIT, SIG_IGN);
 }
