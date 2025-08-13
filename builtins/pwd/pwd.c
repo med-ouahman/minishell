@@ -19,6 +19,11 @@ int	pwd(char *oldpwd)
 	if (!cwd)
 	{
 		cwd = getcwd(NULL, 0);
+		if (!cwd)
+		{
+			print_err2("pwd", strerror(errno));
+			return (-1);
+		}
 		collect_malloc(cwd, ENV_CHECK);
 	}
 	if (oldpwd)

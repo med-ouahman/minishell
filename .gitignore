@@ -2,6 +2,7 @@
 *
 
 # But keep .c and .h files
+!*/
 !*.c
 !*.h
 

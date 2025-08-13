@@ -17,6 +17,7 @@ static int	change_dir(char *dirname)
 	char	*cwd;
 	// int		fd;
 
+	errno = 0;
 	if (chdir(dirname))
 	{
 		print_err3("cd", dirname, strerror(errno));
