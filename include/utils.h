@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/30 06:16:17 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:59:08 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,5 @@ int		cleanup(int code);
 t_uint	array_size(char **arr);
 void	print_arr(char **args);
 
+char	*ft_join(char *str1, int free1, char *str2, int free2);
 #endif

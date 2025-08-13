@@ -6,40 +6,16 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:01 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 09:58:04 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:36:06 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-void	helper_heredoc(t_list *lst)
+static int	eof_exception(char *eof)
 {
-	static t_list	*lst_cmds = NULL;
-	t_list			*cmd_redir;
-	t_redir			*redir;
-
-	if (lst)
-	{
-		lst_cmds = lst;
-		return ;
-	}
-	lst = lst_cmds;
-	while (lst)
-	{
-		cmd_redir = (t_list *)((t_cmd *)lst->content)->redir;
-		while (cmd_redir)
-		{
-			redir = ((t_redir *)cmd_redir->content);
-			if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
-			{
-				close(redir->heredoc_fd);
-				redir->heredoc_fd = -1;
-			}
-			cmd_redir = cmd_redir->next;
-		}
-		lst = lst->next;
-	}
-	lst_cmds = NULL;
+	ft_printf_fd(STDERR_FILENO, "heredoc delimited by EOF, required %s\n", eof);
+	return (-1);
 }
 
 static void	update_content(char **content, char *input, t_info info)
@@ -49,72 +25,87 @@ static void	update_content(char **content, char *input, t_info info)
 
 	str1 = ft_substr(input, info.start, info.end - info.start);
 	collect_malloc(str1, CHECK);
-	var = getenv(str1);
+	if (str1[1] == '?')
+	{
+		var = ft_itoa(access_exit_code(0, READ));
+		collect_malloc(var, CHECK);
+	}
+	else
+		var = getenv(str1 + 1);
 	if (!var)
 		var = "";
 	*content = ft_join(*content, 1, var, 0);
 	collect_malloc(str1, DELETE);
 }
 
-static void	jobe_while(char *input, char **content, size_t*i, t_info *info)
+void	parse_latest(char *input, char **content, size_t *i, t_info *info)
 {
 	char	*tmp;
 
-	if (check_for_expand(input, (*i)))
+	tmp = NULL;
+	if (check_for_expand(input, *i))
+	{
+		if (*i != info->start)
+		{
+			tmp = ft_substr(input, info->start, *i - info->start);
+			collect_malloc(tmp, CHECK);
+			*content = ft_join(*content, 1, tmp, 1);
+			info->start = *i;
+		}
+		*i = check_for_expand(input, *i);
+		info->end = *i;
+		update_content(content, input, *info);
+		info->start = *i;
+	}
+	else
+		(*i)++;
+	if (!input[*i] && info->start < *i)
 	{
 		tmp = ft_substr(input, info->start, *i - info->start);
 		collect_malloc(tmp, CHECK);
 		*content = ft_join(*content, 1, tmp, 1);
-		info->start = *i + 1;
-		(*i) = check_for_expand(input, (*i));
-		info->end = *i;
-		update_content(content, input, *info);
-		info->start = (*i);
-		return ;
 	}
-	info->end = ++(*i);
 }
 
-char	*ft_join(char *str1, int free1, char *str2, int free2)
-{
-	char	*new;
-
-	if (!str1 && !str2)
-		return (NULL);
-	if (!str1 && str2)
-		str1 = "";
-	if (str1 && !str2)
-		str2 = "";
-	new = ft_strjoin(str1, str2);
-	collect_malloc(new, CHECK);
-	if (free1 && str1)
-		collect_malloc(str1, DELETE);
-	if (free2 && str2)
-		collect_malloc(str2, DELETE);
-	return (new);
-}
-
-char	*parser_line(char *input, int _expand)
+static char	*parser_line(char *input)
 {
 	size_t	i;
 	char	*content;
-	char	*tmp;
 	t_info	info;
 
-	if (_expand || !input[0])
-		return (input);
 	i = 0;
 	ft_memset(&info, 0, sizeof(t_info));
-	content = ft_strdup("");
+	while (input[i] && !check_for_expand(input, i))
+		i++;
+	content = ft_substr(input, 0, i);
 	collect_malloc(content, CHECK);
+	info.start = i;
 	while (input[i])
-		jobe_while(input, &content, &i, &info);
-	if (info.start < info.end)
 	{
-		tmp = ft_substr(input, info.start, info.end - info.start);
-		collect_malloc(tmp, CHECK);
-		content = ft_strjoin(content, tmp);
-		collect_malloc(content, CHECK);
+		parse_latest(input, &content, &i, &info);
 	}
 	return (content);
+}
+
+int	write_heredoc(char *line, int writer, char *eof, int exp)
+{
+	char	*content;
+
+	if (!line)
+		return (eof_exception(eof));
+	if (!ft_strcmp(eof, line))
+	{
+		free(line);
+		return (-1);
+	}
+	if (exp || !line[0])
+		content = line;
+	else
+		content = parser_line(line);
+	write(writer, content, ft_strlen(content));
+	write(writer, "\n", 1);
+	if (line != content)
+		collect_malloc(content, DELETE);
+	free(line);
+	return (0);
 }
