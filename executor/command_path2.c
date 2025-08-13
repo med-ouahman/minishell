@@ -69,6 +69,8 @@ char	*is_executable(char *__pathname)
 		return (__pathname);
 	}
 	print_err2(__pathname, strerror(errno));
-	access_exit_code(127, WRITE);
+	access_exit_code(126, WRITE);
+	if (errno == ENOENT)
+		access_exit_code(127, WRITE);
 	return (NULL);
 }

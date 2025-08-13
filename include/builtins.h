@@ -26,7 +26,7 @@ int		env(char **args);
 int		export(char **args);
 
 /* buitlin utilities */
-
+void	add_var(char *new_var);
 void	change_var(char *new_var);
 int		check_valid_variable(char *str);
 void	dup_env(void);

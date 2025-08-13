@@ -39,6 +39,7 @@ void	helper_heredoc(t_list *lst)
 		}
 		lst = lst->next;
 	}
+	lst_cmds = NULL;
 }
 
 static void	update_content(char **content, char *input, t_info info)
