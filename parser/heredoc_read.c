@@ -86,7 +86,7 @@ void	read_heredoc(char *delmiter, int fd)
 
 	heredoc_read_fd(fd, WRITE);
 	heredoc_signals();
-	helper_herdoc(NULL);
+	helper_heredoc(NULL);
 	_expand = remove_quote(delmiter);
 	while (true)
 	{

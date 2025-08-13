@@ -10,101 +10,100 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parser.h"
+// #include "../include/parser.h"
 
-int	heredoc_sig;
+// #define LENGTH 20
 
-#define LENGTH 20
+// static int	create_heredoc_name(char *file_name)
+// {
+// 	char	random_c[LENGTH + 1];
+// 	int		i;
+// 	int		fd;
 
-static int	create_heredoc_name(char *file_name)
-{
-	char	random_c[LENGTH + 1];
-	int		i;
-	int		fd;
+// 	fd = open("/dev/random", O_RDONLY);
+// 	if (fd < 0)
+// 	{
+// 		print_err1(strerror(errno));
+// 		return (-1);
+// 	}
+// 	i = 0;
+// 	while (i < LENGTH)
+// 	{
+// 		read(fd, random_c, LENGTH);
+// 		if ('/' == random_c[i] || !ft_isprint(random_c[i]))
+// 			continue ;
+// 		file_name[i] = random_c[i];
+// 		i++;
+// 	}
+// 	file_name[i] = '\0';
+// 	close(fd);
+// 	return (0);
+// }
 
-	fd = open("/dev/random", O_RDONLY);
-	if (fd < 0)
-	{
-		print_err1(strerror(errno));
-		return (-1);
-	}
-	i = 0;
-	while (i < LENGTH)
-	{
-		read(fd, random_c, LENGTH);
-		if ('/' == random_c[i] || !ft_isprint(random_c[i]))
-			continue ;
-		file_name[i] = random_c[i];
-		i++;
-	}
-	file_name[i] = '\0';
-	close(fd);
-	return (0);
-}
+// static int	heredoc_exit(pid_t pid, int read_fd)
+// {
+// 	int	status;
 
-static int	heredoc_exit(pid_t pid, int read_fd)
-{
-	int	status;
+// 	status = 0;
+// 	waitpid(pid, &status, 0);
+// 	handle_signals();
+// 	if (WIFEXITED(status))
+// 	{
+// 		if (WEXITSTATUS(status) == 130)
+// 		{
+// 			printf("\n");
+// 			helper_heredoc(NULL);
+// 			close(read_fd);
+// 			access_exit_code(130, WRITE);
+// 			return (-1);
+// 		}
+// 	}
+// 	return (0);
+// }
 
-	status = 0;
-	waitpid(pid, &status, 0);
-	handle_signals();
-	if (WIFEXITED(status))
-	{
-		if (WEXITSTATUS(status) == 130)
-		{
-			printf("\n");
-			helper_herdoc(NULL);
-			close(read_fd);
-			access_exit_code(130, WRITE);
-			return (-1);
-		}
-	}
-	return (0);
-}
+// static int	
+// create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
+// {
+// 	*write_fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+// 	if (*write_fd < 0)
+// 	{
+// 		print_err2(file_name, strerror(errno));
+// 		return (-1);
+// 	}
+// 	*read_fd = open(file_name, O_RDONLY);
+// 	if (*read_fd < 0)
+// 	{
+// 		print_err1(strerror(errno));
+// 		close(*write_fd);
+// 		unlink(file_name);
+// 		return (-1);
+// 	}
+// 	unlink(file_name);
+// 	return (0);
+// }
 
-static int	create_heredoc_file(char *file_name, int *write_fd, int *read_fd)
-{
-	*write_fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (*write_fd < 0)
-	{
-		print_err2(file_name, strerror(errno));
-		return (-1);
-	}
-	*read_fd = open(file_name, O_RDONLY);
-	if (*read_fd < 0)
-	{
-		print_err1(strerror(errno));
-		close(*write_fd);
-		unlink(file_name);
-		return (-1);
-	}
-	unlink(file_name);
-	return (0);
-}
+// int	parsedr_heredoc(char *delim)
+// {
+// 	char	file[LENGTH + 1];
+// 	pid_t	pid;
+// 	int		write_fd;
+// 	int		read_fd;
 
-int	parser_heredoc(char *delim)
-{
-	char	file[LENGTH + 1];
-	pid_t	pid;
-	int		write_fd;
-	int		read_fd;
-
-	if (create_heredoc_name(file))
-		return (-1);
-	if (create_heredoc_file(file, &write_fd, &read_fd))
-		return (-1);
-	ignore_signals();
-	pid = fork();
-	if (pid < 0)
-		return (print_err1(strerror(errno)), -1);
-	if (!pid)
-	{
-		close(read_fd);
-		read_heredoc(delim, write_fd);
-	}
-	close(write_fd);
-	if (heredoc_exit(pid, read_fd))
-		return (-1);
-	return (read_fd);
-}
+// 	if (create_heredoc_name(file))
+// 		return (-1);
+// 	if (create_heredoc_file(file, &write_fd, &read_fd))
+// 		return (-1);
+// 	ignore_signals();
+// 	pid = fork();
+// 	if (pid < 0)
+// 		return (print_err1(strerror(errno)), -1);
+// 	if (!pid)
+// 	{
+// 		close(read_fd);
+// 		read_heredoc(delim, write_fd);
+// 	}
+// 	close(write_fd);
+// 	if (heredoc_exit(pid, read_fd))
+// 		return (-1);
+// 	return (read_fd);
+// }

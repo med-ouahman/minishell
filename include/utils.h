@@ -77,6 +77,5 @@ t_uint	max(t_uint a, t_uint b);
 int		cleanup(int code);
 t_uint	array_size(char **arr);
 void	print_arr(char **args);
-void    *use(void *ptr);
 
 #endif

@@ -20,6 +20,8 @@
 # include "./signal_handler.h"
 # include <termios.h>
 
+# define LENGTH 20
+
 typedef enum s_enum_types
 {
 	WORD = 1,
@@ -115,8 +117,9 @@ void	read_heredoc(char *delmiter, int fd);
 int		parser_heredoc(char *delim);
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 char	*parser_line(char *input, int _expand);
-void	helper_herdoc(t_list *lst);
-int		parse_heredoc2(char *eof);
+void	helper_heredoc(t_list *lst);
 char	*get_prompt(void);
-
+int		get_filename(char *file_name);
+int		open_heredoc(char *file_name, int *write_fd, int *read_fd);
+int		write_heredoc(char *line, int writer, char *eof);
 #endif

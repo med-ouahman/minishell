@@ -35,7 +35,10 @@ static int	add_to_redirection(t_list **redir, t_token *token)
 	{
 		tmp->heredoc_fd = parser_heredoc(tmp->file);
 		if (tmp->heredoc_fd < 0)
+		{
+			helper_heredoc(NULL);
 			return (1);
+		}
 	}
 	new = ft_lstnew(tmp);
 	collect_malloc(new, CHECK);
@@ -75,7 +78,7 @@ t_list	*set_cmd(t_token *token)
 
 	cmd = NULL;
 	tmp = add_next_cmd(&cmd, token);
-	helper_herdoc(cmd);
+	helper_heredoc(cmd);
 	while (token)
 	{
 		if (token->type == WORD)

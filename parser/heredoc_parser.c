@@ -12,7 +12,7 @@
 
 #include "../include/parser.h"
 
-void	helper_herdoc(t_list *lst)
+void	helper_heredoc(t_list *lst)
 {
 	static t_list	*lst_cmds = NULL;
 	t_list			*cmd_redir;
