@@ -12,11 +12,12 @@
 
 #include "../include/executor.h"
 
-int	is_dir(char *name, mode_t f_type)
+int	is_dir(char *name, mode_t f_type, int msg)
 {
 	if (S_ISDIR(f_type))
 	{
-		print_err2(name, "Is a directory");
+		if (msg)
+			print_err2(name, "Is a directory");
 		access_exit_code(126, WRITE);
 		return (1);
 	}
@@ -25,6 +26,8 @@ int	is_dir(char *name, mode_t f_type)
 
 int	is_path(char *cmd)
 {
+	if (!ft_strcmp(".", cmd) || !ft_strcmp("..", cmd))
+		return (1);
 	if (ft_strchr(cmd, '/'))
 		return (1);
 	return (0);
@@ -55,7 +58,7 @@ char	*is_executable(char *__pathname)
 	{
 		if (get_file_type(__pathname, &file_type))
 			return (NULL);
-		if (is_dir(__pathname, file_type))
+		if (is_dir(__pathname, file_type, 1))
 			return (NULL);
 		else if (access(__pathname, X_OK))
 		{

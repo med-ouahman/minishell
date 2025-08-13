@@ -12,16 +12,16 @@
 
 #include "../include/executor.h"
 
-static int	is_regular(char *cmd)
-{
-	mode_t	file_type;
+// static int	is_regular(char *cmd)
+// {
+// 	mode_t	file_type;
 
-	if (get_file_type(cmd, &file_type))
-		return (0);
-	if (S_ISREG(file_type))
-		return (1);
-	return (0);
-}
+// 	if (get_file_type(cmd, &file_type))
+// 		return (0);
+// 	if (S_ISREG(file_type))
+// 		return (1);
+// 	return (0);
+// }
 
 static int	check_access(char **path, char *cmd)
 {
@@ -31,7 +31,7 @@ static int	check_access(char **path, char *cmd)
 
 	save = NULL;
 	*path = NULL;
-	if (!*cmd || (access(cmd, F_OK) == 0 && !is_regular(cmd)))
+	if (!*cmd)
 		return (ENOENT);
 	next_path = get_next_path(getpath(0), 0);
 	while (next_path)
@@ -42,8 +42,8 @@ static int	check_access(char **path, char *cmd)
 			collect_malloc(save, DELETE);
 			return (0);
 		}
-		if (c == EACCES)
-			save_path(&save, *path);
+		if (c == EACCES || c == ENOENT)
+			save_path(&save, *path, c);
 		collect_malloc(*path, DELETE);
 		*path = NULL;
 		next_path = get_next_path(getpath(1), 0);
@@ -61,7 +61,7 @@ static	char	*is_path_unset(char *cmd)
 	{
 		if (get_file_type(cmd, &ftype))
 			return (NULL);
-		if (is_dir(cmd, ftype))
+		if (is_dir(cmd, ftype, 1))
 			return (NULL);
 		path = ft_join("./", 0, cmd, 0);
 		return (path);
@@ -94,6 +94,7 @@ char	*command_path(char *cmd)
 	{
 		access_exit_code(NOT_FOUND, WRITE);
 		print_err2(cmd, "command not found");
+		return (NULL);
 	}
 	else if (EACCES == c)
 	{

@@ -15,11 +15,12 @@
 static int	change_dir(char *dirname)
 {
 	char	*cwd;
+	// int		fd;
 
 	if (chdir(dirname))
 	{
 		print_err3("cd", dirname, strerror(errno));
-		return (1);
+		// return (1);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)

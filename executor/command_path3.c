@@ -29,7 +29,15 @@ static char	*join_paths(char *path, char *cmd)
 
 int	fill_path(char **path, char *try_path, char *cmd)
 {
+	mode_t	ftype;
+
 	*path = join_paths(try_path, cmd);
+	if (!access(*path, F_OK))
+	{
+		get_file_type(*path, &ftype);
+		if (!S_ISREG(ftype))
+			return (ENOENT);
+	}
 	if (!access(*path, F_OK))
 	{
 		if (!access(*path, X_OK))
@@ -42,12 +50,19 @@ int	fill_path(char **path, char *try_path, char *cmd)
 	return (errno);
 }
 
-void	save_path(char **save, char *path)
+int	save_path(char **save, char *path, int c)
 {
+	static int	err;
+
+	if (!save && !path)
+		return (err);
+	if (c != -1)
+		err = c;
 	if (*save)
-		return ;
+		return (err);
 	*save = ft_strdup(path);
 	collect_malloc(*save, CHECK);
+	return (err);
 }
 
 int	access_denied(char *save, char **path)
@@ -55,7 +70,7 @@ int	access_denied(char *save, char **path)
 	if (save)
 	{
 		*path = save;
-		return (EACCES);
+		return (save_path(NULL, NULL, -1));
 	}
 	collect_malloc(save, DELETE);
 	return (errno);
