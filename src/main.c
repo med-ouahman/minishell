@@ -35,6 +35,7 @@ static void	minishell(void)
 	pipeline = parser(line);
 	free(line);
 	executor(pipeline);
+	helper_heredoc(NULL);
 	collect_malloc(NULL, CLEAR);
 }
 

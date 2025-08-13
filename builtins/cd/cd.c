@@ -15,13 +15,10 @@
 static int	change_dir(char *dirname)
 {
 	char	*cwd;
-	// int		fd;
 
-	errno = 0;
 	if (chdir(dirname))
 	{
 		print_err3("cd", dirname, strerror(errno));
-		// return (1);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
@@ -49,3 +46,4 @@ int	cd(char **args)
 	change_dir(args[1]);
 	return (0);
 }
+ 
