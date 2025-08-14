@@ -31,7 +31,6 @@ static void	child(char *path, char **args, t_exec_control_block *exec_cb)
 		close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 		cleanup(code);
 	}
-	
 	close_pipes(exec_cb->pipes, exec_cb->num_commands - 1);
 	execve(path, args, __environ);
 	perror("execve");

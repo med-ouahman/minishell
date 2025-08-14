@@ -12,11 +12,20 @@
 
 #include "../include/parser.h"
 
+static int	close_heredoc(t_redir *redir)
+{
+	if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
+	{
+		close(redir->heredoc_fd);
+		redir->heredoc_fd = -1;
+	}
+	return (0);
+}
+
 void	helper_heredoc(t_list *lst)
 {
 	static t_list	*lst_cmds = NULL;
 	t_list			*cmd_redir;
-	t_redir			*redir;
 
 	if (lst)
 	{
@@ -29,16 +38,12 @@ void	helper_heredoc(t_list *lst)
 		cmd_redir = (t_list *)((t_cmd *)lst->content)->redir;
 		while (cmd_redir)
 		{
-			redir = ((t_redir *)cmd_redir->content);
-			if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
-			{
-				close(redir->heredoc_fd);
-				redir->heredoc_fd = -1;
-			}
+			close_heredoc(cmd_redir->content);
 			cmd_redir = cmd_redir->next;
 		}
 		lst = lst->next;
 	}
+	lst_cmds = NULL;
 }
 
 int	remove_quote(char *str)

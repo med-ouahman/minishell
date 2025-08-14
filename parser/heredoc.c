@@ -69,7 +69,6 @@ static void	heredoc_handler(int signum)
 {
 	rl_done = 1;
 	g_heredoc_sig = signum;
-	rl_prompt = ft_strdup(get_prompt());
 	access_exit_code(130, WRITE);
 	signal(SIGINT, sigint_handler);
 }

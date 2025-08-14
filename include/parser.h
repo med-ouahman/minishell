@@ -18,7 +18,6 @@
 # include <wait.h>
 # include <fcntl.h>
 # include "./signal_handler.h"
-# include <termios.h>
 
 # define LENGTH 20
 

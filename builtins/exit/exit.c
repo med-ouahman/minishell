@@ -39,10 +39,11 @@ static int	exit_nbr(const char *nptr)
 		i++;
 	if (!nptr[i])
 		return (-1);
-	if (nptr[i] == '-' && ++i)
-		sign = -1;
-	else if (nptr[i] == '+')
-		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		sign = 0 - (nptr[i] == '-');
+		i += (sign == -1);
+	}
 	while (ft_isdigit(nptr[i]))
 	{
 		nb = nb * 10 + (nptr[i] - 48);
