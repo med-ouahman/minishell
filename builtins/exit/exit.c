@@ -54,13 +54,14 @@ static int	exit_nbr(const char *nptr)
 	return ((nb * sign) % 256);
 }
 
-static int	exit_2(char **args)
+static int	exit_2(char **args, int *stdio)
 {
 	char	*arg;
 
 	arg = args[1];
 	if (check_arg(arg))
 	{
+		close_stdio(stdio);
 		print_err3("exit", arg, "numeric argument required");
 		cleanup(2);
 	}
@@ -72,13 +73,16 @@ static int	exit_2(char **args)
 	return (0);
 }
 
-int	exit_(char **args)
+int	exit_(char **args, int *stdio)
 {
 	int		exit_status;
 
 	exit_status = 2;
 	if (args[1] == NULL)
+	{
+		close_stdio(stdio);
 		cleanup(access_exit_code(0, READ));
+	}
 	if (!args[2])
 	{
 		exit_status = exit_nbr(args[1]);
@@ -89,7 +93,8 @@ int	exit_(char **args)
 			print_err3("exit", args[1], "numeric argument required");
 			exit_status = 2;
 		}
+		close_stdio(stdio);
 		cleanup(exit_status);
 	}
-	return (exit_2(args));
+	return (exit_2(args, stdio));
 }

@@ -68,7 +68,7 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 		return (close_stdio(old), 1);
 	args = build_argument_list(cmd->args);
 	if (EXIT == cmd->is_builtin)
-		code = exit_(args);
+		code = exit_(args, stdio);
 	if (CD == cmd->is_builtin)
 		code = cd(args);
 	else if (PWD == cmd->is_builtin)

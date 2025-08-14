@@ -13,21 +13,21 @@
 #ifndef BUILTINS_H
 # define BUILTINS_H
 
-# include "./utils.h"
-
+# include "./executor.h"
 /* builtins */
 
 int		cd(char **args);
 int		echo(char **args);
-int		exit_(char **args);
+int		exit_(char **args, int *stdio);
 int		pwd(char *oldpwd);
 int		unset(char **args);
 int		env(char **args);
 int		export(char **args);
 
 /* buitlin utilities */
+
 void	add_var(char *new_var);
-void	change_var(char *new_var);
+void	change_var(char *new);
 int		check_valid_variable(char *str);
 void	dup_env(void);
 t_uint	size_env(void);
