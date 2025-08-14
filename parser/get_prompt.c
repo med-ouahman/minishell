@@ -15,11 +15,20 @@
 #define PROMPT "\033[1;32mmini@0.0.0$ \033[0m"
 #define ERROR_PROMPT "\033[31mmini@0.0.0$ \033[0m"
 
-char	*get_prompt(void)
+char	*get_prompt(int child)
 {
-	if (access_exit_code(0, READ) && access_exit_code(0, READ) != 130)
+	static int	err;
+
+	if (child)
+	{
+		err = 1;
+		return (NULL);
+	}
+	if (err && access_exit_code(0, READ))
 	{
 		return (ERROR_PROMPT);
 	}
+	if (access_exit_code(0, READ) && access_exit_code(0, READ) != 130)
+		return (ERROR_PROMPT);
 	return (PROMPT);
 }

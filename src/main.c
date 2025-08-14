@@ -24,7 +24,7 @@ static void	minishell(void)
 	char	*line;
 	t_list	*pipeline;
 
-	line = readline(get_prompt());
+	line = readline(get_prompt(0));
 	if (NULL == line)
 	{
 		ft_printf_fd(2, "exit\n");
