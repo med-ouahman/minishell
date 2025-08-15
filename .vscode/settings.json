@@ -30,7 +30,15 @@
     "termios.h": "c",
     "stat.h": "c",
     "types.h": "c",
+<<<<<<< HEAD
     "errno.h": "c"
+=======
+    "array": "c",
+    "string_view": "c",
+    "format": "c",
+    "initializer_list": "c",
+    "span": "c"
+>>>>>>> 572aa128b320304ea1a147a27717492faff1c955
   },
   "C_Cpp_Runner.cCompilerPath": "gcc",
   "C_Cpp_Runner.cppCompilerPath": "g++",

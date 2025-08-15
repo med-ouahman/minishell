@@ -45,12 +45,13 @@ static int	change_dir(char *dirname)
 	if (chdir(dirname))
 	{
 		print_err3("cd", dirname, strerror(errno));
+		return (-1);
 	}
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		print_err2("cd", strerror(errno));
-		return (-1);
+		print_err3("getcwd", "couldn't get current or parent working directory", strerror(errno));
+		return (0);
 	}
 	collect_malloc(cwd, ENV_CHECK);
 	pwd(cwd);
@@ -70,6 +71,7 @@ int	cd(char **args)
 		print_err2("cd", "too many arguments");
 		return (1);
 	}
-	change_dir(args[1]);
+	if (change_dir(args[1]))
+		return (1);
 	return (0);
 }

@@ -5,7 +5,7 @@
 !*/
 !*.c
 !*.h
-
+.vscode
 # Keep Makefile (in any directory)
 !Makefile
 

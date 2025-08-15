@@ -40,9 +40,11 @@ int	echo(char **args)
 	}
 	while (args[i])
 	{
-		printf("%s%c", args[i], " "[args[i + 1] == NULL]);
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		i++;
 	}
-	printf("%s", newline);
+	ft_putstr_fd(newline, STDOUT_FILENO);
 	return (0);
 }

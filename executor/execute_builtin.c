@@ -64,11 +64,11 @@ int	execute_builtin(t_cmd *cmd, int *stdio)
 	int		code;
 	char	**args;
 
-	if (preserve_stdio(old, stdio) || dup_stdio(stdio))
-		return (close_stdio(old), 1);
 	args = build_argument_list(cmd->args);
 	if (EXIT == cmd->is_builtin)
 		code = exit_(args, stdio);
+	if (preserve_stdio(old, stdio) || dup_stdio(stdio))
+		return (close_stdio(old), 1);
 	if (CD == cmd->is_builtin)
 		code = cd(args);
 	else if (PWD == cmd->is_builtin)

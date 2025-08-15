@@ -17,9 +17,13 @@ static int	check_arg(char *arg)
 	int	i;
 
 	i = 0;
+	while (ft_isspace(arg[i]))
+		i++;
 	if (arg[i] == '+' || arg[i] == '-')
 		i++;
 	while (ft_isdigit(arg[i]))
+		i++;
+	while (ft_isspace(arg[i]))
 		i++;
 	if (!arg[i])
 		return (0);

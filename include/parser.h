@@ -114,7 +114,7 @@ t_list	*parser(char *input);
 void	free_list_token(t_token *token);
 int		parser_heredoc(char *delim);
 void	helper_heredoc(t_list *lst);
-char	*get_prompt(void);
+char	*get_prompt(int child);
 int		remove_quote(char *str);
 int		write_heredoc(char *line, int writer, char *eof, int exp);
 #endif

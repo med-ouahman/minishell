@@ -74,5 +74,6 @@ int	executor(t_list *pipeline)
 		exit_status = execute_pipeline(pipeline, &exec_cb);
 	}
 	access_exit_code(exit_status, WRITE);
+	get_prompt(1);
 	return (exit_status);
 }
