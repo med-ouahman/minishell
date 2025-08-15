@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:12 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 09:35:18 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 09:19:59 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	add_to_redirection(t_list **redir, t_token *token)
 		if (tmp->heredoc_fd < 0)
 		{
 			helper_heredoc(NULL);
-			return (1);
+			return (-1);
 		}
 	}
 	new = ft_lstnew(tmp);
@@ -51,23 +51,14 @@ static t_list	*add_next_cmd(t_list **cmd, t_token *token)
 {
 	t_cmd	*new_cmd;
 	t_list	*new_noued;
-	t_list	*tmp;
 
 	new_cmd = ft_calloc(1, sizeof(t_cmd));
 	collect_malloc(new_cmd, CHECK);
-	new_cmd->is_builtin = 0;
 	new_noued = ft_lstnew(new_cmd);
 	collect_malloc(new_noued, CHECK);
-	if (!(*cmd))
-	{
-		*cmd = new_noued;
-		return (new_noued);
-	}
-	collect_malloc(token->str, DELETE);
-	tmp = *cmd;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new_noued;
+	if (token)
+		collect_malloc(token->str, DELETE);
+	ft_lstadd_back(cmd, new_noued);
 	return (new_noued);
 }
 
@@ -75,19 +66,21 @@ t_list	*set_cmd(t_token *token)
 {
 	t_list	*cmd;
 	t_list	*tmp;
+	t_cmd	*cur_cmd;
 
 	cmd = NULL;
-	tmp = add_next_cmd(&cmd, token);
+	tmp = add_next_cmd(&cmd, NULL);
 	helper_heredoc(cmd);
 	while (token)
 	{
+		cur_cmd = (t_cmd *)tmp->content;
 		if (token->type == WORD)
-			add_to_args(&(((t_cmd *)tmp->content)->args), token);
+			add_to_args(&cur_cmd->args, token);
 		else if (token->type == PIPE)
 			tmp = add_next_cmd(&cmd, token);
 		else if (is_redirection(token))
 		{
-			if (add_to_redirection(&(((t_cmd *)tmp->content)->redir), token))
+			if (add_to_redirection(&cur_cmd->redir, token))
 				return (NULL);
 			token = token->next;
 		}

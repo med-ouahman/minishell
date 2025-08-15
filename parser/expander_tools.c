@@ -6,11 +6,27 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/10 14:23:25 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:28:12 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
+
+int	check_ambiguous(t_redir *redir, t_token *token)
+{
+	if (!check_last_token_unexpanded(token))
+		return (0);
+	while (token)
+	{
+		if (token->join == SPLIT)
+		{
+			redir->type = AMBIGUOUS;
+			return (1);
+		}
+		token = token->next;
+	}
+	return (0);
+}
 
 size_t	check_for_expand(char *input, size_t i)
 {
@@ -45,22 +61,22 @@ t_token	*split_token(char *str)
 
 void	check_join_split(t_token *token)
 {
-	t_token	*tmp;
+	t_token	*prev;
 
-	if (token->type != AMBIGUES && token->next && token->next->type == AMBIGUES
-		&& token->next->str && is_space(token->next->str[0]))
+	if (token->type != AMBIGUOUS && token->next && token->next->str
+		&& token->next->type == AMBIGUOUS && is_space(token->next->str[0]))
 		token->join = SPLIT;
 	else
 		token->join = JOIN;
 	while (token)
 	{
-		tmp = token;
+		prev = token;
 		token = token->next;
 		if (!token)
 			break ;
-		if (tmp->type == AMBIGUES && tmp->str && token->type != AMBIGUES)
+		if (prev->type == AMBIGUOUS && prev->str && token->type != AMBIGUOUS)
 		{
-			if (tmp->str[0] && is_space(tmp->str[ft_strlen(tmp->str) - 1]))
+			if (prev->str[0] && is_space(prev->str[ft_strlen(prev->str) - 1]))
 				token->join = SPLIT;
 			else
 				token->join = JOIN;
@@ -81,7 +97,7 @@ void	split_after_expand(t_token *tokens)
 	while (tmp)
 	{
 		split = check_last_token_unexpanded(tmp);
-		if (tmp->type == AMBIGUES && split)
+		if (tmp->type == AMBIGUOUS && split)
 		{
 			news = new_tokens_expanded(tmp);
 			collect_malloc(tmp->str, DELETE);

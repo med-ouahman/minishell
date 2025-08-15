@@ -6,11 +6,65 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:15 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/10 14:23:43 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:04:35 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
+
+void	split_token_dquote(t_token **side_tokens, char *input)
+{
+	size_t	i;
+	t_info	info;
+
+	i = 0;
+	ft_memset(&info, 0, sizeof(t_info));
+	while (input[i])
+	{
+		if (check_for_expand(input, i))
+		{
+			info.end = i;
+			info.type = NO_QUOTE;
+			add_token(side_tokens, input, info);
+			info.start = i;
+			info.type = AMBIGUOUS;
+			i = check_for_expand(input, i);
+			info.end = i;
+			add_token(side_tokens, input, info);
+			info.start = i;
+			continue ;
+		}
+		i++;
+	}
+	info.end = i;
+	info.type = NO_QUOTE;
+	add_token(side_tokens, input, info);
+}
+
+void	read_token_token(char *input, t_info *info, size_t *i)
+{
+	info->start = *i;
+	if (input[*i] == '\'')
+		info->end = ft_strchr(input + *i + 1, '\'') - input + 1;
+	else if (input[*i] == '"')
+		info->end = ft_strchr(input + *i + 1, '"') - input + 1;
+	else if (check_for_expand(input, *i))
+		info->end = check_for_expand(input, *i);
+	else
+	{
+		while (input[*i] && !check_for_expand(input, *i) && input[*i] != '\''
+			&& input[*i] != '"')
+			(*i)++;
+		info->end = *i;
+	}
+	info->type = NO_QUOTE;
+	if (input[info->start] == '\'')
+		info->type = S_QUOTE;
+	else if (input[info->start] == '"')
+		info->type = D_QUOTE;
+	else if (check_for_expand(input, info->start))
+		info->type = AMBIGUOUS;
+}
 
 int	add_token(t_token **tokens, char *input, t_info info)
 {
@@ -62,60 +116,6 @@ static void	read_token_input(char *input, t_info *info, size_t*i)
 		(*i)++;
 	}
 	info->end = *i;
-}
-
-void	split_token_dquote(t_token **side_tokens, char *input)
-{
-	size_t	i;
-	t_info	info;
-
-	i = 0;
-	ft_memset(&info, 0, sizeof(t_info));
-	while (input[i])
-	{
-		if (check_for_expand(input, i))
-		{
-			info.end = i;
-			info.type = NO_QUOTE;
-			add_token(side_tokens, input, info);
-			info.start = i;
-			info.type = AMBIGUES;
-			i = check_for_expand(input, i);
-			info.end = i;
-			add_token(side_tokens, input, info);
-			info.start = i;
-			continue ;
-		}
-		i++;
-	}
-	info.end = i;
-	info.type = NO_QUOTE;
-	add_token(side_tokens, input, info);
-}
-
-void	read_token_token(char *input, t_info *info, size_t *i)
-{
-	info->start = *i;
-	if (input[*i] == '\'')
-		info->end = ft_strchr(input + *i + 1, '\'') - input + 1;
-	else if (input[*i] == '"')
-		info->end = ft_strchr(input + *i + 1, '"') - input + 1;
-	else if (check_for_expand(input, *i))
-		info->end = check_for_expand(input, *i);
-	else
-	{
-		while (input[*i] && !check_for_expand(input, *i) && input[*i] != '\''
-			&& input[*i] != '"')
-			(*i)++;
-		info->end = *i;
-	}
-	info->type = NO_QUOTE;
-	if (input[info->start] == '\'')
-		info->type = S_QUOTE;
-	else if (input[info->start] == '"')
-		info->type = D_QUOTE;
-	else if (check_for_expand(input, info->start))
-		info->type = AMBIGUES;
 }
 
 t_token	*get_tokens(char *input)

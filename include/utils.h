@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/13 12:59:08 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:37:03 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ typedef enum e_gb
 	ENV_CLEAR,
 	DESTROY
 }	t_gb;
-
-typedef size_t			t_iter;
 
 typedef unsigned int	t_uint;
 

@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:50 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/10 14:23:21 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:04:35 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	expand_token_dqoute(t_token *token)
 	tmp = side_token;
 	while (tmp)
 	{
-		if (tmp->type == AMBIGUES)
+		if (tmp->type == AMBIGUOUS)
 			expand_token_var(tmp);
 		tmp = tmp->next;
 	}
@@ -110,7 +110,7 @@ void	join_var_expanded(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == AMBIGUES && tmp->next && tmp->next->type == AMBIGUES)
+		if (tmp->type == AMBIGUOUS && tmp->next && tmp->next->type == AMBIGUOUS)
 		{
 			del = tmp->next;
 			tmp->str = ft_join(tmp->str, 1, tmp->next->str, 1);

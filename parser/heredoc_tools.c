@@ -6,20 +6,19 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 03:00:23 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/13 14:17:35 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:15:17 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-static int	close_heredoc(t_redir *redir)
+static void	close_heredoc(t_redir *redir)
 {
 	if (redir->type == RED_HERDOC && redir->heredoc_fd != -1)
 	{
 		close(redir->heredoc_fd);
 		redir->heredoc_fd = -1;
 	}
-	return (0);
 }
 
 void	helper_heredoc(t_list *lst)

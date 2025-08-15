@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:48 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/13 14:17:44 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 11:23:24 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum s_enum_types
 	RED_INP,
 	RED_APPOUT,
 	RED_HERDOC,
-	AMBIGUES,
+	AMBIGUOUS,
 	S_QUOTE,
 	D_QUOTE,
 	NO_QUOTE,
@@ -91,10 +91,11 @@ t_list	*set_cmd(t_token *token);
 
 /* expansion and quote removal */
 
-int		expand(t_list *cmd);
+void	expand(t_list *cmd);
 void	split_after_expand(t_token *tokens);
 void	check_join_split(t_token *token);
 t_token	*split_token(char *str);
+int		check_ambiguous(t_redir *redir, t_token *token);
 size_t	check_for_expand(char *input, size_t i);
 void	join_var_expanded(t_token *tokens);
 void	rm_quote(char *str);

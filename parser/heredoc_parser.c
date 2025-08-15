@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:01 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/13 14:36:06 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 09:56:37 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 static int	eof_exception(char *eof)
 {
-	ft_printf_fd(STDERR_FILENO, "heredoc delimited by EOF, required %s\n", eof);
+	ft_printf_fd(STDERR_FILENO, "warning: here-document \
+delimited by end-of-file (wanted `%s')\n", eof);
 	return (-1);
 }
 
-static void	update_content(char **content, char *input, t_info info)
+static void	expand_heredoc_var(char **content, char *input, t_info info)
 {
 	char	*str1;
 	char	*var;
@@ -54,7 +55,7 @@ void	parse_latest(char *input, char **content, size_t *i, t_info *info)
 		}
 		*i = check_for_expand(input, *i);
 		info->end = *i;
-		update_content(content, input, *info);
+		expand_heredoc_var(content, input, *info);
 		info->start = *i;
 	}
 	else
@@ -69,8 +70,8 @@ void	parse_latest(char *input, char **content, size_t *i, t_info *info)
 
 static char	*parser_line(char *input)
 {
-	size_t	i;
 	char	*content;
+	size_t	i;
 	t_info	info;
 
 	i = 0;
@@ -87,13 +88,13 @@ static char	*parser_line(char *input)
 	return (content);
 }
 
-int	write_heredoc(char *line, int writer, char *eof, int exp)
+int	write_heredoc(char *line, int writer, char *delimiter, int exp)
 {
 	char	*content;
 
 	if (!line)
-		return (eof_exception(eof));
-	if (!ft_strcmp(eof, line))
+		return (eof_exception(delimiter));
+	if (!ft_strcmp(delimiter, line))
 	{
 		free(line);
 		return (-1);

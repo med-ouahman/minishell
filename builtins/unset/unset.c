@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:38:20 by mouahman          #+#    #+#             */
-/*   Updated: 2025/05/19 18:46:24 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:36:58 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static t_bool	tobe_removed(char *var, char **argv)
 static void	realloc_env(t_uint size, t_uint rm_count)
 {
 	char	**new_env;
-	t_iter	i;
-	t_iter	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;

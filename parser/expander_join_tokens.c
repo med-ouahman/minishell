@@ -6,25 +6,11 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:47 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/11 06:33:25 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:55:36 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
-
-int	check_ambiguous(t_redir *redir, t_token *token)
-{
-	while (token)
-	{
-		if (token->type == SPLIT || !token->str)
-		{
-			redir->type = AMBIGUES;
-			return (1);
-		}
-		token = token->next;
-	}
-	return (0);
-}
 
 int	check_last_token_unexpanded(t_token *tokens)
 {
@@ -33,7 +19,7 @@ int	check_last_token_unexpanded(t_token *tokens)
 	while (tokens->next)
 		tokens = tokens->next;
 	i = 0;
-	if (tokens->type == AMBIGUES || tokens->type == D_QUOTE
+	if (tokens->type == AMBIGUOUS || tokens->type == D_QUOTE
 		|| tokens->type == S_QUOTE)
 		return (1);
 	while (tokens->str && tokens->str[i])
@@ -67,23 +53,16 @@ t_token	*prepar_args(t_list	**arg, t_token *tokens, int split)
 void	join_tokens_redir(t_redir *redir, t_token *tokens)
 {
 	char	*new_token;
-	t_token	*tmp;
 
-	tmp = tokens;
 	new_token = NULL;
-	while (tmp)
+	while (tokens)
 	{
-		new_token = ft_join(new_token, 1, tmp->str, 1);
-		tmp = tmp->next;
-		if (tokens && tokens->type == SPLIT)
-		{
-			redir->type = AMBIGUES;
-			return ;
-		}
+		new_token = ft_join(new_token, 1, tokens->str, 1);
+		tokens = tokens->next;
 	}
 	if (!new_token)
 	{
-		redir->type = AMBIGUES;
+		redir->type = AMBIGUOUS;
 		return ;
 	}
 	collect_malloc(redir->file, DELETE);

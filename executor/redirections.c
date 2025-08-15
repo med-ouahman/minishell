@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 02:17:14 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/06 09:29:35 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 10:04:35 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	open_red(t_redir *redir)
 	int	fd;
 
 	fd = 0;
-	if (AMBIGUES == redir->type)
+	if (AMBIGUOUS == redir->type)
 	{
 		print_err2(redir->file, "ambiguous redirect");
 		return (-1);

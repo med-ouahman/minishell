@@ -6,13 +6,13 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:07 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/13 14:35:32 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:23:37 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
 
-int	g_heredoc_sig;
+static int	g_heredoc_sig;
 
 static int	get_filename(char *file_name)
 {
@@ -24,6 +24,7 @@ static int	get_filename(char *file_name)
 	if (fd < 0)
 	{
 		print_err1(strerror(errno));
+		access_exit_code(1, WRITE);
 		return (-1);
 	}
 	i = 0;
@@ -40,19 +41,21 @@ static int	get_filename(char *file_name)
 	return (0);
 }
 
-static int	open_heredoc(char *file_name, int *write_fd, int *read_fd)
+static int	open_heredoc(char *file_name, int *fd_io)
 {
-	*write_fd = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
-	if (*write_fd < 0)
+	fd_io[1] = open(file_name, O_CREAT | O_WRONLY | O_TRUNC, 0600);
+	if (fd_io[1] < 0)
 	{
 		print_err2(file_name, strerror(errno));
+		access_exit_code(1, WRITE);
 		return (-1);
 	}
-	*read_fd = open(file_name, O_RDONLY);
-	if (*read_fd < 0)
+	fd_io[0] = open(file_name, O_RDONLY);
+	if (fd_io[0] < 0)
 	{
-		print_err1(strerror(errno));
-		close(*write_fd);
+		print_err2(file_name, strerror(errno));
+		access_exit_code(1, WRITE);
+		close(fd_io[1]);
 		unlink(file_name);
 		return (-1);
 	}
@@ -80,7 +83,7 @@ int	parser_heredoc(char *delimiter)
 	char	*line;
 	int		exp;
 
-	if (get_filename(filename) || open_heredoc(filename, &fd_io[0], &fd_io[1]))
+	if (get_filename(filename) || open_heredoc(filename, fd_io))
 		return (-1);
 	signal(SIGINT, heredoc_handler);
 	rl_event_hook = event_hook;
@@ -89,15 +92,15 @@ int	parser_heredoc(char *delimiter)
 	while (!g_heredoc_sig)
 	{
 		line = readline(">");
-		if (write_heredoc(line, fd_io[0], delimiter, exp))
+		if (write_heredoc(line, fd_io[1], delimiter, exp))
 			break ;
 	}
 	rl_event_hook = NULL;
-	close(fd_io[0]);
+	close(fd_io[1]);
 	if (g_heredoc_sig)
 	{
-		g_heredoc_sig = 0;
-		return (close(fd_io[1]), -1);
+		close(fd_io[0]);
+		return (-1);
 	}
-	return (fd_io[1]);
+	return (fd_io[0]);
 }

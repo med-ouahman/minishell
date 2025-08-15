@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:23:55 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/10 14:20:24 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/14 11:26:03 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	expand_tokens(t_token *tokens)
 		{
 			if (tmp->type == D_QUOTE)
 				expand_token_dqoute(tmp);
-			else if (tmp->type == AMBIGUES)
+			else if (tmp->type == AMBIGUOUS)
 				expand_token_var(tmp);
 		}
 		if (tmp->type == D_QUOTE || tmp->type == S_QUOTE)
@@ -33,28 +33,29 @@ static void	expand_tokens(t_token *tokens)
 	join_var_expanded(tokens);
 }
 
-static int	expand_redir(t_list *list_redir)
+static int	expand_redirs(t_list *lst_redirs)
 {
-	t_list	*tmp;
 	t_redir	*redir;
 	t_token	*tokens;
 
-	tmp = list_redir;
 	tokens = NULL;
-	while (tmp)
+	while (lst_redirs)
 	{
-		redir = (t_redir *)tmp->content;
+		redir = (t_redir *)lst_redirs->content;
 		if (redir->type == RED_HERDOC)
 		{
-			tmp = tmp->next;
+			lst_redirs = lst_redirs->next;
 			continue ;
 		}
 		tokens = split_token(redir->file);
 		expand_tokens(tokens);
+		check_join_split(tokens);
 		split_after_expand(tokens);
+		if (check_ambiguous(redir, tokens))
+			return (1);
 		join_tokens_redir(redir, tokens);
 		free_list_token(tokens);
-		tmp = tmp->next;
+		lst_redirs = lst_redirs->next;
 	}
 	return (0);
 }
@@ -113,7 +114,7 @@ static void	remove_null_args(t_cmd *cmd)
 	}
 }
 
-int	expand(t_list *list_cmd)
+void	expand(t_list *list_cmd)
 {
 	t_list	*tmp;
 	t_cmd	*cmd;
@@ -122,10 +123,10 @@ int	expand(t_list *list_cmd)
 	while (tmp)
 	{
 		cmd = (t_cmd *)tmp->content;
-		expand_redir(cmd->redir);
+		if (expand_redirs(cmd->redir))
+			return ;
 		expand_args(cmd->args);
 		remove_null_args(cmd);
 		tmp = tmp->next;
 	}
-	return (0);
 }

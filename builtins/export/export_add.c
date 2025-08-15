@@ -6,15 +6,15 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 13:16:20 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/09 11:59:23 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:39:10 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/builtins.h"
 
-t_uint	size_env(void)
+size_t	size_env(void)
 {
-	t_uint	size;
+	size_t	size;
 
 	size = 0;
 	while (__environ[size])
@@ -26,8 +26,8 @@ t_uint	size_env(void)
 
 int	var_exists(char *varname)
 {
-	t_uint	l1;
-	t_iter	i;
+	size_t	l1;
+	size_t	i;
 
 	l1 = key_size(varname);
 	i = 0;
@@ -44,8 +44,8 @@ int	var_exists(char *varname)
 
 void	change_var(char *new)
 {
-	t_uint	index;
-	t_uint	l1;
+	size_t	index;
+	size_t	l1;
 	char	*dup_new;
 
 	if (!ft_strchr(new, '='))
@@ -65,8 +65,8 @@ void	change_var(char *new)
 
 void	add_var(char *new_var)
 {
-	int		i;
-	int		size;
+	size_t	i;
+	size_t	size;
 	char	*dup_new;
 	char	**new_env;
 

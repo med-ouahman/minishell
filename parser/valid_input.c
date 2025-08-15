@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:24:34 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/07 04:14:51 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:29:06 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,17 @@ static int	check_close_quote(t_token *token)
 		i++;
 	}
 	if (is_squote || is_dquote)
-		return (1);
+	{
+		print_err1("parse error: unclosed quote");
+		return (-1);
+	}
 	return (0);
 }
 
-static void	exit_unvalid_input(char *msg)
+static int	exit_unvalid_input(char *msg)
 {
 	print_err_syntax(msg);
-	access_exit_code(2, WRITE);
+	return (-1);
 }
 
 int	check_valid_input(t_token *token)
@@ -50,7 +53,7 @@ int	check_valid_input(t_token *token)
 	cur = token;
 	prev = token;
 	if (cur->type == PIPE)
-		return (exit_unvalid_input(cur->str), -1);
+		return (exit_unvalid_input(cur->str));
 	while (cur)
 	{
 		prev = cur;
@@ -59,11 +62,11 @@ int	check_valid_input(t_token *token)
 			break ;
 		if ((is_redirection(prev) && cur->type != WORD)
 			|| (prev->type == PIPE && cur->type == PIPE))
-			return (exit_unvalid_input(cur->str), -1);
+			return (exit_unvalid_input(cur->str));
 	}
 	if (check_close_quote(prev))
-		return (print_err1("error: unclosed quote"), -1);
+		return (-1);
 	if (prev->type != WORD)
-		return (exit_unvalid_input("newline"), -1);
+		return (exit_unvalid_input("newline"));
 	return (0);
 }
