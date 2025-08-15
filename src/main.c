@@ -41,7 +41,6 @@ static void	minishell(void)
 
 int	main(void)
 {
-	access_exit_code(0, WRITE);
 	init();
 	while (true)
 	{

@@ -41,7 +41,8 @@ int	echo(char **args)
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], STDOUT_FILENO);
-		ft_putchar_fd(" "[args[i + 1] == NULL], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		i++;
 	}
 	ft_putstr_fd(newline, STDOUT_FILENO);
