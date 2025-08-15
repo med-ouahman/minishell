@@ -12,17 +12,6 @@
 
 #include "../include/executor.h"
 
-// static int	is_regular(char *cmd)
-// {
-// 	mode_t	file_type;
-
-// 	if (get_file_type(cmd, &file_type))
-// 		return (0);
-// 	if (S_ISREG(file_type))
-// 		return (1);
-// 	return (0);
-// }
-
 static int	check_access(char **path, char *cmd)
 {
 	char	*save;
@@ -42,7 +31,7 @@ static int	check_access(char **path, char *cmd)
 			collect_malloc(save, DELETE);
 			return (0);
 		}
-		if (c == EACCES || c == ENOENT)
+		if (c == EACCES)
 			save_path(&save, *path, c);
 		collect_malloc(*path, DELETE);
 		*path = NULL;
@@ -83,10 +72,12 @@ char	*command_path(char *cmd)
 	char	*path;
 	int		c;
 
+	path = getenv("PATH");
 	if (is_path(cmd))
 		return (is_executable(cmd));
-	if (!getenv("PATH"))
+	if (!path || !*path)
 		return (is_path_unset(cmd));
+	path = NULL;
 	c = check_access(&path, cmd);
 	if (0 > c)
 		access_exit_code(1, WRITE);

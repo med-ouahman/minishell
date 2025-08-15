@@ -56,7 +56,7 @@ int	save_path(char **save, char *path, int c)
 
 	if (!save && !path)
 		return (err);
-	if (c != -1)
+	if (c != -1 && !err)
 		err = c;
 	if (*save)
 		return (err);
