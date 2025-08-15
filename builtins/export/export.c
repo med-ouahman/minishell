@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 13:27:35 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/15 14:36:58 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:49:48 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ static t_bool	check_equal(char *var1, char *var2, t_uint l1)
 
 void	sort_env(char **new_env)
 {
-	size_t	i;
-	size_t	j;
+	t_uint	i;
+	t_uint	j;
 	t_uint	l1;
 
 	i = 0;

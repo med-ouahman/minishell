@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/06 13:17:54 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/07/06 17:05:00 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:49:29 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	dup_env(void)
 {
 	char	**new_env;
 	t_uint	size;
-	size_t	i;
+	t_uint	i;
 
 	i = 0;
 	size = size_env();
@@ -48,9 +48,9 @@ void	dup_env(void)
 	__environ = new_env;
 }
 
-unsigned int	key_size(char *s1)
+t_uint	key_size(char *s1)
 {
-	unsigned int	l1;
+	t_uint	l1;
 
 	l1 = 0;
 	while (s1[l1] && s1[l1] != '=')
