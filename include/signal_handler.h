@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:01:57 by mouahman          #+#    #+#             */
-/*   Updated: 2025/08/13 13:50:04 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:54:28 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include "./utils.h"
-# include "./parser.h"
 
 void	rl_new_prompt(void);
 void	sigint_handler(int signum);

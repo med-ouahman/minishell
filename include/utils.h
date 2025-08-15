@@ -6,7 +6,7 @@
 /*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 05:22:53 by aid-bray          #+#    #+#             */
-/*   Updated: 2025/08/15 14:37:03 by aid-bray         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:58:41 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	print_err_syntax(char *msg);
 void	print_err1(char *msg);
 void	print_err2(char *cmd, char *msg);
 void	print_err3(char *cmd, char *arg, char *msg);
-void	print_list(t_list *list);
 
 /* garbage collection */
 
@@ -60,7 +59,6 @@ void	sigint_handler(int signum);
 
 /* readline prompts */
 
-void	rl_after_fork(void);
 void	rl_new_prompt(void);
 
 /* returns the current exit status or modifies it */
@@ -73,8 +71,6 @@ t_uint	max(t_uint a, t_uint b);
 /* cleanup and deallocate resources and exit with 'code' */
 
 int		cleanup(int code);
-t_uint	array_size(char **arr);
-void	print_arr(char **args);
 
 char	*ft_join(char *str1, int free1, char *str2, int free2);
 #endif

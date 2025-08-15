@@ -24,8 +24,8 @@ SRCS =  parser/expander.c parser/expander_tools.c parser/tokenizer.c\
 		builtins/echo/echo.c builtins/env/env.c builtins/exit/exit.c builtins/export/export_add.c builtins/export/export.c\
 		builtins/export/export_tools.c builtins/export/print_env.c builtins/pwd/pwd.c builtins/unset/unset.c\
 		utils/access_exit_code.c utils/ft_join.c\
-		utils/add_exit_code.c utils/array_size.c utils/collect_malloc.c utils/list_properties.c utils/min_max.c utils/panic.c\
-		utils/print_arr.c utils/printer2.c utils/printer.c utils/print_list.c utils/prompt.c\
+		utils/add_exit_code.c utils/array_size.c utils/collect_malloc.c utils/list_properties.c utils/min_max.c\
+		utils/printer.c utils/prompt.c\
 		signals/new_prompt.c signals/signal_handler.c\
 		src/main.c
 

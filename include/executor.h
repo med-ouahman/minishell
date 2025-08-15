@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mouahman <mouahman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aid-bray <aid-bray@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:23:24 by mouahman          #+#    #+#             */
-/*   Updated: 2025/07/12 22:28:39 by mouahman         ###   ########.fr       */
+/*   Updated: 2025/08/15 14:55:55 by aid-bray         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <sys/wait.h>
 # include "./builtins.h"
 # include "./signal_handler.h"
-# include <sys/types.h>
 # include <fcntl.h>
 # include <sys/stat.h>
 
